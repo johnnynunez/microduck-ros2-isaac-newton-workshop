@@ -22,6 +22,9 @@ dev = ["pytest>=8", "ruff>=0.12"]
 [tool.hatch.build.targets.wheel]
 packages = ["src/microduck_workshop"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"provenance" = "microduck_workshop/provenance"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]

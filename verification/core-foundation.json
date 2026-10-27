@@ -1,0 +1,41 @@
+{
+  "recorded_at": "2026-10-27T03:47:42.609834+01:00",
+  "scope": "CPU foundation and public artifact download only; NOT ROS/GPU/robot/agent/Brev acceptance",
+  "pytest": {
+    "tests": 40,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "ruff": "passed",
+  "wheel_build": "passed; package embeds exact source manifest",
+  "download": {
+    "status": "PASS",
+    "verified_files": 121,
+    "downloaded_files": 121,
+    "bytes": 24774857,
+    "manifest_sha256": "68d807f1215168634884667c9b427f44e2cfbb94432e5130a3732cf225e0d76c",
+    "scope": "Public source identity and bytes only; not physics or policy behavior validation"
+  },
+  "initial_download_attempt": "A temporary DNS failure was retained during development; bounded GET retry regression and a later fresh121-file download passed.",
+  "source_hashes": {
+    "provenance/policy_contract.json": "3b46c3b3cd30280c4f4c811c104f3491ef648f9d15996d1f1cdee7cf8c51a0f9",
+    "provenance/sources.json": "68d807f1215168634884667c9b427f44e2cfbb94432e5130a3732cf225e0d76c",
+    "pyproject.toml": "dc70488613a03e072d294164a0af5378d7a6beccb2650bdff91fca28192a337b",
+    "src/microduck_workshop/__init__.py": "43229153a40609b4ca56bdc4dea78a0bf759a0a7b7b5ff686a317a059f399cd9",
+    "src/microduck_workshop/assets.py": "506f33bc3823f822c254646dc3aad8c3212ff39c1b28b0b489a9fcdf3a6b7d94",
+    "src/microduck_workshop/contracts.py": "62cd7b6957366db67b8c5a9209700b1d58dc9a5a4ced0030683039990a347349",
+    "src/microduck_workshop/doctor.py": "79a4988aa0af25f9eedec6d52fdd44ac37b2ca8b63bf4d58dcf7b03db307e203",
+    "tests/test_assets.py": "a9d71479e04616d1c6e268e32408b20c85677fce1106c69e3caa37150c78ca20",
+    "tests/test_contracts.py": "0b4e8068908f9619a3d1dd46cfef3e217af40568dc869cff8bcf08797d32a01f",
+    "tests/test_doctor.py": "63d9550e1454b4415c0cf524bfc055ac4a7479331339cd0e2be56085e728dc09",
+    "uv.lock": "9622e24b644961715f799fdeb3c2eb7f32875465f2ba0ab9722ec651f6ee2266"
+  },
+  "outstanding": [
+    "Isaac Lab/Newton runtime",
+    "real ROS2/IsaacROS5 live camera",
+    "CASCADE model-to-ROS-to-policy episode",
+    "Brev-specific rehearsal",
+    "independent code review"
+  ]
+}

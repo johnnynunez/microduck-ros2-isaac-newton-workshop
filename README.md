@@ -39,12 +39,20 @@ Participants work in **NVIDIA Brev**, using instructor-provided one-day credits 
 
 ## Development checks available now
 
-With Python 3.12 and pytest:
-
 ```bash
-python -m pytest tests/test_contracts.py -q
+# Small CPU-only environment, not the simulator or ROS installation.
+uv sync --group dev
+uv run pytest -q
+uv run python -m microduck_workshop.doctor
+
+# Review the mesh license and your permissions before acknowledging it.
+uv run python -m microduck_workshop.assets fetch --accept-mesh-license
 ```
 
-This checks the fixed, simulation-only motion envelope and rejects malformed, nonfinite and extra-field requests. It does **not** test ROS transport or robot motion.
+The downloader admits **121 public files** by exact pinned URL, size and SHA-256, including **43 separately licensed STL meshes** and the public VelStand v8 ONNX. Files remain in the ignored `.cache/assets/` directory. A corrupt cache entry is refused, not silently replaced. Transient GET retries are bounded; motion requests never inherit this retry behavior.
+
+The CPU suite checks command bounds, malformed/nonfinite values, asset admission and conservative version classification. `doctor` reports the packages and import origin in **its own interpreter** and explicitly does not claim to run the simulator or ROS. Isaac Lab's internal package version is not its product release; the GA source identity is checked separately. These checks do **not** prove robot motion, live detection, a real agent episode, or Brev deployment.
+
+GitHub Actions runs CPU contracts only. Runtime readiness remains separate.
 
 The implementation contract and current plan are in [the workshop specification](docs/superpowers/specs/2026-10-27-workshop.md) and [implementation plan](docs/superpowers/plans/2026-10-27-workshop.md).
