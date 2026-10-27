@@ -54,6 +54,8 @@ Optional **nonsecret** environment overrides, set before starting Jupyter:
 
 Images must actually contain the student-policy API.04 probes shipped `train`, `admit_policy` and `play` help before overlays and requires `onnx==1.22.0`;06 probes **`microduck_workshop.agent.run`**. An older image tag is not evidence of capability. Staff can select explicitly built private `:student-candidate` images during integration; those tags do not imply a public download or live acceptance.
 
+**Online SDK assets are required for04 training and05 admission.** These native jobs explicitly use Docker `--network bridge` for outbound DNS/HTTPS to NVIDIA's public asset server (`omniverse-content-production.s3-us-west-2.amazonaws.com`), with no published ports and no host networking. The pinned Isaac Lab SDK retrieves its default ground USD and dependencies into each container's temporary directory;03's persistent session HOME warmup does **not** make subsequent containers offline-ready. Keep the actual ground and physics unchanged. A blocked download is a setup failure, not a training/admission result. Capability, identity and adapter-test jobs retain `--network none`; existing loopback serving/ROS networking is unchanged.
+
 ## Your exact artifact, not a pretrained replacement
 
 04 produces a new run containing `checkpoint.pt`, changed `actor.onnx`, `policy_manifest.json`, `training_receipt.json` and actual transitions.05 re-hashes that bundle and performs native admission **before serving**, as required by the implemented API. Both the full run and full admission/raw-trace directories mount read-only; receipt snapshots alone cannot deploy a policy.
