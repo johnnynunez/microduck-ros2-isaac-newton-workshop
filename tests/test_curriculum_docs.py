@@ -1,8 +1,8 @@
 """Static course checks, not claims that any live-runtime lesson has passed."""
 
+import re
 from datetime import datetime
 from pathlib import Path
-import re
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -81,7 +81,7 @@ def test_numbered_lab_steps_fit_their_timeboxes():
         "06-wrap-up.md": 5,
     }
     for name, budget in budgets.items():
-        durations = re.findall(r"^## \d+\. .+ — (\d+) minutes?$", (LABS / name).read_text(), re.M)
+        durations = re.findall(r"^## \d+\. .+ — (\d+) minutes?$", (LABS / name).read_text(), re.MULTILINE)
         assert durations, name
         assert sum(map(int, durations)) == budget, name
 

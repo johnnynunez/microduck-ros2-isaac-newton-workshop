@@ -16,6 +16,16 @@ Participants work in **NVIDIA Brev**, using instructor-provided one-day credits 
 - [CASCADE](https://github.com/johnnynunez/cascade) — physical-AI agent orchestration.
 - [Official workshop program](https://roscon.org.es/roscon2026/ROSConES2026.html)
 
+## Workshop materials
+
+- [Student route and 120-minute agenda](docs/labs/README.md)
+- [Before class: Brev preparation](docs/labs/00-before-class.md)
+- [Instructor runbook](docs/instructor.md)
+- [ROS 2 exercises](exercises/ros_basics/README.md) and [complete reference solution](solutions/ros_basics/README.md)
+- [Troubleshooting](docs/troubleshooting.md)
+
+The course files are available; stack-specific launch commands and live acceptance are still being integrated. The read-only ROS exercises do not bypass the motion gateway.
+
 ## Learning route
 
 1. Understand the technology stack and why the physics engine is Newton.

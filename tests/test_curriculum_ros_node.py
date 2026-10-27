@@ -1,8 +1,8 @@
 """CPU-only adapter tests using explicit fake ROS modules, NOT a ROS smoke test."""
 
-from pathlib import Path
 import runpy
 import sys
+from pathlib import Path
 from types import ModuleType, SimpleNamespace
 
 import pytest
