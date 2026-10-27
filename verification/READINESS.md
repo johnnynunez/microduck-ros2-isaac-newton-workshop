@@ -10,7 +10,7 @@
 - Native fixed-step campaigns and later protocol confirmations passed their original motion/rest gates. Historical receipts remain immutable and new source revisions have separate receipts.
 - Actual camera images reach CUDA Isaac ROS 5 AprilTag and real ROS services. The 320×240 authored head render product fixes the measured large-image delivery loss without incompatible intrinsics or restamped pixels.
 - The pinned public Qwen3.8 GGUF executes genuine CASCADE tool calls locally. One complete **observation-instrumented** camera → ROS → model → fixed step → native verdict → agent-success episode passed.
-- Safety repairs cover transient STOP retention, proof-renewer wakeup, native verifier-tail admission, authenticated malformed-renewal cancellation and exact task/request-bound late-verdict reconciliation. Final parent CPU run: **485 passed, 19 optional/live checks skipped**. Those skips are not runtime evidence.
+- Safety repairs cover transient STOP retention, proof-renewer wakeup, native verifier-tail admission, authenticated malformed-renewal cancellation and exact task/request-bound late-verdict reconciliation. Final parent CPU run: **486 passed, 19 optional/live checks skipped**. Those skips are not runtime evidence.
 
 ## Remaining blocker
 
@@ -25,3 +25,9 @@ The motion lab requires a fresh successful staff rehearsal on the selected insta
 All live results are local RTX PRO, not a paid Brev deployment or L40S hardware run. The model binary contains SM 89 and SM 120a code; that is not hardware validation. Base container installation used a copied private package cache after a genuine cold-download timeout. Model downloads/builds, warmup, explicit NVIDIA/mesh-license acknowledgments and cloud cleanup are documented in [Brev preparation](../docs/brev.md).
 
 The older direct/calibrated velocity requests remain failed / NOT READY. A distinct planned step is not a relabeling of those failures. No private assets, weights, credentials, world-truth control or physical-robot actions are included.
+
+## Last pre-08:30 checks
+
+A normal production episode completed the step and passed its independent physical verifier (0.0929714 m forward displacement, 0.000813365 m/s rest-tail speed), but the agent reported failure after querying before the asynchronous result became available. Explicit verification now waits read-only within its existing bound; this neither resends motion nor extends safety deadlines. The next normal attempt failed in the gateway/handler before dispatch and honestly returned false. **Reliable full-agent production acceptance is still blocked.**
+
+A separate real STOP episode observed tag 1 at 0.10456-second conservative age, refused motion, issued no native motion request, and retained exact zero neural command conditioning throughout. That negative case passed; its agent task-success remains false by design. All cases and artifact hashes are retained in `integrated-cases.json`.

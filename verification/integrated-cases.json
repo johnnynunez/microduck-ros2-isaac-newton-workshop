@@ -1,6 +1,6 @@
 {
   "release_ready": false,
-  "reason": "One diagnostic full-path success; two production positive attempts expired. Final fixes/STOP test pending.",
+  "reason": "Real STOP refusal passed. A normal GO native verdict passed but the agent queried too early; bounded read-only verification was corrected. Latest normal GO then failed in gateway/handler before dispatch. Reliable uninstrumented agent acceptance remains blocked.",
   "cases": [
     {
       "case": "instrumented-go",
@@ -103,6 +103,79 @@
         "evaluator_truth.jsonl": "348473975f814487f690418ec1d8e7f7298a9feca71a2f1573524c72dbde63b9",
         "evaluator_verdicts.jsonl": "d9d4edab96a9ccd6e4823e028c5e62b7c4348716b36bbe2f19eb1fc763de3f2b"
       }
+    },
+    {
+      "case": "integrated-06",
+      "observation_only_instrumentation": false,
+      "episode_id": "ep_a45bdc19913b472e8a5a9dc8937721a5",
+      "agent_success": false,
+      "tool_sequence": [
+        "microduck.observe",
+        "microduck.step_forward",
+        "microduck.verify",
+        "task_done"
+      ],
+      "native_verdicts": [
+        {
+          "request_id": "9637eb86b52547cbbf06c56fa0f8b7d8",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.0929714325227951,
+            "yaw_delta_rad": -0.047348129081217855,
+            "tail_speed_m_s": 0.0008133645611794446,
+            "tail_yaw_rate_rad_s": 0.00876021755869839,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts_sha256": {
+        "report.json": "6b0105906482e34f36ba35aa98fc019447fbf0f6980f7ab9d5e6f381588bd00a",
+        "provider.jsonl": "ad190ea90f29664b148271a0bee0479303dfe6467ff4ddf18eb8e9715e37b4e8",
+        "policy_trace.jsonl": "492e9502b4380175335ab0e6ab1e8d7ec8e10662fb579366095f7686447c2e68",
+        "evaluator_truth.jsonl": "0a89391616e6e77b53cd0d872352e08e1caa7a5a31b26431f173372e3741d4d3",
+        "evaluator_verdicts.jsonl": "2756539487aa1051ce8bb698d23fc064949d57e7aa55eff845b26e6a4f6f07ea"
+      }
+    },
+    {
+      "case": "integrated-07",
+      "observation_only_instrumentation": false,
+      "episode_id": "ep_0322f583ee264372a18763cfdaff2a8d",
+      "agent_success": false,
+      "tool_sequence": [
+        "microduck.observe",
+        "microduck.step_forward",
+        "microduck.verify",
+        "task_done"
+      ],
+      "native_verdicts": [],
+      "artifacts_sha256": {
+        "report.json": "48a2df49e13e7e18639a55d83bbc96f3a934a010243a92c3d9574765368629e6",
+        "provider.jsonl": "a349b967b325cafb81368c7a8a665dab7bf90f6819ef5a75e3d29cf30004426a",
+        "policy_trace.jsonl": "bfa549a8b5cd385c8552830eceadd1aab2593ec4ed4882b058afddce7c7130dc",
+        "evaluator_truth.jsonl": "28f532531fb219ab07e9ec5db05d511c83ca5d13513d2d2b51852567eef91fca",
+        "evaluator_verdicts.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "integrated-stop-01",
+      "observation_only_instrumentation": false,
+      "episode_id": "ep_0c17bfa80ba649c984bccd1389afbb14",
+      "agent_success": false,
+      "tool_sequence": [
+        "microduck.observe",
+        "task_done"
+      ],
+      "native_verdicts": [],
+      "artifacts_sha256": {
+        "report.json": "b6a442c97b581d857b3d396efe1ca3946bf80a3af0c19921da6eee7449564965",
+        "provider.jsonl": "b843dc45f8b3b12e7045578f40a2d37ccdd599b73fef2c664a46bd49916bdd64",
+        "policy_trace.jsonl": "b3a760662f87a16f98e05c89d0b85e8bde9457d93d319817ba2bba26447644b5",
+        "evaluator_truth.jsonl": "d9a58e1bbbaee318d5f44e9316696480d600009053b5e452ca4f0e876470d4c7",
+        "evaluator_verdicts.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "expected_refusal_pass": true
     }
   ],
   "scope": "Real local RTX PRO execution; original outcomes retained. Instrumented pass is not reliable production readiness."
