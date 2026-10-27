@@ -9,7 +9,7 @@
 - **New fixed maneuver:** `step-forward-v1` passed six preregistered native step/resume requests plus two fresh confirmation requests. The parent independently checked every raw artifact hash and all eight positive verdicts, plus 12 intentionally interrupted/unverified probes. These tests did **not** enable cameras or ROS; see [the immutable campaign](../provenance/step_validation.json).
 - **Perception:** real CUDA Isaac ROS 5 AprilTag processed the official bag and the actual rendered MicroDuck head camera. The integrated preflight produced same-episode GO with an original-capture age of 0.121 seconds, not a synthetic detection.
 - **Model:** the pinned public Qwen3.8 GGUF and CUDA llama.cpp build executed genuine CASCADE tool calls. The compiled library contains SM 89 and SM 120a code; this does not establish L40S hardware execution.
-- **Deployment:** the merged Sim, ROS and agent images were rebuilt successfully. The read-only preview and private shared ROS/agent IPC path were exercised locally. The parent CPU suite passed 385 tests with 15 explicitly skipped optional/live checks.
+- **Deployment:** the merged Sim, ROS and agent images were rebuilt successfully. The read-only preview and private shared ROS/agent IPC path were exercised locally. The parent CPU suite passed 392 tests with 15 explicitly skipped optional/live checks.
 
 ## Remaining integrated gates
 

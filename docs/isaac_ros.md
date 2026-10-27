@@ -13,7 +13,7 @@ This is a **simulation-only** gateway, not a physical MicroDuck driver. Its publ
 
 ## Build before class
 
-The portable setup entrypoint is `bash scripts/brev_setup.sh`; it uses capped containers for both stages. From the repository root, the equivalent Dockerfile builds are:
+The full setup entrypoint is `bash scripts/brev_setup.sh --accept-nvidia-eula --accept-mesh-license` after reviewing both licenses. It builds the complete stack; see [Brev preparation](brev.md). The following commands build only the ROS base and sidecar:
 
 ```bash
 docker build -f docker/ros5-base.Dockerfile -t roscon/ros5-base:5.0 .
@@ -26,8 +26,8 @@ On the shared instructor workstation use the capped launcher documented in the t
 
 ## Run with the real simulation
 
-1. Start the parent-owned Lab/Newton HTTP adapter on `127.0.0.1:8766` first. Its health must report protocol 1, ready=true, physics=newton. It must deliver actual state and atomic JPEG capture headers. A fixture is not acceptable for live acceptance.
-2. `WORKSHOP_GPU=0 bash scripts/brev_start.sh` (single-GPU Brev); instructor workstation uses `WORKSHOP_GPU=1` for this sidecar.
+1. Complete the [pre-class setup](labs/00-before-class.md). In a dedicated model terminal, run `MODEL_GPU=0 MODEL_PORT=8080 bash scripts/model_start.sh` and wait for `READY`.
+2. In a separate host terminal, run `WORKSHOP_GPU=0 MODEL_PORT=8080 bash scripts/brev_start.sh --accept-nvidia-eula`. This launches the real Lab/Newton simulator **and** the sidecar; do not start a second simulator first. Startup requires real Newton health and a rendered head JPEG. A fixture is not live acceptance.
 3. Query the real services from inside the image:
 
 ```bash
@@ -38,7 +38,7 @@ docker compose exec ros bash /opt/workshop/entrypoint.sh ros2 topic echo /clock 
 
 ROS package **`microduck_workshop_ros`**, executable **`gateway`**. `scripts/ros_cli.sh` sources the container workspace before running a ROS CLI command.
 
-`bounded_motion`, `motion_status`, `observe`, and `emergency_stop` are namespaced at `/workshop/microduck`. Three custom services exactly implement the frozen schema. `/clock` carries actual Lab simulation time. IMU orientation is unavailable, signaled by covariance[0]=-1; no invented quaternion/GT orientation is published. Camera and CameraInfo share the original frame stamp and frame ID.
+`step_forward`, `bounded_motion`, `motion_status`, `observe`, and `emergency_stop` are namespaced at `/workshop/microduck`. The fixed-step and legacy diagnostic services reuse the same `BoundedMotion` IDL; the autonomous game uses only `step_forward`. Three custom service types plus `std_srvs/Trigger` implement the wire schema. `/clock` carries actual Lab simulation time. IMU orientation is unavailable, signaled by covariance[0]=-1; no invented quaternion/GT orientation is published. Camera and CameraInfo share the original frame stamp and frame ID.
 
 The gateway claims one lease at startup and renews it on its own wall-clock thread, independently of model inference and DDS callbacks. Commands are finite/bounded, episode/generation checked, one outstanding request, no automatic HTTP retry. Unknown delivery disarms the gateway. A separate stop callback/HTTP connection can overtake a blocked command; late ACKs are superseded. A stop never auto-resets/re-arms. If the simulator was absent at startup, start it and explicitly restart the gateway; a background reconnect must not silently reacquire command authority.
 
@@ -56,4 +56,4 @@ The bag gate is **only** DDS/CUDA/image-compatibility evidence. It does not vali
 - No robot hardware devices, privileged mode, host IPC, Docker socket, reset endpoint or public command/LLM port is exposed.
 - Same host/kernel monotonic clock is required across Sim and gateway containers. This is not a remote-machine timestamp protocol.
 - Public DDS topics are not a security boundary against malicious local users. This workshop assumes a trusted, single-user instance; do not bridge its DDS domain to a robot or public network.
-- Physical marker size is a **teaching-scene parameter**, not hardware calibration. Set `tag_size` to the authored scene's black-border edge length. Default 0.22 m matches the official smoke launch; live scene authors must confirm it.
+- Physical marker size is a **teaching-scene parameter**, not hardware calibration. The launch argument `tag_size:=0.20` supplies the actual detector parameter `size` for this scene's black-border edge. The separate official bag uses 0.22 m; do not copy that scale into the live lesson.

@@ -44,7 +44,7 @@ The read-only ROS exercises do not bypass the motion gateway.
 3. Run a public MicroDuck asset in Isaac Lab/Newton, rendered through Isaac Sim.
 4. Inspect observations/actions/rewards and run a short real RL training experiment.
 5. Process actual onboard camera images with Isaac ROS 5.0.
-6. Implement CASCADE observation and bounded-motion tools, then run the agent game.
+6. Implement CASCADE observation and fixed-step tools, then run the agent game.
 7. Stop workshop processes and stop/delete the Brev instance when finished.
 
 **Stopping a Docker container does not stop cloud billing.** Do not assume credits automatically shut an instance down.
