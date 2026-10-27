@@ -1,0 +1,13 @@
+**
+!pyproject.toml
+!README.md
+!LICENSE
+!src
+!src/**
+!ros_ws
+!ros_ws/src
+!ros_ws/src/**
+!docker
+!docker/entrypoint.sh
+**/__pycache__
+**/*.pyc

@@ -1,0 +1,30 @@
+name: roscon-microduck
+services:
+  ros:
+    image: ${WORKSHOP_ROS_IMAGE:-roscon/microduck-ros5:local}
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        ROS_BASE: ${ROS_BASE:-roscon/ros5-base:5.0}
+    container_name: roscon-ros5-gateway
+    network_mode: host
+    # No host IPC, Docker socket, privileged mode, public command ports or hardware devices.
+    init: true
+    restart: "no"
+    mem_limit: 24g
+    cpus: 8
+    shm_size: 1g
+    environment:
+      ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-27}
+      ROS_AUTOMATIC_DISCOVERY_RANGE: LOCALHOST
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${WORKSHOP_GPU:-0}"]
+              capabilities: [gpu]
+    command: ["ros2", "launch", "microduck_workshop_ros", "workshop.launch.py", "sim_url:=http://127.0.0.1:8766"]

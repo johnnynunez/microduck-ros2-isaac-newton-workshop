@@ -1,0 +1,65 @@
+{
+  "purpose": "Explicitly labeled public copies; not a rewrite of the original evidence. Original local logs and unpublished source commits remain preserved.",
+  "files": [
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/calibration-red.log",
+      "original_sha256": "2f3c5954502889619689a9b6a1142c91f75d4dd240799bb0fd5f8e6757a6a13a",
+      "public_copy_sha256": "e91b0d9e8c67bd84f7279f157aafe8d46eb9a8e4bc07446fc30fb2ca78c24102",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/dds-red.log",
+      "original_sha256": "2e67e73d5eca1489bb1cd23f9aecfca166f4eb0f7f3ea74199b7537d5851f5c3",
+      "public_copy_sha256": "1cd0cc19ac3913b02034d752a8cf879f99ca924e4019eadd7a52eb071f26a3a8",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/dds-shutdown-red.log",
+      "original_sha256": "788b56963a4a6b538eea0311925f14e28b4645dbc3723640795b63bf41f9b8fd",
+      "public_copy_sha256": "854fbd156f55f550f42883f2a2838e22dc248eda4160c49daaf631e197010b33",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/production-image-smoke.log",
+      "original_sha256": "1a7ae44c896183c3b3758a04de9f935df1166786b04d115d6c47116da0068f6e",
+      "public_copy_sha256": "1eb5416f58b415ed7260bf6df91504d354d53e37b6c42a36279f708e9a04b5ab",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/ros-tests-complete.log",
+      "original_sha256": "63d51fa1240f19e723fa372083bb99f048502bd42cb92cee4728bb23689f12ac",
+      "public_copy_sha256": "923535457e1cd43834d1f7e1ab4537a8fb529b624a695cfabda378ce8ded0fcf",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/ros-tests-final.log",
+      "original_sha256": "70b735e5c46bf13c541c321f0112bc0fe5f93f937de540bd4aa072fb751cd474",
+      "public_copy_sha256": "fb317b45ce470d5a9313fc37b7a34c1e75124b8407aac7a53adc0762729cdff9",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/tdd-01-red.txt",
+      "original_sha256": "c779d2205869aefd986a7751c3dc39f9e822a92cc0fbbb708885fb6e45d7b3c4",
+      "public_copy_sha256": "cf428a9e1d8e7c796614ed13bce9b3549f3f7c06f8386d2cb5d673fc54e65a16",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/tdd-03-red.txt",
+      "original_sha256": "a6d2eb0fa47863be32f87e44dc8d7ad9452204677ade3937c9219ceeb0b7cd19",
+      "public_copy_sha256": "4217054dbaa28f9680029ada3bbc45af28a7aa1a76480fdcb7363dceeca6ffad",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/tdd-04-red.txt",
+      "original_sha256": "ab72db3ae89d14de5582be812fdbe6729fef9c3cd8bff21267377acdfece3ee9",
+      "public_copy_sha256": "712a9701fe0ec388e037526b9510cf2371bd3cbeeb27c440ebd886e5c248a35c",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    },
+    {
+      "path": "docker/receipts/local-rtxpro-2026-10-27/tdd-06-red.txt",
+      "original_sha256": "f6d0a64fd95644e17afef214422a8cdd889a546afcc200e9493ecd5ce8fcb91c",
+      "public_copy_sha256": "b4c463f6d4f4be38b68a00f54f3455ddb834ae63007fc853b8cdaf4232a76b6a",
+      "redaction": "local filesystem prefixes only; original preserved privately"
+    }
+  ]
+}

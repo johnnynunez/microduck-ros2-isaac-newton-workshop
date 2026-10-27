@@ -50,6 +50,27 @@ def test_motion_schema_refuses_unsafe_or_ambiguous_inputs(changes):
         MotionCommand.from_dict(payload(**changes))
 
 
+@pytest.mark.parametrize("field", ["vx", "vy", "wz", "duration_s"])
+@pytest.mark.parametrize("sign", [-1, 1])
+def test_oversized_json_integers_raise_contract_error(field, sign):
+    import json
+
+    value = json.loads(json.dumps(payload(**{field: sign * 10**1000})))
+    with pytest.raises(ContractError):
+        MotionCommand.from_dict(value)
+
+
+@pytest.mark.parametrize("generation", [2**64, 10**1000])
+def test_expected_generation_refuses_uint64_overflow(generation):
+    with pytest.raises(ContractError, match="uint64"):
+        MotionCommand.from_dict(payload(expected_generation=generation))
+
+
+def test_expected_generation_accepts_uint64_maximum():
+    value = MotionCommand.from_dict(payload(expected_generation=2**64 - 1))
+    assert value.expected_generation == 2**64 - 1
+
+
 def test_motion_schema_requires_every_field():
     value = payload()
     del value["episode_id"]

@@ -1,0 +1,84 @@
+SANITIZED PUBLIC COPY: local filesystem prefixes redacted; original SHA-256 2f3c5954502889619689a9b6a1142c91f75d4dd240799bb0fd5f8e6757a6a13a.
+Numerical results, error messages and failure status are unchanged. See ../redaction-manifest.json.
+
+[heavyrun] 2026-10-27 03:22:32 start unit=heavy-roscon-ros5-calibration-red-032232-3843 slot=1/11 mem_cap=32G CUDA_VISIBLE_DEVICES=1
+[heavyrun] cwd=<WORKSHOP_ROOT>/.worktrees/ros
+[heavyrun] cmd: bash scripts/ros_validate_local.sh dds
+index, uuid, name, driver_version
+0, GPU-4c811d02-a79b-2837-425e-5f62ac3c578a, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 615.71.10
+Python 3.12.3
+Starting >>> microduck_workshop_interfaces
+Finished <<< microduck_workshop_interfaces [0.28s]
+Starting >>> microduck_workshop_ros
+Finished <<< microduck_workshop_ros [0.52s]
+
+Summary: 2 packages finished [0.86s]
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /workshop
+configfile: pyproject.toml
+plugins: ament-copyright-0.20.6, ament-xmllint-0.20.6, ament-pep257-0.20.6, ament-mypy-0.20.6, launch-testing-3.9.8, ament-lint-0.20.6, launch-testing-ros-0.29.9, ament-flake8-0.20.6, colcon-core-0.21.3
+collecting ... collected 14 items
+
+tests/test_ros_dds.py::test_real_dds_services_refuse_when_simulator_absent PASSED [  7%]
+tests/test_ros_gateway.py::test_command_is_exact_validated_and_redacted PASSED [ 14%]
+tests/test_ros_gateway.py::test_priority_stop_overtakes_blocked_command_and_late_ack PASSED [ 21%]
+tests/test_ros_gateway.py::test_uncertain_send_never_retries_and_disarms PASSED [ 28%]
+tests/test_ros_gateway.py::test_lease_renews_without_model_and_failure_disarms PASSED [ 35%]
+tests/test_ros_gateway.py::test_status_is_allowlisted_and_epoch_checked PASSED [ 42%]
+tests/test_ros_gateway.py::test_failed_renewal_disarms_without_reclaim PASSED [ 50%]
+tests/test_ros_gateway.py::test_claim_uses_unique_owners_and_mismatched_ack_fails_closed PASSED [ 57%]
+tests/test_ros_message_fixtures.py::test_ros_image_and_camera_info_preserve_atomic_stamp_and_validate_calibration FAILED [ 64%]
+tests/test_ros_perception.py::test_original_capture_age_not_arrival_time PASSED [ 71%]
+tests/test_ros_perception.py::test_rewind_epoch_and_stopped_camera_clear_freshness PASSED [ 78%]
+tests/test_ros_perception.py::test_out_of_order_detection_cannot_restore_an_old_go_signal PASSED [ 85%]
+tests/test_ros_sensors.py::test_checked_state_only_sensor_fields_and_original_age PASSED [ 92%]
+tests/test_ros_transport.py::test_http_private_endpoint_and_atomic_camera PASSED [100%]
+
+=================================== FAILURES ===================================
+_ test_ros_image_and_camera_info_preserve_atomic_stamp_and_validate_calibration _
+
+    def test_ros_image_and_camera_info_preserve_atomic_stamp_and_validate_calibration():
+        rclpy.init(args=['--ros-args', '-p', 'sim_url:=http://127.0.0.1:18766'])
+        node = GatewayNode()
+        node.gateway.episode_id = 'fixture'
+        node.images, node.infos = Sink(), Sink()
+        data = io.BytesIO()
+        Image.new('RGB', (2, 2), (255, 255, 255)).save(data, format='JPEG')
+        calibration = dict(width=2, height=2, frame_id='fixture_camera', encoding='rgb8',
+                           distortion_model='plumb_bob', k=[1.,0.,1.,0.,1.,1.,0.,0.,1.],
+                           d=[0.]*5, r=[1.,0.,0.,0.,1.,0.,0.,0.,1.],
+                           p=[1.,0.,1.,0.,0.,1.,1.,0.,0.,0.,1.,0.])
+        class Fixture:
+            sequence = 1
+            def camera(self):
+                return data.getvalue(), dict(episode='fixture', sequence=self.sequence, sim_time=1.25, capture=time.monotonic())
+            def get(self, path): return calibration
+        fixture = Fixture()
+        node.transport = fixture
+        try:
+            node.poll_camera()
+            assert len(node.images.messages) == 1
+            image, info = node.images.messages[0], node.infos.messages[0]
+            assert image.header == info.header
+            assert image.header.stamp.sec == 1 and image.header.stamp.nanosec == 250000000
+            assert image.header.frame_id == 'fixture_camera'
+            assert image.encoding == 'rgb8' and len(image.data) == 12
+            fixture.sequence = 2
+            node.calibration = None
+            calibration['k'][0] = float('nan')
+            node.poll_camera()
+>           assert len(node.images.messages) == 1  # must reject nonfinite calibration
+E           AssertionError: assert 2 == 1
+E            +  where 2 = len([sensor_msgs.msg.Image(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=1, nanosec=250000000), frame_id='fixture_camera'), height=2, width=2, encoding='rgb8', is_bigendian=0, step=6, data=[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]), sensor_msgs.msg.Image(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=1, nanosec=250000000), frame_id='fixture_camera'), height=2, width=2, encoding='rgb8', is_bigendian=0, step=6, data=[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255])])
+E            +    where [sensor_msgs.msg.Image(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=1, nanosec=250000000), frame_id='fixture_camera'), height=2, width=2, encoding='rgb8', is_bigendian=0, step=6, data=[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]), sensor_msgs.msg.Image(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=1, nanosec=250000000), frame_id='fixture_camera'), height=2, width=2, encoding='rgb8', is_bigendian=0, step=6, data=[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255])] = <test_ros_message_fixtures.Sink object at 0x7dc115d7c7a0>.messages
+E            +      where <test_ros_message_fixtures.Sink object at 0x7dc115d7c7a0> = <microduck_gateway.node.GatewayNode object at 0x7dc10d723920>.images
+
+tests/test_ros_message_fixtures.py:49: AssertionError
+----------------------------- Captured stderr call -----------------------------
+[ERROR] [1793067755.380595415] [workshop.microduck.gateway]: Simulator unavailable or lease refused. No command authority; start simulator then explicitly restart gateway.
+=========================== short test summary info ============================
+FAILED tests/test_ros_message_fixtures.py::test_ros_image_and_camera_info_preserve_atomic_stamp_and_validate_calibration
+========================= 1 failed, 13 passed in 1.51s =========================
+[heavyrun] 2026-10-27 03:22:36 end result=exit-code exit_code=exited exit_status=1 peak_mem=0.0G

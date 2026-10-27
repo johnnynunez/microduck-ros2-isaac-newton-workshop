@@ -1,0 +1,79 @@
+{
+  "evidence_scope": "real_local_model_with_read_only_fixture_only",
+  "physical_success": false,
+  "ros_integration": false,
+  "model": "qwen3.8-27b",
+  "provider_requests": 3,
+  "report": {
+    "task": "This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.",
+    "success": false,
+    "summary": "Observation returned STOP (tag 1), so no motion was authorized or requested. Verification confirms no command exists (known=false, verified=false, reason=\"no_command\"). This is a synthetic model-only diagnostic: no real ROS, robot, or physical motion occurred. No physical task outcome can be claimed.\n[verification] could not confirm: signal_game_motion_not_independently_verified",
+    "steps": 3,
+    "milestones": [],
+    "tool_log": [
+      {
+        "step": 1,
+        "tier": "llm",
+        "tool": "microduck.observe",
+        "args": {
+          "action": "observe"
+        },
+        "result": {
+          "ok": true,
+          "fresh": true,
+          "episode_id": "model-diagnostic",
+          "generation": 0,
+          "frame_sequence": 1,
+          "sim_time": 0.0,
+          "age_s": 0.01000293400080409,
+          "frame_id": "diagnostic_camera",
+          "tag_ids": [
+            1
+          ],
+          "signal": "STOP",
+          "reason": "sensor_observation"
+        }
+      },
+      {
+        "step": 2,
+        "tier": "llm",
+        "tool": "microduck.verify",
+        "args": {
+          "action": "verify"
+        },
+        "result": {
+          "ok": false,
+          "known": false,
+          "verified": false,
+          "reason": "no_command"
+        }
+      },
+      {
+        "step": 3,
+        "tier": "llm",
+        "tool": "task_done",
+        "args": {
+          "success": false,
+          "summary": "Observation returned STOP (tag 1), so no motion was authorized or requested. Verification confirms no command exists (known=false, verified=false, reason=\"no_command\"). This is a synthetic model-only diagnostic: no real ROS, robot, or physical motion occurred. No physical task outcome can be claimed."
+        },
+        "result": {
+          "ok": true,
+          "task_complete": true,
+          "success": false,
+          "summary": "Observation returned STOP (tag 1), so no motion was authorized or requested. Verification confirms no command exists (known=false, verified=false, reason=\"no_command\"). This is a synthetic model-only diagnostic: no real ROS, robot, or physical motion occurred. No physical task outcome can be claimed.",
+          "unverified": [
+            "signal_game_motion_not_independently_verified"
+          ]
+        }
+      }
+    ],
+    "path": "llm",
+    "duration_s": 7.23,
+    "milestone_status": [],
+    "unverified": [
+      "signal_game_motion_not_independently_verified"
+    ],
+    "stuck": null,
+    "cancelled": false
+  }
+}

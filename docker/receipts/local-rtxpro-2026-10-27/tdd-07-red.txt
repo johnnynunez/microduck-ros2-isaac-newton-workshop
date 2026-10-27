@@ -1,0 +1,18 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+_________ test_out_of_order_detection_cannot_restore_an_old_go_signal __________
+
+    def test_out_of_order_detection_cannot_restore_an_old_go_signal():
+        cache = CaptureCache(clock=lambda: 10.)
+        cache.record('ep', 1, 1., 9.8, 'camera')
+        cache.record('ep', 2, 2., 9.9, 'camera')
+        assert cache.detect(2., 'camera', [1])
+>       assert not cache.detect(1., 'camera', [0])
+E       AssertionError: assert not True
+E        +  where True = detect(1.0, 'camera', [0])
+E        +    where detect = <microduck_gateway.perception.CaptureCache object at 0x76c6bb11b980>.detect
+
+tests/test_ros_perception.py:41: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_ros_perception.py::test_out_of_order_detection_cannot_restore_an_old_go_signal
+1 failed, 2 passed in 0.01s

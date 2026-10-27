@@ -1,0 +1,47 @@
+SANITIZED PUBLIC COPY: local filesystem prefixes redacted; original SHA-256 1a7ae44c896183c3b3758a04de9f935df1166786b04d115d6c47116da0068f6e.
+Numerical results, error messages and failure status are unchanged. See ../redaction-manifest.json.
+
+[heavyrun] 2026-10-27 03:29:21 start unit=heavy-roscon-ros5-production-032921-9731 slot=2/11 mem_cap=32G CUDA_VISIBLE_DEVICES=1
+[heavyrun] cwd=<WORKSHOP_ROOT>/.worktrees/ros
+[heavyrun] cmd: bash -c bash\ scripts/ros_build_image.sh\ \&\&\ bash\ scripts/ros_runtime_smoke.sh
+51716b6d23579f914f37c89001a71914a8848376b94e0e2f9f89ecb9681cd4de
+Processing /opt/workshop
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: microduck-ros2-isaac-newton-workshop
+  Building wheel for microduck-ros2-isaac-newton-workshop (pyproject.toml): started
+  Building wheel for microduck-ros2-isaac-newton-workshop (pyproject.toml): finished with status 'done'
+  Created wheel for microduck-ros2-isaac-newton-workshop: filename=microduck_ros2_isaac_newton_workshop-0.1.0-py3-none-any.whl size=8642 sha256=a57b6304f86d9916c0aa7539fd1e4bd1af544000a962130a8947df0a705fbbed
+  Stored in directory: /tmp/pip-ephem-wheel-cache-p85tfbe1/wheels/a0/cc/ce/aadbaaa4439b4511678710987b9044e424e61f61bdeb38b2f5
+Successfully built microduck-ros2-isaac-newton-workshop
+Installing collected packages: microduck-ros2-isaac-newton-workshop
+Successfully installed microduck-ros2-isaac-newton-workshop-0.1.0
+Starting >>> microduck_workshop_interfaces
+Finished <<< microduck_workshop_interfaces [3.42s]
+Starting >>> microduck_workshop_ros
+Finished <<< microduck_workshop_ros [0.43s]
+
+Summary: 2 packages finished [3.89s]
+sha256:8e7abff790a1d656dae0aa780068580effb560cbf0f9dd3b8eac618d6440f886
+d59a5315f2d2bab660852b7ac840d869cc6b06cab4e9251cea6aa235868546eb
+microduck_workshop_ros gateway
+waiting for service to become available...
+requester: making request: microduck_workshop_interfaces.srv.Observe_Request()
+
+response:
+microduck_workshop_interfaces.srv.Observe_Response(fresh=False, episode_id='', generation=0, frame_sequence=0, sim_time=0.0, age_s=1000000000.0, frame_id='', tag_ids=[], reason='no fresh matched camera detection')
+
+String value is: CUDA
+String value is: tag36h11
+/root/isaac-repos.key: OK
+/root/cuda-keyring.deb: OK
+/root/jetson.key: OK
+/root/ros2-apt-source.deb: OK
+3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+/opt/ros/lyrical/lib/python3.12/site-packages/rclpy/__init__.py
+{'fresh': 'boolean', 'episode_id': 'string', 'generation': 'uint64', 'frame_sequence': 'uint64', 'sim_time': 'double', 'age_s': 'double', 'frame_id': 'string', 'tag_ids': 'sequence<int32>', 'reason': 'string'}
+[heavyrun] 2026-10-27 03:29:48 end result=success exit_code=exited exit_status=0 peak_mem=0.0G

@@ -7,12 +7,14 @@ import hashlib
 import json
 import os
 import re
+import stat
 import tempfile
 import time
+import uuid
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path, PurePosixPath
 from urllib.error import URLError
-from urllib.parse import quote, urlsplit
+from urllib.parse import quote, unquote, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
@@ -28,12 +30,24 @@ class _HttpsRedirect(HTTPRedirectHandler):
 
 
 def load_manifest(path: Path) -> dict:
+    return _load_manifest_snapshot(path)[0]
+
+
+def _load_manifest_snapshot(path: Path) -> tuple[dict, str]:
     try:
-        manifest = json.loads(Path(path).read_text())
+        source = Path(path).read_bytes()
+        manifest = json.loads(source)
     except (OSError, ValueError) as exc:
         raise AssetError(f"Cannot read asset manifest: {exc}") from exc
+    if not isinstance(manifest, dict):
+        raise AssetError("Expected a manifest JSON object")
     entries = manifest.get("files")
-    if manifest.get("schema_version") != 1 or not isinstance(entries, list) or not entries:
+    if (
+        type(manifest.get("schema_version")) is not int
+        or manifest["schema_version"] != 1
+        or not isinstance(entries, list)
+        or not entries
+    ):
         raise AssetError("Expected nonempty schema-version-1 manifest")
     if type(manifest.get("file_count")) is not int or manifest["file_count"] != len(entries):
         raise AssetError("Manifest file_count does not match its entries")
@@ -50,9 +64,17 @@ def load_manifest(path: Path) -> dict:
         name = entry["path"]
         if not isinstance(name, str) or not name or "\\" in name or ":" in name:
             raise AssetError("Invalid relative asset path")
+        try:
+            name.encode("utf-8")
+        except UnicodeError as exc:
+            raise AssetError("Asset path must be valid Unicode") from exc
+        if any(ord(c) < 32 or ord(c) == 127 for c in name):
+            raise AssetError("Asset path control characters are forbidden")
         components = name.split("/")
         if PurePosixPath(name).is_absolute() or any(p in ("", ".", "..") for p in components):
             raise AssetError("Asset path traversal or normalization is forbidden")
+        if components[0] == "download-receipt.json":
+            raise AssetError("The download receipt namespace is reserved")
         if name in seen:
             raise AssetError("Duplicate asset destination")
         seen.add(name)
@@ -62,20 +84,42 @@ def load_manifest(path: Path) -> dict:
             raise AssetError("Invalid literal SHA-256")
         if type(entry["bytes"]) is not int or not 0 < entry["bytes"] <= 100_000_000:
             raise AssetError("Invalid declared file size")
-        if entry["license"] not in {"Apache-2.0", "CC-BY-NC-SA-4.0"}:
+        if not isinstance(entry["license"], str) or entry["license"] not in {
+            "Apache-2.0",
+            "CC-BY-NC-SA-4.0",
+        }:
             raise AssetError("Unknown asset license")
         if not isinstance(entry["url"], str):
             raise AssetError("URL must be a string")
-        parsed = urlsplit(entry["url"])
+        url = entry["url"]
+        if url != url.strip() or any(ord(c) < 32 or ord(c) == 127 for c in url):
+            raise AssetError("URL whitespace/control normalization is forbidden")
+        try:
+            url.encode("utf-8")
+            parsed = urlsplit(url)
+            decoded_path = unquote(parsed.path, errors="strict")
+        except ValueError as exc:
+            raise AssetError(f"Invalid source URL: {exc}") from exc
         if (
-            parsed.scheme != "https"
-            or parsed.username
-            or parsed.password
-            or parsed.port
-            or parsed.query
-            or parsed.fragment
+            not url.startswith("https://")
+            or parsed.netloc not in {"raw.githubusercontent.com", "huggingface.co"}
+            or "?" in url
+            or "#" in url
         ):
             raise AssetError("Expected a credential-free immutable HTTPS source URL")
+        if (
+            re.search(r"%(?![0-9a-fA-F]{2})", parsed.path)
+            or re.search(r"%(?:2f|5c)", parsed.path, re.IGNORECASE)
+            or re.search(r"%[0-9a-fA-F]{2}", decoded_path)
+        ):
+            raise AssetError("Invalid, encoded-separator or nested URL escaping is forbidden")
+        for path_value in (parsed.path, decoded_path):
+            if (
+                "\\" in path_value
+                or any(ord(c) < 32 or ord(c) == 127 for c in path_value)
+                or any(p in ("", ".", "..") for p in path_value.split("/")[1:])
+            ):
+                raise AssetError("URL path traversal or normalization is forbidden")
         if parsed.hostname == "raw.githubusercontent.com":
             valid = re.fullmatch(
                 r"/pollen-robotics/(microduck|microduck_rl)/[0-9a-f]{40}/.+", parsed.path
@@ -90,7 +134,7 @@ def load_manifest(path: Path) -> dict:
             raise AssetError(
                 "Only allowlisted public Pollen sources pinned by full commit are admitted"
             )
-    return manifest
+    return manifest, hashlib.sha256(source).hexdigest()
 
 
 def _destination(root: Path, name: str) -> Path:
@@ -127,17 +171,19 @@ def _fetch_once(root: Path, entry: dict) -> bool:
     fd, temporary = tempfile.mkstemp(prefix=".download-", dir=target.parent)
     temporary = Path(temporary)
     try:
-        request = Request(
-            quote(entry["url"], safe=":/%"), headers={"User-Agent": "microduck-workshop/0.1"}
-        )
-        opener = build_opener(_HttpsRedirect())
-        with os.fdopen(fd, "wb") as output, opener.open(request, timeout=45) as response:
-            count = 0
-            while block := response.read(1 << 16):
-                count += len(block)
-                if count > entry["bytes"]:
-                    raise AssetError(f"Download exceeds declared size: {entry['path']}")
-                output.write(block)
+        with os.fdopen(fd, "wb") as output:
+            fd = None  # Own the descriptor before fallible request construction.
+            request = Request(
+                quote(entry["url"], safe=":/%"), headers={"User-Agent": "microduck-workshop/0.1"}
+            )
+            opener = build_opener(_HttpsRedirect())
+            with opener.open(request, timeout=45) as response:
+                count = 0
+                while block := response.read(1 << 16):
+                    count += len(block)
+                    if count > entry["bytes"]:
+                        raise AssetError(f"Download exceeds declared size: {entry['path']}")
+                    output.write(block)
         _check(temporary, entry)
         if target.exists():
             _check(target, entry)
@@ -151,6 +197,8 @@ def _fetch_once(root: Path, entry: dict) -> bool:
             f"Download failed for {entry['path']}: {type(exc).__name__}: {exc}"
         ) from exc
     finally:
+        if fd is not None:
+            os.close(fd)
         temporary.unlink(missing_ok=True)
 
 
@@ -166,10 +214,48 @@ def _fetch_one(root: Path, entry: dict) -> bool:
     raise AssertionError("Unreachable retry state")
 
 
+def _write_receipt(root: Path, result: dict) -> None:
+    """Replace metadata, never truncate an existing (possibly shared) inode."""
+    directory_fd = fd = None
+    temporary = None
+    name = "download-receipt.json"
+    try:
+        # Pin the validated directory for every operation, including cleanup.
+        directory_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            existing = os.stat(name, dir_fd=directory_fd, follow_symlinks=False)
+        except FileNotFoundError:
+            pass
+        else:
+            if not stat.S_ISREG(existing.st_mode) or existing.st_nlink != 1:
+                raise AssetError("Refusing linked or nonregular download receipt")
+        candidate = f".receipt-{uuid.uuid4().hex}"
+        fd = os.open(candidate, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600, dir_fd=directory_fd)
+        temporary = candidate
+        with os.fdopen(fd, "w", encoding="utf-8") as output:
+            fd = None  # The context manager now owns the descriptor.
+            output.write(json.dumps(result, indent=2) + "\n")
+        os.replace(temporary, name, src_dir_fd=directory_fd, dst_dir_fd=directory_fd)
+    except OSError as exc:
+        raise AssetError(f"Cannot write download receipt: {exc}") from exc
+    finally:
+        try:
+            if fd is not None:
+                os.close(fd)
+            if temporary is not None:
+                try:
+                    os.unlink(temporary, dir_fd=directory_fd)
+                except FileNotFoundError:
+                    pass
+        finally:
+            if directory_fd is not None:
+                os.close(directory_fd)
+
+
 def fetch_assets(
     manifest_path: Path, destination: Path, *, accept_mesh_license: bool = False
 ) -> dict:
-    manifest = load_manifest(manifest_path)
+    manifest, manifest_sha256 = _load_manifest_snapshot(manifest_path)
     if (
         any(e["license"] == "CC-BY-NC-SA-4.0" for e in manifest["files"])
         and not accept_mesh_license
@@ -188,11 +274,10 @@ def fetch_assets(
         "verified_files": len(manifest["files"]),
         "downloaded_files": sum(downloaded),
         "bytes": sum(e["bytes"] for e in manifest["files"]),
-        "manifest_sha256": hashlib.sha256(Path(manifest_path).read_bytes()).hexdigest(),
+        "manifest_sha256": manifest_sha256,
         "scope": "Public source identity and bytes only; not physics or policy behavior validation",
     }
-    receipt = root / "download-receipt.json"
-    receipt.write_text(json.dumps(result, indent=2) + "\n")
+    _write_receipt(root, result)
     return result
 
 

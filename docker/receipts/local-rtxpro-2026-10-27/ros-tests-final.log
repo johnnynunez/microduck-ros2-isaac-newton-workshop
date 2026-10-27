@@ -1,0 +1,40 @@
+SANITIZED PUBLIC COPY: local filesystem prefixes redacted; original SHA-256 70b735e5c46bf13c541c321f0112bc0fe5f93f937de540bd4aa072fb751cd474.
+Numerical results, error messages and failure status are unchanged. See ../redaction-manifest.json.
+
+[heavyrun] 2026-10-27 03:24:15 start unit=heavy-roscon-ros5-all-tests-032415-19985 slot=1/11 mem_cap=32G CUDA_VISIBLE_DEVICES=1
+[heavyrun] cwd=<WORKSHOP_ROOT>/.worktrees/ros
+[heavyrun] cmd: bash scripts/ros_validate_local.sh dds
+index, uuid, name, driver_version
+0, GPU-4c811d02-a79b-2837-425e-5f62ac3c578a, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 615.71.10
+Python 3.12.3
+Starting >>> microduck_workshop_interfaces
+Finished <<< microduck_workshop_interfaces [0.27s]
+Starting >>> microduck_workshop_ros
+Finished <<< microduck_workshop_ros [0.51s]
+
+Summary: 2 packages finished [0.84s]
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /workshop
+configfile: pyproject.toml
+plugins: ament-copyright-0.20.6, ament-xmllint-0.20.6, ament-pep257-0.20.6, ament-mypy-0.20.6, launch-testing-3.9.8, ament-lint-0.20.6, launch-testing-ros-0.29.9, ament-flake8-0.20.6, colcon-core-0.21.3
+collecting ... collected 14 items
+
+tests/test_ros_dds.py::test_real_dds_services_refuse_when_simulator_absent PASSED [  7%]
+tests/test_ros_gateway.py::test_command_is_exact_validated_and_redacted PASSED [ 14%]
+tests/test_ros_gateway.py::test_priority_stop_overtakes_blocked_command_and_late_ack PASSED [ 21%]
+tests/test_ros_gateway.py::test_uncertain_send_never_retries_and_disarms PASSED [ 28%]
+tests/test_ros_gateway.py::test_lease_renews_without_model_and_failure_disarms PASSED [ 35%]
+tests/test_ros_gateway.py::test_status_is_allowlisted_and_epoch_checked PASSED [ 42%]
+tests/test_ros_gateway.py::test_failed_renewal_disarms_without_reclaim PASSED [ 50%]
+tests/test_ros_gateway.py::test_claim_uses_unique_owners_and_mismatched_ack_fails_closed PASSED [ 57%]
+tests/test_ros_message_fixtures.py::test_ros_image_and_camera_info_preserve_atomic_stamp_and_validate_calibration PASSED [ 64%]
+tests/test_ros_perception.py::test_original_capture_age_not_arrival_time PASSED [ 71%]
+tests/test_ros_perception.py::test_rewind_epoch_and_stopped_camera_clear_freshness PASSED [ 78%]
+tests/test_ros_perception.py::test_out_of_order_detection_cannot_restore_an_old_go_signal PASSED [ 85%]
+tests/test_ros_sensors.py::test_checked_state_only_sensor_fields_and_original_age PASSED [ 92%]
+tests/test_ros_transport.py::test_http_private_endpoint_and_atomic_camera PASSED [100%]
+
+============================== 14 passed in 1.50s ==============================
+[heavyrun] 2026-10-27 03:24:19 end result=success exit_code=exited exit_status=0 peak_mem=0.0G

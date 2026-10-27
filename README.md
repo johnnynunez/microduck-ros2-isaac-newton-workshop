@@ -24,7 +24,15 @@ Participants work in **NVIDIA Brev**, using instructor-provided one-day credits 
 - [ROS 2 exercises](exercises/ros_basics/README.md) and [complete reference solution](solutions/ros_basics/README.md)
 - [Troubleshooting](docs/troubleshooting.md)
 
-The course files are available; stack-specific launch commands and live acceptance are still being integrated. The read-only ROS exercises do not bypass the motion gateway.
+The course files and individual runtime components are available. **Combined classroom acceptance is still pending:** the direct low-speed policy request stalls, and the first explicit calibration failed the unchanged rest gate. Those failures remain documented; a distinct planned-step skill is being evaluated rather than widening the verifier limits.
+
+- [Isaac Lab/Newton runtime and real PPO exercise](docs/runtime.md)
+- [Isaac ROS 5.0 setup and actual CUDA detector evidence](docs/isaac_ros.md)
+- [CASCADE capstone implementation and evidence limits](docs/capstone.md)
+- [Calibration results — currently NOT READY](docs/calibration.md)
+- [Brev setup status and cloud lifecycle](docs/brev.md)
+
+The read-only ROS exercises do not bypass the motion gateway.
 
 ## Learning route
 
@@ -51,12 +59,12 @@ The course files are available; stack-specific launch commands and live acceptan
 
 ```bash
 # Small CPU-only environment, not the simulator or ROS installation.
-uv sync --group dev
-uv run pytest -q
-uv run python -m microduck_workshop.doctor
+uv sync --extra policy --extra agent --group dev
+uv run --no-sync pytest -q
+uv run --no-sync python -m microduck_workshop.doctor
 
 # Review the mesh license and your permissions before acknowledging it.
-uv run python -m microduck_workshop.assets fetch --accept-mesh-license
+uv run --no-sync python -m microduck_workshop.assets fetch --accept-mesh-license
 ```
 
 The downloader admits **121 public files** by exact pinned URL, size and SHA-256, including **43 separately licensed STL meshes** and the public VelStand v8 ONNX. Files remain in the ignored `.cache/assets/` directory. A corrupt cache entry is refused, not silently replaced. Transient GET retries are bounded; motion requests never inherit this retry behavior.

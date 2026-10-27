@@ -1,0 +1,3 @@
+Installed 5 packages in 9ms
+..............................                                           [100%]
+30 passed, 2 skipped in 0.64s

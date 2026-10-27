@@ -1,0 +1,124 @@
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1793067334.628961408] [rosbag2_storage]: Opened database '/workshop/.workshop/apriltag/isaac_ros_apriltag/quickstart.bag/quickstart.bag_0.db3' for READ_ONLY.
+[INFO] [1793067334.629804421] [rosbag2_player]: Set rate to 0.5
+[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753035.508734703] Duration 0.00/3.65 [R]
+[4A[INFO] [1793067334.633739409] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1793067334.633752919] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1793067334.633755904] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1793067334.633758368] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1793067334.633760621] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+Progress bar enabled at 3 Hz.
+Progress bar [?]: [R]unning, [P]aused, [B]urst, [D]elayed, [S]topped
+[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753035.508734703] Duration 0.00/3.65 [S]
+[4A[INFO] [1793067334.634913415] [rosbag2_player]: Playback until timestamp: -1
+[INFO] [1793067334.634990342] [rosbag2_player]: Sleep 2000000000 ns
+[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753035.508734703] Duration 0.00/3.65 [D]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753035.508734703] Duration 0.00/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753035.508734703] Duration 0.00/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753035.676059961] Duration 0.17/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753035.857519388] Duration 0.35/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753036.038513422] Duration 0.53/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753036.221062899] Duration 0.71/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753036.403116465] Duration 0.89/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753036.571311712] Duration 1.06/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753036.739411354] Duration 1.23/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753036.921483278] Duration 1.41/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753037.104365587] Duration 1.60/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753037.286320925] Duration 1.78/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753037.460447311] Duration 1.95/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753037.638058186] Duration 2.13/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753037.805671453] Duration 2.30/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753037.988636971] Duration 2.48/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753038.170341969] Duration 2.66/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753038.337191343] Duration 2.83/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753038.511334181] Duration 3.00/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753038.691307783] Duration 3.18/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753038.873614550] Duration 3.36/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753039.055292368] Duration 3.55/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753039.055292368] Duration 3.55/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753039.055292368] Duration 3.55/3.65 [R]
+[4A[2K
+[2K
+[2K====== Playback Progress ======
+[2K[1678753039.055292368] Duration 3.55/3.65 [R]
+[4A[4B

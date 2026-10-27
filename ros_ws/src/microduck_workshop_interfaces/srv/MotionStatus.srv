@@ -1,0 +1,10 @@
+string episode_id
+string request_id
+---
+bool known
+bool completed
+bool verification_available
+bool verified
+string status
+string reason
+uint64 generation

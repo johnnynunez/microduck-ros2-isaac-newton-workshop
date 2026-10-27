@@ -1,0 +1,1 @@
+cadc33601d769ef63a792577105d2cee4f1759b0583f5bf9627275812ae77885  .workshop/apriltag/quickstart.tar.gz

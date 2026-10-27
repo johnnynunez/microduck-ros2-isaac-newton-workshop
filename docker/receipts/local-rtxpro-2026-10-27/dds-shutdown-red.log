@@ -1,0 +1,87 @@
+SANITIZED PUBLIC COPY: local filesystem prefixes redacted; original SHA-256 788b56963a4a6b538eea0311925f14e28b4645dbc3723640795b63bf41f9b8fd.
+Numerical results, error messages and failure status are unchanged. See ../redaction-manifest.json.
+
+[heavyrun] 2026-10-27 03:20:27 start unit=heavy-roscon-ros5-dds-shutdown-red-032026-5204 slot=2/11 mem_cap=32G CUDA_VISIBLE_DEVICES=1
+[heavyrun] cwd=<WORKSHOP_ROOT>/.worktrees/ros
+[heavyrun] cmd: bash scripts/ros_validate_local.sh dds
+index, uuid, name, driver_version
+0, GPU-4c811d02-a79b-2837-425e-5f62ac3c578a, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 615.71.10
+Python 3.12.3
+Starting >>> microduck_workshop_interfaces
+Finished <<< microduck_workshop_interfaces [0.28s]
+Starting >>> microduck_workshop_ros
+Finished <<< microduck_workshop_ros [0.51s]
+
+Summary: 2 packages finished [0.85s]
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /workshop
+configfile: pyproject.toml
+plugins: ament-copyright-0.20.6, ament-xmllint-0.20.6, ament-pep257-0.20.6, ament-mypy-0.20.6, launch-testing-3.9.8, ament-lint-0.20.6, launch-testing-ros-0.29.9, ament-flake8-0.20.6, colcon-core-0.21.3
+collecting ... collected 1 item
+
+tests/test_ros_dds.py::test_real_dds_services_refuse_when_simulator_absent FAILED [100%]
+
+=================================== FAILURES ===================================
+_____________ test_real_dds_services_refuse_when_simulator_absent ______________
+
+    def test_real_dds_services_refuse_when_simulator_absent():
+        process = subprocess.Popen([sys.executable, '-m', 'microduck_gateway.node', '--ros-args', '-p', 'sim_url:=http://127.0.0.1:18766'])
+        rclpy.init()
+        node = rclpy.create_node('dds_gate_client')
+        try:
+            observe = node.create_client(Observe, '/workshop/microduck/observe')
+            assert observe.wait_for_service(timeout_sec=15)
+            result = observe.call_async(Observe.Request())
+            rclpy.spin_until_future_complete(node, result, timeout_sec=5)
+            assert result.result() is not None
+            assert not result.result().fresh
+            assert list(result.result().tag_ids) == []
+            motion = node.create_client(BoundedMotion, '/workshop/microduck/bounded_motion')
+            assert motion.wait_for_service(timeout_sec=5)
+            request = BoundedMotion.Request(episode_id='absent', request_id='dds_probe', expected_generation=0, vx=.05, vy=0., wz=0., duration_s=.2)
+            result = motion.call_async(request)
+            rclpy.spin_until_future_complete(node, result, timeout_sec=5)
+            assert not result.result().accepted
+            stop = node.create_client(Trigger, '/workshop/microduck/emergency_stop')
+            assert stop.wait_for_service(timeout_sec=5)
+            result = stop.call_async(Trigger.Request())
+            rclpy.spin_until_future_complete(node, result, timeout_sec=5)
+            assert result.result() is not None
+            assert not result.result().success  # absent simulator cannot acknowledge stop
+        finally:
+            node.destroy_node()
+            rclpy.shutdown()
+            process.terminate()
+>           assert process.wait(timeout=10) == 0
+E           AssertionError: assert 1 == 0
+E            +  where 1 = <bound method Popen.wait of <Popen: returncode: 1 args: ['/usr/bin/python3', '-m', 'microduck_gateway.no...>>(timeout=10)
+E            +    where <bound method Popen.wait of <Popen: returncode: 1 args: ['/usr/bin/python3', '-m', 'microduck_gateway.no...>> = <Popen: returncode: 1 args: ['/usr/bin/python3', '-m', 'microduck_gateway.no...>.wait
+
+tests/test_ros_dds.py:42: AssertionError
+----------------------------- Captured stderr call -----------------------------
+[ERROR] [1793067628.918409840] [workshop.microduck.gateway]: Simulator unavailable or lease refused. No command authority; start simulator then explicitly restart gateway.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workshop/ros_ws/install/microduck_workshop_ros/lib/python3.12/site-packages/microduck_gateway/node.py", line 180, in <module>
+    main()
+  File "/workshop/ros_ws/install/microduck_workshop_ros/lib/python3.12/site-packages/microduck_gateway/node.py", line 169, in main
+    executor.spin()
+  File "/opt/ros/lyrical/lib/python3.12/site-packages/rclpy/executors.py", line 400, in spin
+    self._spin_once_impl()
+  File "/opt/ros/lyrical/lib/python3.12/site-packages/rclpy/executors.py", line 1086, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/ros/lyrical/lib/python3.12/site-packages/rclpy/executors.py", line 970, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/ros/lyrical/lib/python3.12/site-packages/rclpy/executors.py", line 848, in _wait_for_ready_callbacks
+    wait_set = _rclpy.WaitSet(
+               ^^^^^^^^^^^^^^^
+rclpy._rclpy_pybind11.RCLError: failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:110
+=========================== short test summary info ============================
+FAILED tests/test_ros_dds.py::test_real_dds_services_refuse_when_simulator_absent
+============================== 1 failed in 0.65s ===============================
+[heavyrun] 2026-10-27 03:20:29 end result=exit-code exit_code=exited exit_status=1 peak_mem=0.0G

@@ -1,0 +1,19 @@
+SANITIZED PUBLIC COPY: local filesystem prefixes redacted; original SHA-256 f6d0a64fd95644e17afef214422a8cdd889a546afcc200e9493ecd5ce8fcb91c.
+Numerical results, error messages and failure status are unchanged. See ../redaction-manifest.json.
+
+
+==================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_ros_sensors.py __________________
+ImportError while importing test module '<WORKSHOP_ROOT>/.worktrees/ros/tests/test_ros_sensors.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../../.local/share/uv/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_ros_sensors.py:6: in <module>
+    from microduck_gateway.sensors import checked_state
+E   ModuleNotFoundError: No module named 'microduck_gateway.sensors'
+=========================== short test summary info ============================
+ERROR tests/test_ros_sensors.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.05s

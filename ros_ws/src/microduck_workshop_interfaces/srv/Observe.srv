@@ -1,0 +1,10 @@
+---
+bool fresh
+string episode_id
+uint64 generation
+uint64 frame_sequence
+float64 sim_time
+float64 age_s
+string frame_id
+int32[] tag_ids
+string reason

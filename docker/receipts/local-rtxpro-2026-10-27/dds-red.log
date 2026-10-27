@@ -1,0 +1,46 @@
+SANITIZED PUBLIC COPY: local filesystem prefixes redacted; original SHA-256 2e67e73d5eca1489bb1cd23f9aecfca166f4eb0f7f3ea74199b7537d5851f5c3.
+Numerical results, error messages and failure status are unchanged. See ../redaction-manifest.json.
+
+[heavyrun] 2026-10-27 03:15:33 start unit=heavy-roscon-ros5-dds-red-031533-23436 slot=2/11 mem_cap=32G CUDA_VISIBLE_DEVICES=1
+[heavyrun] cwd=<WORKSHOP_ROOT>/.worktrees/ros
+[heavyrun] cmd: bash scripts/ros_validate_local.sh dds
+index, uuid, name, driver_version
+0, GPU-4c811d02-a79b-2837-425e-5f62ac3c578a, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 615.71.10
+Python 3.12.3
+Starting >>> microduck_workshop_interfaces
+Finished <<< microduck_workshop_interfaces [3.08s]
+Starting >>> microduck_workshop_ros
+Finished <<< microduck_workshop_ros [0.48s]
+
+Summary: 2 packages finished [3.61s]
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /workshop
+configfile: pyproject.toml
+plugins: ament-copyright-0.20.6, ament-xmllint-0.20.6, ament-pep257-0.20.6, ament-mypy-0.20.6, launch-testing-3.9.8, ament-lint-0.20.6, launch-testing-ros-0.29.9, ament-flake8-0.20.6, colcon-core-0.21.3
+collecting ... collected 1 item
+
+tests/test_ros_dds.py::test_real_dds_services_refuse_when_simulator_absent FAILED [100%]
+
+=================================== FAILURES ===================================
+_____________ test_real_dds_services_refuse_when_simulator_absent ______________
+
+    def test_real_dds_services_refuse_when_simulator_absent():
+        process = subprocess.Popen([sys.executable, '-m', 'microduck_gateway.node', '--ros-args', '-p', 'sim_url:=http://127.0.0.1:18766'])
+        rclpy.init()
+        node = rclpy.create_node('dds_gate_client')
+        try:
+            observe = node.create_client(Observe, '/workshop/microduck/observe')
+>           assert observe.wait_for_service(timeout_sec=15)
+E           assert False
+E            +  where False = <bound method Client.wait_for_service of <rclpy.client.Client object at 0x7e08fd3080b0>>(timeout_sec=15)
+E            +    where <bound method Client.wait_for_service of <rclpy.client.Client object at 0x7e08fd3080b0>> = <rclpy.client.Client object at 0x7e08fd3080b0>.wait_for_service
+
+tests/test_ros_dds.py:20: AssertionError
+----------------------------- Captured stderr call -----------------------------
+/usr/bin/python3: No module named microduck_gateway.node
+=========================== short test summary info ============================
+FAILED tests/test_ros_dds.py::test_real_dds_services_refuse_when_simulator_absent
+============================== 1 failed in 15.23s ==============================
+[heavyrun] 2026-10-27 03:15:53 end result=exit-code exit_code=exited exit_status=1 peak_mem=0.0G

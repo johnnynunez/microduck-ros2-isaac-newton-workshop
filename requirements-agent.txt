@@ -1,0 +1,5 @@
+# Public CASCADE is MIT. Exact source pin; no local/private repository dependency.
+cascade @ git+https://github.com/johnnynunez/cascade.git@d7a456c22d46d53e9588db6a55a0c6c916aa4963
+openai==2.45.0
+# rclpy and microduck_workshop_interfaces come from the ROS 2 Lyrical workspace,
+# not pip. Keep model serving in a separate process/environment.

@@ -1,0 +1,19 @@
+SANITIZED PUBLIC COPY: local filesystem prefixes redacted; original SHA-256 a6d2eb0fa47863be32f87e44dc8d7ad9452204677ade3937c9219ceeb0b7cd19.
+Numerical results, error messages and failure status are unchanged. See ../redaction-manifest.json.
+
+
+==================================== ERRORS ====================================
+________________ ERROR collecting tests/test_ros_perception.py _________________
+ImportError while importing test module '<WORKSHOP_ROOT>/.worktrees/ros/tests/test_ros_perception.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../../.local/share/uv/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_ros_perception.py:5: in <module>
+    from microduck_gateway.perception import CaptureCache
+E   ModuleNotFoundError: No module named 'microduck_gateway.perception'
+=========================== short test summary info ============================
+ERROR tests/test_ros_perception.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.04s

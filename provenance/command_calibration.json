@@ -1,0 +1,1567 @@
+{
+  "schema_version": 1,
+  "profile": "calibrated-forward-v1",
+  "validation_status": "NOT_READY",
+  "supported_forward_durations_s": [],
+  "reason": "All twelve gating walk/resume requests and both fresh confirmation requests failed unchanged per-request rest gates. Real forward motion is NOT service acceptance.",
+  "preregistration": {
+    "round": 1,
+    "registered_before_native_execution": true,
+    "profile": "calibrated-forward-v1",
+    "desired_command": [
+      0.1,
+      0,
+      0
+    ],
+    "neural_command": [
+      0.25,
+      0,
+      0
+    ],
+    "policy_mode": "training",
+    "gating_cases": [
+      {
+        "id": "h1-w04-d1",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 0.4,
+        "duration_s": 1.0
+      },
+      {
+        "id": "h2-w08-d1",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 0.8,
+        "duration_s": 1.0
+      },
+      {
+        "id": "h3-w14-d1",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 1.4,
+        "duration_s": 1.0
+      },
+      {
+        "id": "h4-w04-d2",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 0.4,
+        "duration_s": 2.0
+      },
+      {
+        "id": "h5-w08-d2",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 0.8,
+        "duration_s": 2.0
+      },
+      {
+        "id": "h6-w14-d2",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 1.4,
+        "duration_s": 2.0
+      }
+    ],
+    "non_gating_confirmation": {
+      "id": "confirmation-w11-d2",
+      "initial_zero_s": 1.3,
+      "zero_wait_s": 1.1,
+      "duration_s": 2.0
+    },
+    "sequence": "fresh native process; initial zero; HTTP walk; automatic duration expiry; zero wait measured from completed status; HTTP resume; automatic expiry; zero 1.0s; HTTP forward interrupted by priority stop after 0.3s; wait 0.8s; SIGTERM graceful shutdown",
+    "gates": "UNMODIFIED evaluate_motion through native MotionVerifier for BOTH walk and resume: completed, elapsed >= duration, finite pose, height > .07m, up > .7, directional travel .25..1.75 of requested plus original .01m margin, original yaw tolerance .15rad, rest tail .04m/s and .10rad/s. Stop must invalidate intent and be independently evaluated as interrupted/not verified. Full trace retains physical measurements.",
+    "full_trace_regression": "separate fixed original 1s settle -> 2s walk -> 2s zero -> 2s resume with evaluate_trace unchanged",
+    "acceptance": "Advertise duration only if BOTH requests in ALL three corresponding gating cases pass unchanged physical gates. No remapping/threshold tuning after results. Failures remain failures. Confirmation is fresh and cannot be used to select parameters.",
+    "fit_data_excluded": "sim/.workshop/calibration-.25 and prior diagnostics; not holdouts",
+    "physical_changes": "none; no root writes except episode initialization, no online truth feedback, no gains/friction/BAM/ONNX modifications"
+  },
+  "preregistration_sha256": "0533ea5270063683002011c70da149de8c2425f32f6d87725698b59dda48c49f",
+  "preregistration_time_local": "2026-10-27T04:45:40+01:00",
+  "candidate_reproduction_commit": "537e9f20242ca21671971ad2ad1a889d7dbfb71b",
+  "candidate_commit_note": "Experimental admission only, not approved for class. Final branch fails closed; do not deploy this historical candidate.",
+  "runtime": {
+    "isaaclab": "28.0.0",
+    "isaacsim": "6.2.0.0",
+    "newton": "1.6.1",
+    "mujoco": "3.12.0",
+    "mujoco-warp": "3.12.0",
+    "warp-lang": "1.17.0",
+    "torch": "2.11.0+cu130",
+    "physics_owner": "isaaclab_newton.physics.NewtonManager",
+    "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+    "asset_sha256": "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8"
+  },
+  "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+  "policy_mode": "training",
+  "mapping": {
+    "desired": [
+      0.1,
+      0,
+      0
+    ],
+    "neural": [
+      0.25,
+      0,
+      0
+    ],
+    "zero": [
+      0,
+      0,
+      0
+    ],
+    "type": "fixed offline discrete conditioning; never physical speed guarantee",
+    "online_feedback": false,
+    "extrapolation": false,
+    "neural_training_bounds": [
+      [
+        -0.4,
+        0.4
+      ],
+      [
+        -0.3,
+        0.3
+      ],
+      [
+        -1,
+        1
+      ]
+    ]
+  },
+  "source_evidence": [
+    {
+      "url": "https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/microduck_velocity_env_cfg.py",
+      "sha256": "75a0430b814ac7495eb237ab806fbd4dd10309b9fd3027ac3eee3c2e3c5a944a"
+    },
+    {
+      "url": "https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/mdp.py",
+      "sha256": "5bdfb05b511e0b8a4fcc0c91ad7ee2d256cf9d6dbd9966516fa056787be146c7"
+    },
+    {
+      "url": "https://github.com/pollen-robotics/microduck/blob/96b89d8613f06722c1d64ce75ab0d7124fed9d8f/duck-control/src/obs.rs",
+      "sha256": "89c139b747c932eb48fb4f2916e5d245a23f60367b33f55746fc4fb0320e8b6d"
+    },
+    {
+      "url": "https://github.com/pollen-robotics/microduck/blob/96b89d8613f06722c1d64ce75ab0d7124fed9d8f/duck-control/src/policy.rs",
+      "sha256": "76ceb0d199a3733857e9039ca09608f7c5ddec0dcf49b6dd313b08a3f383dabf"
+    }
+  ],
+  "source_findings": [
+    "Trunk-frame physical velocity command at observation48:51; no missing unit conversion found.",
+    "Pinned velocity recipe uses vx[-.4,.4],vy[-.3,.3],wz[-1,1].",
+    "Legacy separate-standing-network threshold.05 does not gate single VelStand.",
+    "Public training source3750776761ecfaa5671b36972087cafba45b8527 velocity/mdp files match pinned b02fdea checkout.",
+    "ONNX embedded normalization, BAM, physics and evaluation unchanged."
+  ],
+  "frozen_sources_sha256": {
+    "src/microduck_workshop/contracts.py": "62cd7b6957366db67b8c5a9209700b1d58dc9a5a4ced0030683039990a347349",
+    "src/microduck_workshop/sim/evaluate.py": "04d83c178af0465ad57d7551e32e0ec292f42bdcbb0ef645d4cf0ed94c83c037",
+    "src/microduck_workshop/sim/native.py": "de9b6a8ee541b1d1d55bf722b37c2f499aa0c19c4ee671d09e5c08b72eda2682",
+    "src/microduck_workshop/policy/onnx.py": "9aab1e328312c750f66a2a3058bb687c26ee0186e985900c14c075a98102e428",
+    "src/microduck_workshop/policy/contract.py": "05c275180e49ec13efa53a15a54c9ab7270e8ea401b180effb82d3da7043fc98"
+  },
+  "fit_and_prior_failures": [
+    {
+      "label": "calibration-.25",
+      "role": "prior_diagnostic_NOT_holdout",
+      "segments": {
+        "resume": {
+          "samples": 99,
+          "duration_s": 1.9599999999999582,
+          "forward_displacement_m": 0.1892600655555725,
+          "planar_displacement_m": 0.19169178339360748,
+          "min_root_height_m": 0.11235862970352173,
+          "min_up_cosine": 0.9969106371291736,
+          "tail_mean_planar_speed_m_s": 0.16894754445228022,
+          "safe": true
+        },
+        "settle": {
+          "samples": 50,
+          "duration_s": 0.9800000000000006,
+          "forward_displacement_m": -0.0014972924497029059,
+          "planar_displacement_m": 0.0015203646417789448,
+          "min_root_height_m": 0.1149674728512764,
+          "min_up_cosine": 0.9998191021559889,
+          "tail_mean_planar_speed_m_s": 0.0010626099879002006,
+          "safe": true
+        },
+        "walk": {
+          "samples": 101,
+          "duration_s": 1.9999999999999576,
+          "forward_displacement_m": 0.19011624122504145,
+          "planar_displacement_m": 0.19058619449926592,
+          "min_root_height_m": 0.1123531311750412,
+          "min_up_cosine": 0.9972148765064632,
+          "tail_mean_planar_speed_m_s": 0.17590406543876028,
+          "safe": true
+        },
+        "zero": {
+          "samples": 100,
+          "duration_s": 1.9799999999999578,
+          "forward_displacement_m": 0.010982632637023926,
+          "planar_displacement_m": 0.011323075046195398,
+          "min_root_height_m": 0.11335581541061401,
+          "min_up_cosine": 0.9978723077537847,
+          "tail_mean_planar_speed_m_s": 0.0008954443508057412,
+          "safe": true
+        }
+      },
+      "walk_stop_resume_verified": true,
+      "within_frozen_command_envelope": false,
+      "artifacts_sha256": {
+        "evaluation.json": "062dd6d9de0938d8e5aa4ced746f38769cec409d94e779098b37ca5ab1b9c5f5",
+        "policy_trace.jsonl": "6a1a4726e0d97d5d202cdc6d524296cc06ea9122e3019fa52c8268651b56113f",
+        "evaluator_truth.jsonl": "13867e2dce808803b426489106bfab50c06dc8cf9684b22293832f0a6249855e"
+      }
+    },
+    {
+      "label": "sweep-training-.10",
+      "role": "prior_diagnostic_NOT_holdout",
+      "segments": {
+        "resume": {
+          "samples": 99,
+          "duration_s": 1.9599999999999582,
+          "forward_displacement_m": 0.0017464793054386973,
+          "planar_displacement_m": 0.0017496482452505433,
+          "min_root_height_m": 0.11510097980499268,
+          "min_up_cosine": 0.9998765546307329,
+          "tail_mean_planar_speed_m_s": 0.00013678843354968857,
+          "safe": true
+        },
+        "settle": {
+          "samples": 50,
+          "duration_s": 0.9800000000000006,
+          "forward_displacement_m": -0.0014973043240657322,
+          "planar_displacement_m": 0.001520376537985491,
+          "min_root_height_m": 0.1149674728512764,
+          "min_up_cosine": 0.999819104264917,
+          "tail_mean_planar_speed_m_s": 0.0010626246233087883,
+          "safe": true
+        },
+        "walk": {
+          "samples": 101,
+          "duration_s": 1.9999999999999576,
+          "forward_displacement_m": 0.003214602475054562,
+          "planar_displacement_m": 0.003252620372718851,
+          "min_root_height_m": 0.11515720933675766,
+          "min_up_cosine": 0.9999026025146688,
+          "tail_mean_planar_speed_m_s": 7.76708273038096e-05,
+          "safe": true
+        },
+        "zero": {
+          "samples": 100,
+          "duration_s": 1.9799999999999578,
+          "forward_displacement_m": -0.0013328866625670344,
+          "planar_displacement_m": 0.0013467515580667506,
+          "min_root_height_m": 0.11515673249959946,
+          "min_up_cosine": 0.9998467755015966,
+          "tail_mean_planar_speed_m_s": 0.00013986638780466516,
+          "safe": true
+        }
+      },
+      "walk_stop_resume_verified": false,
+      "within_frozen_command_envelope": true,
+      "artifacts_sha256": {
+        "evaluation.json": "bc25b8c15827edb1c42c1ce9aa0ebf070794734a69ca7afae57c34aac098c8fc",
+        "policy_trace.jsonl": "1ef63ae962e5c069245aace5ecb9c8b83dbabe4da3da3f4a3c61e1712e01d55f",
+        "evaluator_truth.jsonl": "dcb31e6517945e655e6e69fe7f3d99e8e890af1a42b45026d391bd1c529d5b59"
+      }
+    },
+    {
+      "label": "sweep-training-.20",
+      "role": "prior_diagnostic_NOT_holdout",
+      "segments": {
+        "resume": {
+          "samples": 99,
+          "duration_s": 1.9599999999999582,
+          "forward_displacement_m": 0.007831278024241328,
+          "planar_displacement_m": 0.007835281358587166,
+          "min_root_height_m": 0.11314859986305237,
+          "min_up_cosine": 0.9999237306830886,
+          "tail_mean_planar_speed_m_s": 0.00021992946664913681,
+          "safe": true
+        },
+        "settle": {
+          "samples": 50,
+          "duration_s": 0.9800000000000006,
+          "forward_displacement_m": -0.001497298386884319,
+          "planar_displacement_m": 0.0015203697766713097,
+          "min_root_height_m": 0.1149674728512764,
+          "min_up_cosine": 0.9998191026187581,
+          "tail_mean_planar_speed_m_s": 0.0010626100856094653,
+          "safe": true
+        },
+        "walk": {
+          "samples": 101,
+          "duration_s": 1.9999999999999576,
+          "forward_displacement_m": 0.010622596717439592,
+          "planar_displacement_m": 0.010654224098851486,
+          "min_root_height_m": 0.11317074298858643,
+          "min_up_cosine": 0.9998241254396069,
+          "tail_mean_planar_speed_m_s": 0.0005396512456326431,
+          "safe": true
+        },
+        "zero": {
+          "samples": 100,
+          "duration_s": 1.9799999999999578,
+          "forward_displacement_m": -0.007964180549606681,
+          "planar_displacement_m": 0.007986270419318401,
+          "min_root_height_m": 0.11316884309053421,
+          "min_up_cosine": 0.9998508889100681,
+          "tail_mean_planar_speed_m_s": 0.00023118852762761267,
+          "safe": true
+        }
+      },
+      "walk_stop_resume_verified": false,
+      "within_frozen_command_envelope": false,
+      "artifacts_sha256": {
+        "evaluation.json": "0796427a4a6b28f936ab52196f612df528d049e427e2c584f4822216ed647474",
+        "policy_trace.jsonl": "11db8106579b75d49124ceb2b545a150532c573c063b516a97d004bc20477c23",
+        "evaluator_truth.jsonl": "65842ffd8d012455c73c00256d44d35fa40452469e2851d52539e3fea5e8e6a2"
+      }
+    },
+    {
+      "label": "sweep-deployment-.10",
+      "role": "prior_diagnostic_NOT_holdout",
+      "segments": {
+        "resume": {
+          "samples": 99,
+          "duration_s": 1.9599999999999582,
+          "forward_displacement_m": 0.0014750766131328419,
+          "planar_displacement_m": 0.0014791657166496614,
+          "min_root_height_m": 0.11514900624752045,
+          "min_up_cosine": 0.9998826712548249,
+          "tail_mean_planar_speed_m_s": 0.00015107458736145682,
+          "safe": true
+        },
+        "settle": {
+          "samples": 50,
+          "duration_s": 0.9800000000000006,
+          "forward_displacement_m": -0.0011990610752305262,
+          "planar_displacement_m": 0.0012258652128703323,
+          "min_root_height_m": 0.11495386064052582,
+          "min_up_cosine": 0.9996396199687633,
+          "tail_mean_planar_speed_m_s": 0.0015306299217107866,
+          "safe": true
+        },
+        "walk": {
+          "samples": 101,
+          "duration_s": 1.9999999999999576,
+          "forward_displacement_m": 0.00226477871183306,
+          "planar_displacement_m": 0.0023229700341744065,
+          "min_root_height_m": 0.11521811783313751,
+          "min_up_cosine": 0.9999571974226462,
+          "tail_mean_planar_speed_m_s": 7.922029485830439e-05,
+          "safe": true
+        },
+        "zero": {
+          "samples": 100,
+          "duration_s": 1.9799999999999578,
+          "forward_displacement_m": -0.0009560427715769038,
+          "planar_displacement_m": 0.0009698793511531257,
+          "min_root_height_m": 0.1152176484465599,
+          "min_up_cosine": 0.9998592931387379,
+          "tail_mean_planar_speed_m_s": 0.00012326455381008193,
+          "safe": true
+        }
+      },
+      "walk_stop_resume_verified": false,
+      "within_frozen_command_envelope": true,
+      "artifacts_sha256": {
+        "evaluation.json": "7b7ccc3fb8cbd97290292d1a22151d072fc4ded783afb9b4456860dee9933166",
+        "policy_trace.jsonl": "3222f0d0dfcc9802f02ad085294213a0445afc7cbee9d195fbd8a7113d3ce7d9",
+        "evaluator_truth.jsonl": "3feb8c731da0f6fc581210f97bca2280866d300755bd5c085eeb7c05edbeb995"
+      }
+    }
+  ],
+  "holdouts": [
+    {
+      "case": {
+        "id": "h1-w04-d1",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 0.4,
+        "duration_s": 1.0,
+        "gating": true
+      },
+      "plan_sha256": "0533ea5270063683002011c70da149de8c2425f32f6d87725698b59dda48c49f",
+      "evidence_kind": "FRESH_REAL_NEWTON_HTTP_CALIBRATION_HOLDOUT",
+      "profile": {
+        "name": "calibrated-forward-v1",
+        "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "desired_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.1,
+            0,
+            0
+          ]
+        ],
+        "neural_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.25,
+            0,
+            0
+          ]
+        ],
+        "forward_durations_s": [
+          1.0,
+          2.0
+        ],
+        "neural_training_bounds": [
+          [
+            -0.4,
+            0.4
+          ],
+          [
+            -0.3,
+            0.3
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "policy_mode": "training",
+        "online_feedback": false,
+        "profile_sha256": "de369f569d2e8027b515aaf8136fc238489ab2690a9a31ac63eb818c51c62551"
+      },
+      "physical_verdicts": [
+        {
+          "request_id": "walk",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.09091093231741733,
+            "yaw_delta_rad": -0.022952169314450658,
+            "tail_speed_m_s": 0.06276416560562123,
+            "tail_yaw_rate_rad_s": 0.2054751915010539,
+            "elapsed_sim_s": 1.3599999999999712,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.08351217787049908,
+            "yaw_delta_rad": -0.1036066130053379,
+            "tail_speed_m_s": 0.04433087166040512,
+            "tail_yaw_rate_rad_s": 0.1738700196146965,
+            "elapsed_sim_s": 1.359999999999971,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.009309227044265652,
+            "yaw_delta_rad": -0.03844981166204614,
+            "tail_speed_m_s": 0.036917968689382026,
+            "tail_yaw_rate_rad_s": 0.189299853857268,
+            "elapsed_sim_s": 0.6799999999999855,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.0100000000000005,
+          "neural_end_sim_s": 2.0149999999999793,
+          "actual_neural_duration_s": 1.0049999999999788,
+          "active_forward_displacement_m": 0.07823215879034251,
+          "active_mean_world_x_speed_m_s": 0.07784294406999419,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11226656287908554,
+          "min_up_cosine": 0.9970870880150284
+        },
+        {
+          "neural_start_sim_s": 2.4299999999999704,
+          "neural_end_sim_s": 3.434999999999949,
+          "actual_neural_duration_s": 1.0049999999999786,
+          "active_forward_displacement_m": 0.07684487849473953,
+          "active_mean_world_x_speed_m_s": 0.07646256566640912,
+          "first_world_x_speed_above_02_latency_s": 0.06999999999999851,
+          "min_height_m": 0.11235207319259644,
+          "min_up_cosine": 0.9964344437738311
+        },
+        {
+          "neural_start_sim_s": 4.449999999999927,
+          "neural_end_sim_s": 4.764999999999921,
+          "actual_neural_duration_s": 0.3149999999999933,
+          "active_forward_displacement_m": 0.013869181275367737,
+          "active_mean_world_x_speed_m_s": 0.04402914690593026,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11293482035398483,
+          "min_up_cosine": 0.9993588779064495
+        }
+      ],
+      "stop_tail_speed_m_s": 0.0021082543766767895,
+      "single_owner_rejected": true,
+      "renew_errors": [],
+      "signal_shutdown": 15,
+      "desired_within_frozen_envelope": true,
+      "neural_within_training_bounds": true,
+      "both_completed_requests_verified": false,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "a9c33f00b7754a32be10d8a04bf79fc997113a0f9bc1674e71a8e3421546d9c3",
+        "evaluator_truth.jsonl": "a919a0b038a323af91b80c15f65fdd6d1ac8f7660f04cd1a9fafce4b03285a31",
+        "evaluator_verdicts.jsonl": "1cf10da67bfb82e16f139e2274d53f43ad63be85d08aa1047fb4851ffaff335f",
+        "evaluation.json": "fcacf3d02f1bbab892e4397e5cac4adc2048674ef859e3c2c148e4f5aac9e22b"
+      }
+    },
+    {
+      "case": {
+        "id": "h2-w08-d1",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 0.8,
+        "duration_s": 1.0,
+        "gating": true
+      },
+      "plan_sha256": "0533ea5270063683002011c70da149de8c2425f32f6d87725698b59dda48c49f",
+      "evidence_kind": "FRESH_REAL_NEWTON_HTTP_CALIBRATION_HOLDOUT",
+      "profile": {
+        "name": "calibrated-forward-v1",
+        "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "desired_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.1,
+            0,
+            0
+          ]
+        ],
+        "neural_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.25,
+            0,
+            0
+          ]
+        ],
+        "forward_durations_s": [
+          1.0,
+          2.0
+        ],
+        "neural_training_bounds": [
+          [
+            -0.4,
+            0.4
+          ],
+          [
+            -0.3,
+            0.3
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "policy_mode": "training",
+        "online_feedback": false,
+        "profile_sha256": "de369f569d2e8027b515aaf8136fc238489ab2690a9a31ac63eb818c51c62551"
+      },
+      "physical_verdicts": [
+        {
+          "request_id": "walk",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.08919821854437793,
+            "yaw_delta_rad": -0.030577137742863903,
+            "tail_speed_m_s": 0.05630204736993165,
+            "tail_yaw_rate_rad_s": 0.21164436502890152,
+            "elapsed_sim_s": 1.3599999999999712,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.08900901790278175,
+            "yaw_delta_rad": -0.07914367711371562,
+            "tail_speed_m_s": 0.05134879455223487,
+            "tail_yaw_rate_rad_s": 0.26899390515278687,
+            "elapsed_sim_s": 1.359999999999971,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.007448197375010714,
+            "yaw_delta_rad": -0.019407413196410928,
+            "tail_speed_m_s": 0.03607990688444149,
+            "tail_yaw_rate_rad_s": 0.20581913502378898,
+            "elapsed_sim_s": 0.6799999999999855,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.0100000000000005,
+          "neural_end_sim_s": 2.0149999999999793,
+          "actual_neural_duration_s": 1.0049999999999788,
+          "active_forward_displacement_m": 0.07833444012794644,
+          "active_mean_world_x_speed_m_s": 0.07794471654522198,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11227276921272278,
+          "min_up_cosine": 0.9970906712876788
+        },
+        {
+          "neural_start_sim_s": 2.829999999999962,
+          "neural_end_sim_s": 3.8349999999999405,
+          "actual_neural_duration_s": 1.0049999999999786,
+          "active_forward_displacement_m": 0.07790879905223846,
+          "active_mean_world_x_speed_m_s": 0.07752119308680609,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11237479001283646,
+          "min_up_cosine": 0.9965332472688011
+        },
+        {
+          "neural_start_sim_s": 4.844999999999919,
+          "neural_end_sim_s": 5.164999999999912,
+          "actual_neural_duration_s": 0.3199999999999932,
+          "active_forward_displacement_m": 0.013847902417182922,
+          "active_mean_world_x_speed_m_s": 0.043274695053697555,
+          "first_world_x_speed_above_02_latency_s": 0.05499999999999883,
+          "min_height_m": 0.11290846765041351,
+          "min_up_cosine": 0.9992981504577673
+        }
+      ],
+      "stop_tail_speed_m_s": 0.0026497706141039076,
+      "single_owner_rejected": true,
+      "renew_errors": [],
+      "signal_shutdown": 15,
+      "desired_within_frozen_envelope": true,
+      "neural_within_training_bounds": true,
+      "both_completed_requests_verified": false,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "5527ae344eeacda649f2f7528030b066653855af55056177b55d10dfb829ba7d",
+        "evaluator_truth.jsonl": "0c439427d7a61fb57e0b677852405a2b26bdc27a01b1dad510c873d7383186e4",
+        "evaluator_verdicts.jsonl": "769c8c9697c5bef20affe9742ac3412834f14c666ee2f4e46dfb1d8fbd274db8",
+        "evaluation.json": "2b67fab36550dafc2d569b8de92684ddbd58cf0436ac7d7f6f2f5b721edadee0"
+      }
+    },
+    {
+      "case": {
+        "id": "h3-w14-d1",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 1.4,
+        "duration_s": 1.0,
+        "gating": true
+      },
+      "plan_sha256": "0533ea5270063683002011c70da149de8c2425f32f6d87725698b59dda48c49f",
+      "evidence_kind": "FRESH_REAL_NEWTON_HTTP_CALIBRATION_HOLDOUT",
+      "profile": {
+        "name": "calibrated-forward-v1",
+        "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "desired_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.1,
+            0,
+            0
+          ]
+        ],
+        "neural_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.25,
+            0,
+            0
+          ]
+        ],
+        "forward_durations_s": [
+          1.0,
+          2.0
+        ],
+        "neural_training_bounds": [
+          [
+            -0.4,
+            0.4
+          ],
+          [
+            -0.3,
+            0.3
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "policy_mode": "training",
+        "online_feedback": false,
+        "profile_sha256": "de369f569d2e8027b515aaf8136fc238489ab2690a9a31ac63eb818c51c62551"
+      },
+      "physical_verdicts": [
+        {
+          "request_id": "walk",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.0925621891730324,
+            "yaw_delta_rad": -0.02090580685425097,
+            "tail_speed_m_s": 0.06346821868674522,
+            "tail_yaw_rate_rad_s": 0.24240255762230267,
+            "elapsed_sim_s": 1.3599999999999712,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.0886055152819291,
+            "yaw_delta_rad": -0.053943014077087875,
+            "tail_speed_m_s": 0.05593472688853543,
+            "tail_yaw_rate_rad_s": 0.17872514152391392,
+            "elapsed_sim_s": 1.359999999999971,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.008595420497553418,
+            "yaw_delta_rad": -0.053173719269924244,
+            "tail_speed_m_s": 0.031056275372099637,
+            "tail_yaw_rate_rad_s": 0.1380311403084885,
+            "elapsed_sim_s": 0.6799999999999855,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.0100000000000005,
+          "neural_end_sim_s": 2.0149999999999793,
+          "actual_neural_duration_s": 1.0049999999999788,
+          "active_forward_displacement_m": 0.07917146815452725,
+          "active_mean_world_x_speed_m_s": 0.0787775802532626,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.1122625544667244,
+          "min_up_cosine": 0.9971319752589636
+        },
+        {
+          "neural_start_sim_s": 3.4499999999999487,
+          "neural_end_sim_s": 4.454999999999927,
+          "actual_neural_duration_s": 1.0049999999999786,
+          "active_forward_displacement_m": 0.07717099785804749,
+          "active_mean_world_x_speed_m_s": 0.07678706254532251,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11203610152006149,
+          "min_up_cosine": 0.9967113465778521
+        },
+        {
+          "neural_start_sim_s": 5.484999999999905,
+          "neural_end_sim_s": 5.8049999999998985,
+          "actual_neural_duration_s": 0.3199999999999932,
+          "active_forward_displacement_m": 0.014045432209968567,
+          "active_mean_world_x_speed_m_s": 0.04389197565615271,
+          "first_world_x_speed_above_02_latency_s": 0.05499999999999883,
+          "min_height_m": 0.11281698197126389,
+          "min_up_cosine": 0.999398535377276
+        }
+      ],
+      "stop_tail_speed_m_s": 0.0021813709953176445,
+      "single_owner_rejected": true,
+      "renew_errors": [],
+      "signal_shutdown": 15,
+      "desired_within_frozen_envelope": true,
+      "neural_within_training_bounds": true,
+      "both_completed_requests_verified": false,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "65a67f733ad4a04a8fdefdd729a4f99bfd3af0cda220eaea5a69b512d0e2b363",
+        "evaluator_truth.jsonl": "2ccde3c3da1cdcce8eb1d58c026dcd953954a8d40a023dc3ab51fb9efaec4100",
+        "evaluator_verdicts.jsonl": "e5939a7094358841570da126708e05968b26e4f57d7b1f3415234d9342c53264",
+        "evaluation.json": "2d5b16e5d3627922c3a23e02d2d3b299da6c65ae245ff2fb66d33eb23fbf6bc5"
+      }
+    },
+    {
+      "case": {
+        "id": "h4-w04-d2",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 0.4,
+        "duration_s": 2.0,
+        "gating": true
+      },
+      "plan_sha256": "0533ea5270063683002011c70da149de8c2425f32f6d87725698b59dda48c49f",
+      "evidence_kind": "FRESH_REAL_NEWTON_HTTP_CALIBRATION_HOLDOUT",
+      "profile": {
+        "name": "calibrated-forward-v1",
+        "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "desired_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.1,
+            0,
+            0
+          ]
+        ],
+        "neural_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.25,
+            0,
+            0
+          ]
+        ],
+        "forward_durations_s": [
+          1.0,
+          2.0
+        ],
+        "neural_training_bounds": [
+          [
+            -0.4,
+            0.4
+          ],
+          [
+            -0.3,
+            0.3
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "policy_mode": "training",
+        "online_feedback": false,
+        "profile_sha256": "de369f569d2e8027b515aaf8136fc238489ab2690a9a31ac63eb818c51c62551"
+      },
+      "physical_verdicts": [
+        {
+          "request_id": "walk",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.20506865580935243,
+            "yaw_delta_rad": 0.017893567683928652,
+            "tail_speed_m_s": 0.08053215891878197,
+            "tail_yaw_rate_rad_s": 0.17826294742355292,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.20933545522878041,
+            "yaw_delta_rad": 0.06250083644134141,
+            "tail_speed_m_s": 0.06832626824741389,
+            "tail_yaw_rate_rad_s": 0.22566819902170787,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.008617507831134654,
+            "yaw_delta_rad": -0.027959094203764086,
+            "tail_speed_m_s": 0.03468390191014026,
+            "tail_yaw_rate_rad_s": 0.2090615128082308,
+            "elapsed_sim_s": 0.6799999999999855,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.0100000000000005,
+          "neural_end_sim_s": 3.014999999999958,
+          "actual_neural_duration_s": 2.0049999999999573,
+          "active_forward_displacement_m": 0.19068770052399486,
+          "active_mean_world_x_speed_m_s": 0.09510608504937602,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11227003484964371,
+          "min_up_cosine": 0.9971027768060575
+        },
+        {
+          "neural_start_sim_s": 3.429999999999949,
+          "neural_end_sim_s": 5.434999999999906,
+          "actual_neural_duration_s": 2.0049999999999573,
+          "active_forward_displacement_m": 0.1960005760192871,
+          "active_mean_world_x_speed_m_s": 0.09775589826398567,
+          "first_world_x_speed_above_02_latency_s": 0.06999999999999851,
+          "min_height_m": 0.11237689107656479,
+          "min_up_cosine": 0.9972462936587818
+        },
+        {
+          "neural_start_sim_s": 6.449999999999885,
+          "neural_end_sim_s": 6.769999999999878,
+          "actual_neural_duration_s": 0.3199999999999932,
+          "active_forward_displacement_m": 0.013209223747253418,
+          "active_mean_world_x_speed_m_s": 0.04127882421016781,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11266584694385529,
+          "min_up_cosine": 0.9994539157925697
+        }
+      ],
+      "stop_tail_speed_m_s": 0.0015505799072229572,
+      "single_owner_rejected": true,
+      "renew_errors": [],
+      "signal_shutdown": 15,
+      "desired_within_frozen_envelope": true,
+      "neural_within_training_bounds": true,
+      "both_completed_requests_verified": false,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "02d918ed0332b5895f191810d32d3a7d228d9552cea06a10f6755d577debc56f",
+        "evaluator_truth.jsonl": "fcc3e2406b9f96910edb9e9d9ebaa04e03e0968ba607a93d3cd3688fad3c481c",
+        "evaluator_verdicts.jsonl": "49d5ea636166c7bf0033a32b759e9b24d588262a13e23f6bda2548f3257f9836",
+        "evaluation.json": "fb8465af37a0979453f95fe6c70a2d0722d4aee8e2a197266d708ee6be8f3cce"
+      }
+    },
+    {
+      "case": {
+        "id": "h5-w08-d2",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 0.8,
+        "duration_s": 2.0,
+        "gating": true
+      },
+      "plan_sha256": "0533ea5270063683002011c70da149de8c2425f32f6d87725698b59dda48c49f",
+      "evidence_kind": "FRESH_REAL_NEWTON_HTTP_CALIBRATION_HOLDOUT",
+      "profile": {
+        "name": "calibrated-forward-v1",
+        "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "desired_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.1,
+            0,
+            0
+          ]
+        ],
+        "neural_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.25,
+            0,
+            0
+          ]
+        ],
+        "forward_durations_s": [
+          1.0,
+          2.0
+        ],
+        "neural_training_bounds": [
+          [
+            -0.4,
+            0.4
+          ],
+          [
+            -0.3,
+            0.3
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "policy_mode": "training",
+        "online_feedback": false,
+        "profile_sha256": "de369f569d2e8027b515aaf8136fc238489ab2690a9a31ac63eb818c51c62551"
+      },
+      "physical_verdicts": [
+        {
+          "request_id": "walk",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.20424203956697776,
+            "yaw_delta_rad": 0.0004622276461740474,
+            "tail_speed_m_s": 0.07802702813255319,
+            "tail_yaw_rate_rad_s": 0.16859081061556935,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.2094277744675235,
+            "yaw_delta_rad": -0.02584520608171547,
+            "tail_speed_m_s": 0.07684491819943691,
+            "tail_yaw_rate_rad_s": 0.24800723723389886,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.007796393092009208,
+            "yaw_delta_rad": 0.03158351731948097,
+            "tail_speed_m_s": 0.03375708654149505,
+            "tail_yaw_rate_rad_s": 0.20367073335430838,
+            "elapsed_sim_s": 0.6799999999999855,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.0050000000000006,
+          "neural_end_sim_s": 3.009999999999958,
+          "actual_neural_duration_s": 2.0049999999999573,
+          "active_forward_displacement_m": 0.18969724362250417,
+          "active_mean_world_x_speed_m_s": 0.09461209158229836,
+          "first_world_x_speed_above_02_latency_s": 0.05499999999999883,
+          "min_height_m": 0.11226595938205719,
+          "min_up_cosine": 0.9967949120815341
+        },
+        {
+          "neural_start_sim_s": 3.8299999999999406,
+          "neural_end_sim_s": 5.834999999999898,
+          "actual_neural_duration_s": 2.0049999999999573,
+          "active_forward_displacement_m": 0.19304482638835907,
+          "active_mean_world_x_speed_m_s": 0.0962817089218769,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11230460554361343,
+          "min_up_cosine": 0.996936552924489
+        },
+        {
+          "neural_start_sim_s": 6.844999999999876,
+          "neural_end_sim_s": 7.1649999999998695,
+          "actual_neural_duration_s": 0.3199999999999932,
+          "active_forward_displacement_m": 0.012967944145202637,
+          "active_mean_world_x_speed_m_s": 0.0405248254537591,
+          "first_world_x_speed_above_02_latency_s": 0.05499999999999883,
+          "min_height_m": 0.11218395829200745,
+          "min_up_cosine": 0.9994518345470128
+        }
+      ],
+      "stop_tail_speed_m_s": 0.0020093012163161185,
+      "single_owner_rejected": true,
+      "renew_errors": [],
+      "signal_shutdown": 15,
+      "desired_within_frozen_envelope": true,
+      "neural_within_training_bounds": true,
+      "both_completed_requests_verified": false,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "e9eea11d5fe8e5707beb152db50d8a1d700c69b7fa7915ce351c4f6cd7bd58c9",
+        "evaluator_truth.jsonl": "05a81e262c7022be6041a96f0a03f118470c88a05765a049b95e2f8106197967",
+        "evaluator_verdicts.jsonl": "cbd6fa11c34b597a177104aeb4e28e93012df45abbc4686b94f6ae26abbb783d",
+        "evaluation.json": "75e11b3e02eb48bbcc1558b1441a63096a902145dfaaf675ce400f3a88787130"
+      }
+    },
+    {
+      "case": {
+        "id": "h6-w14-d2",
+        "initial_zero_s": 1.0,
+        "zero_wait_s": 1.4,
+        "duration_s": 2.0,
+        "gating": true
+      },
+      "plan_sha256": "0533ea5270063683002011c70da149de8c2425f32f6d87725698b59dda48c49f",
+      "evidence_kind": "FRESH_REAL_NEWTON_HTTP_CALIBRATION_HOLDOUT",
+      "profile": {
+        "name": "calibrated-forward-v1",
+        "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "desired_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.1,
+            0,
+            0
+          ]
+        ],
+        "neural_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.25,
+            0,
+            0
+          ]
+        ],
+        "forward_durations_s": [
+          1.0,
+          2.0
+        ],
+        "neural_training_bounds": [
+          [
+            -0.4,
+            0.4
+          ],
+          [
+            -0.3,
+            0.3
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "policy_mode": "training",
+        "online_feedback": false,
+        "profile_sha256": "de369f569d2e8027b515aaf8136fc238489ab2690a9a31ac63eb818c51c62551"
+      },
+      "physical_verdicts": [
+        {
+          "request_id": "walk",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.2066354374773273,
+            "yaw_delta_rad": -0.004208338420760332,
+            "tail_speed_m_s": 0.07681498691432612,
+            "tail_yaw_rate_rad_s": 0.1580254863100973,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.20780154285015018,
+            "yaw_delta_rad": -0.026917098358707876,
+            "tail_speed_m_s": 0.08377210091884611,
+            "tail_yaw_rate_rad_s": 0.16522887992587956,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.0066169921606852485,
+            "yaw_delta_rad": 0.000314570399804941,
+            "tail_speed_m_s": 0.02713812259949235,
+            "tail_yaw_rate_rad_s": 0.16637854678556324,
+            "elapsed_sim_s": 0.6800000000000095,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.0100000000000005,
+          "neural_end_sim_s": 3.014999999999958,
+          "actual_neural_duration_s": 2.0049999999999573,
+          "active_forward_displacement_m": 0.1908912993967533,
+          "active_mean_world_x_speed_m_s": 0.09520763062182414,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.1122700423002243,
+          "min_up_cosine": 0.9971027372334684
+        },
+        {
+          "neural_start_sim_s": 4.429999999999928,
+          "neural_end_sim_s": 6.434999999999885,
+          "actual_neural_duration_s": 2.0049999999999573,
+          "active_forward_displacement_m": 0.19127650558948517,
+          "active_mean_world_x_speed_m_s": 0.09539975341121658,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.1123625859618187,
+          "min_up_cosine": 0.9973781020585729
+        },
+        {
+          "neural_start_sim_s": 7.4449999999998635,
+          "neural_end_sim_s": 7.764999999999857,
+          "actual_neural_duration_s": 0.3199999999999932,
+          "active_forward_displacement_m": 0.01274058222770691,
+          "active_mean_world_x_speed_m_s": 0.03981431946158494,
+          "first_world_x_speed_above_02_latency_s": 0.05499999999999883,
+          "min_height_m": 0.112459696829319,
+          "min_up_cosine": 0.9995420634870786
+        }
+      ],
+      "stop_tail_speed_m_s": 0.0016364689290323637,
+      "single_owner_rejected": true,
+      "renew_errors": [],
+      "signal_shutdown": 15,
+      "desired_within_frozen_envelope": true,
+      "neural_within_training_bounds": true,
+      "both_completed_requests_verified": false,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "9ad220f9fe7e1321408e14ee529501de865e900137cdfba2d51ad06f4cd1b09c",
+        "evaluator_truth.jsonl": "9512f5ca40dcac0512decabeb3a8bfcaa00d39c3388494670b096b57233f1d14",
+        "evaluator_verdicts.jsonl": "33457d03936539e5e9849b986c842cd1e59d37cd160dc06c0057b192a19053fb",
+        "evaluation.json": "4388c1ae05bc1e56e0e8e9e47382178964099763dd0a92f387282fe6cf604d57"
+      }
+    },
+    {
+      "case": {
+        "id": "confirmation-w11-d2",
+        "initial_zero_s": 1.3,
+        "zero_wait_s": 1.1,
+        "duration_s": 2.0,
+        "gating": false
+      },
+      "plan_sha256": "0533ea5270063683002011c70da149de8c2425f32f6d87725698b59dda48c49f",
+      "evidence_kind": "FRESH_REAL_NEWTON_HTTP_CALIBRATION_HOLDOUT",
+      "profile": {
+        "name": "calibrated-forward-v1",
+        "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "desired_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.1,
+            0,
+            0
+          ]
+        ],
+        "neural_points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.25,
+            0,
+            0
+          ]
+        ],
+        "forward_durations_s": [
+          1.0,
+          2.0
+        ],
+        "neural_training_bounds": [
+          [
+            -0.4,
+            0.4
+          ],
+          [
+            -0.3,
+            0.3
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "policy_mode": "training",
+        "online_feedback": false,
+        "profile_sha256": "de369f569d2e8027b515aaf8136fc238489ab2690a9a31ac63eb818c51c62551"
+      },
+      "physical_verdicts": [
+        {
+          "request_id": "walk",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.20914947598719677,
+            "yaw_delta_rad": -0.08269539371263358,
+            "tail_speed_m_s": 0.07983361362061617,
+            "tail_yaw_rate_rad_s": 0.174861466512084,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": false,
+          "reason": "native motion or rest check failed",
+          "metrics": {
+            "forward_displacement_m": 0.20683499529662,
+            "yaw_delta_rad": -0.02313963909910159,
+            "tail_speed_m_s": 0.07910786820384585,
+            "tail_yaw_rate_rad_s": 0.17173327107659794,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.0054618384947516365,
+            "yaw_delta_rad": 0.0039994676288884895,
+            "tail_speed_m_s": 0.030988315735011616,
+            "tail_yaw_rate_rad_s": 0.18785878643393517,
+            "elapsed_sim_s": 0.680000000000013,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.3299999999999936,
+          "neural_end_sim_s": 3.334999999999951,
+          "actual_neural_duration_s": 2.0049999999999573,
+          "active_forward_displacement_m": 0.19328564882744104,
+          "active_mean_world_x_speed_m_s": 0.09640181986406242,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.1123201921582222,
+          "min_up_cosine": 0.9968336160165552
+        },
+        {
+          "neural_start_sim_s": 4.4449999999999275,
+          "neural_end_sim_s": 6.449999999999885,
+          "actual_neural_duration_s": 2.0049999999999573,
+          "active_forward_displacement_m": 0.1879017949104309,
+          "active_mean_world_x_speed_m_s": 0.09371660594036654,
+          "first_world_x_speed_above_02_latency_s": 0.05499999999999883,
+          "min_height_m": 0.11234086751937866,
+          "min_up_cosine": 0.9968046441431835
+        },
+        {
+          "neural_start_sim_s": 7.469999999999863,
+          "neural_end_sim_s": 7.784999999999856,
+          "actual_neural_duration_s": 0.3149999999999933,
+          "active_forward_displacement_m": 0.012781858444213867,
+          "active_mean_world_x_speed_m_s": 0.0405773283943306,
+          "first_world_x_speed_above_02_latency_s": 0.049999999999998934,
+          "min_height_m": 0.11242013424634933,
+          "min_up_cosine": 0.9994057998747488
+        }
+      ],
+      "stop_tail_speed_m_s": 0.003355377250586765,
+      "single_owner_rejected": true,
+      "renew_errors": [],
+      "signal_shutdown": 15,
+      "desired_within_frozen_envelope": true,
+      "neural_within_training_bounds": true,
+      "both_completed_requests_verified": false,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "bb95f3a170a3bc4cf378d02460f751ee99cb81b6ed3af9a9ef3a76ef46b5b8fa",
+        "evaluator_truth.jsonl": "c199b34af4353a794ba2fe4b3f3f68c7ffd8cd5137f6a8af14ead9e0a3fd9660",
+        "evaluator_verdicts.jsonl": "0aaccafd9523a6d1cd758ae05e7bb87684ac40167023d45bc355a35246ee0f8b",
+        "evaluation.json": "69558862cebd65337525bcdf82f6b4b6c91c8dd56b4444d427a367c8a723a9bb"
+      }
+    }
+  ],
+  "long_rest_phase_regression": {
+    "note": "Original phase gate passes but DOES NOT replace stricter failed HTTP motion/rest gate.",
+    "segments": {
+      "resume": {
+        "samples": 99,
+        "duration_s": 1.9599999999999582,
+        "forward_displacement_m": 0.1891603320837021,
+        "planar_displacement_m": 0.19165958314235218,
+        "min_root_height_m": 0.11240678280591965,
+        "min_up_cosine": 0.9971023225403668,
+        "tail_mean_planar_speed_m_s": 0.17230004879289126,
+        "safe": true
+      },
+      "settle": {
+        "samples": 50,
+        "duration_s": 0.9800000000000006,
+        "forward_displacement_m": -0.0014973018793439739,
+        "planar_displacement_m": 0.0015203743677628138,
+        "min_root_height_m": 0.1149674728512764,
+        "min_up_cosine": 0.9998191021528633,
+        "tail_mean_planar_speed_m_s": 0.001062637890920861,
+        "safe": true
+      },
+      "walk": {
+        "samples": 101,
+        "duration_s": 1.9999999999999576,
+        "forward_displacement_m": 0.19005341292358935,
+        "planar_displacement_m": 0.190529381636924,
+        "min_root_height_m": 0.11235311627388,
+        "min_up_cosine": 0.9972148396499149,
+        "tail_mean_planar_speed_m_s": 0.1758002714461534,
+        "safe": true
+      },
+      "zero": {
+        "samples": 100,
+        "duration_s": 1.9799999999999578,
+        "forward_displacement_m": 0.010326012969017029,
+        "planar_displacement_m": 0.010741984285396834,
+        "min_root_height_m": 0.1134093776345253,
+        "min_up_cosine": 0.9979857297684708,
+        "tail_mean_planar_speed_m_s": 0.0006831144578817903,
+        "safe": true
+      }
+    },
+    "walk_stop_resume_verified": true,
+    "desired_within_frozen_envelope": true,
+    "actual_neural_forward": 0.25,
+    "neural_within_direct_envelope": false,
+    "artifacts_sha256": {
+      "evaluation.json": "5df0682d451d1ae5d3362a7a657592053a81f6847341bd42a474c4896e19ea7d",
+      "policy_trace.jsonl": "e5852faf3fce17b4c29f89d1557bc07b5b09be015036d37b09c77630016c0c19",
+      "evaluator_truth.jsonl": "144deaacbd7c68e68a3ffa16b3262a47720a11e52b9c74510d34cf9d66074e6e"
+    }
+  },
+  "measurement_notes": [
+    "Active mean uses world-X travel over actual neural-on interval; verifier travel is initial-body-forward projection and includes .35s settling.",
+    "Latency is descriptive first world-X speed sample >.02m/s, not a new gate.",
+    "Command expiry occurs at first .005s physics substep at/after duration; measured1.005/2.005s due floating-point boundary. No duration thresholds were changed.",
+    "Stop-tail metric averages observed planar speed after stop+.6s; it does not replace early per-request rest failure.",
+    "GT exists only in independent evaluator artifacts/aggregate receipts, never neural input or runtime adapter.",
+    "Local RTX PRO evidence, not cloud L40S or physical robot acceptance."
+  ],
+  "final_profile": {
+    "name": "calibrated-forward-v1",
+    "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+    "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+    "adapter_source_sha256": "49faedc23f97e30125a3e9a15b3ccc75ef3ef528a60042a37ab1d4873f3811ce",
+    "desired_points": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0.1,
+        0,
+        0
+      ]
+    ],
+    "neural_points": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0.25,
+        0,
+        0
+      ]
+    ],
+    "forward_durations_s": [],
+    "evaluated_candidate_durations_s": [
+      1.0,
+      2.0
+    ],
+    "validation_status": "NOT_READY",
+    "validation_reason": "round1: all HTTP walk/resume requests failed original rest gates",
+    "neural_training_bounds": [
+      [
+        -0.4,
+        0.4
+      ],
+      [
+        -0.3,
+        0.3
+      ],
+      [
+        -1,
+        1
+      ]
+    ],
+    "policy_mode": "training",
+    "online_feedback": false,
+    "profile_sha256": "bbaeb5637b5ecf6f7740f2b40cdf4b1faa59f013c5509e3747f6f5f13a9f29ff"
+  },
+  "final_native_admission": {
+    "refusals": [
+      {
+        "accepted": false,
+        "episode_id": "ep_74b85fd9e9e4449caeef4cad4b184cde",
+        "request_id": "unvalidated",
+        "generation": 0,
+        "status": "rejected",
+        "reason": "calibrated-forward-v1 NOT_READY: no forward duration passed frozen rest gates"
+      },
+      {
+        "accepted": false,
+        "episode_id": "ep_74b85fd9e9e4449caeef4cad4b184cde",
+        "request_id": "unvalidated",
+        "generation": 0,
+        "status": "rejected",
+        "reason": "calibrated-forward-v1 NOT_READY: no forward duration passed frozen rest gates"
+      }
+    ],
+    "zero": {
+      "episode_id": "ep_74b85fd9e9e4449caeef4cad4b184cde",
+      "request_id": "zero",
+      "generation": 1,
+      "status": "accepted",
+      "reason": "queued; no physical verdict",
+      "accepted": true
+    },
+    "expiry": {
+      "known": true,
+      "episode_id": "ep_74b85fd9e9e4449caeef4cad4b184cde",
+      "request_id": "zero",
+      "generation": 1,
+      "status": "expired",
+      "completed": true,
+      "verification_available": false,
+      "verified": false,
+      "reason": "wall lease expired"
+    },
+    "stop": {
+      "episode_id": "ep_74b85fd9e9e4449caeef4cad4b184cde",
+      "generation": 2,
+      "stop_latched": true,
+      "status": "stopped"
+    },
+    "actual_all_neural_zero": true,
+    "shutdown_signal": 2,
+    "control_steps": 36,
+    "telemetry_bounded": true
+  }
+}

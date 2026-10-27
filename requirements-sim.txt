@@ -1,0 +1,5 @@
+# Install AFTER the clean Isaac Lab v3.0.0 uv sync --extra isaacsim.
+# Do not independently repin Lab's Torch/Newton/MuJoCo/Warp dependency stack.
+onnxruntime==1.26.0
+Pillow==12.3.0
+pytest==9.1.1

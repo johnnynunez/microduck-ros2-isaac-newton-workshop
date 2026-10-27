@@ -1,0 +1,14 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-10-27-02-15-34-134202-johnny-Ubuntu-87
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [component_container_mt-1]: process started with pid [106]
+[component_container_mt-1] [WARN] [1793067334.202355771] [component_container_mt]: This executable is deprecated and will be removed in M-turtle.
+[component_container_mt-1] Use 'component_container --executor-type multi-threaded' instead.
+[component_container_mt-1] [INFO] [1793067334.445637838] [workshop.microduck.apriltag_container]: Load Library: /opt/ros/lyrical/lib/libapriltag_node.so
+[component_container_mt-1] [INFO] [1793067334.450254904] [workshop.microduck.apriltag_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::apriltag::AprilTagNode>
+[component_container_mt-1] [INFO] [1793067334.450269767] [workshop.microduck.apriltag_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::apriltag::AprilTagNode>
+[component_container_mt-1] [INFO] [1793067334.453821571] [workshop.microduck.apriltag]: Using cuAprilTag implementation.
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/workshop/microduck/apriltag' in container '/workshop/microduck/apriltag_container'
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [component_container_mt-1]: sending signal 'SIGINT' to process[component_container_mt-1]
+[component_container_mt-1] [INFO] [1793067345.713084816] [rclcpp]: signal_handler(signum=2)
+[ERROR] [component_container_mt-1]: process has died [pid 106, exit code -2, cmd '/opt/ros/lyrical/lib/rclcpp_components/component_container_mt --ros-args -r __node:=apriltag_container -r __ns:=/workshop/microduck'].

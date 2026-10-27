@@ -1,0 +1,12 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-10-27-02-29-36-026630-johnny-Ubuntu-1
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gateway-1]: process started with pid [129]
+[INFO] [component_container_mt-2]: process started with pid [130]
+[component_container_mt-2] [WARN] [1793068176.143268917] [component_container_mt]: This executable is deprecated and will be removed in M-turtle.
+[component_container_mt-2] Use 'component_container --executor-type multi-threaded' instead.
+[gateway-1] [ERROR] [1793068176.332737378] [workshop.microduck.gateway]: Simulator unavailable or lease refused. No command authority; start simulator then explicitly restart gateway.
+[component_container_mt-2] [INFO] [1793068176.385043170] [workshop.microduck.apriltag_container]: Load Library: /opt/ros/lyrical/lib/libapriltag_node.so
+[component_container_mt-2] [INFO] [1793068176.390127066] [workshop.microduck.apriltag_container]: Found class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::apriltag::AprilTagNode>
+[component_container_mt-2] [INFO] [1793068176.390144132] [workshop.microduck.apriltag_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nvidia::isaac_ros::apriltag::AprilTagNode>
+[component_container_mt-2] [INFO] [1793068176.394255569] [workshop.microduck.apriltag]: Using cuAprilTag implementation.
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/workshop/microduck/apriltag' in container '/workshop/microduck/apriltag_container'

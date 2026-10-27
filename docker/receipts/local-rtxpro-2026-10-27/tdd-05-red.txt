@@ -1,0 +1,17 @@
+....F.                                                                   [100%]
+=================================== FAILURES ===================================
+_________________ test_status_is_allowlisted_and_epoch_checked _________________
+
+    def test_status_is_allowlisted_and_epoch_checked():
+        sim = SimFixture()
+        gateway = Gateway(sim)
+        gateway.claim()
+        sim.get = lambda path: dict(known=True, completed=True, verification_available=False, verified=True, status='completed', reason='', generation=1, episode_id='ep1', world_position=[1, 2, 3], lease_token='secret')
+>       result = gateway.status('ep1', 'r1')
+                 ^^^^^^^^^^^^^^
+E       AttributeError: 'Gateway' object has no attribute 'status'
+
+tests/test_ros_gateway.py:100: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_ros_gateway.py::test_status_is_allowlisted_and_epoch_checked
+1 failed, 5 passed in 0.12s

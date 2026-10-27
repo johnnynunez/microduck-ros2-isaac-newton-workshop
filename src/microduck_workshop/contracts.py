@@ -26,9 +26,13 @@ def identifier(value: object, name: str) -> str:
 def finite_number(value: object, name: str) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ContractError(f"{name} must be a number, not a boolean or string")
-    if not math.isfinite(value):
+    try:
+        number = float(value)
+    except OverflowError as exc:
+        raise ContractError(f"{name} must be representable as a finite number") from exc
+    if not math.isfinite(number):
         raise ContractError(f"{name} must be finite")
-    return float(value)
+    return number
 
 
 @dataclass(frozen=True)
@@ -44,8 +48,8 @@ class MotionCommand:
     def __post_init__(self) -> None:
         identifier(self.episode_id, "episode_id")
         identifier(self.request_id, "request_id")
-        if type(self.expected_generation) is not int or self.expected_generation < 0:
-            raise ContractError("expected_generation must be a nonnegative integer")
+        if type(self.expected_generation) is not int or not 0 <= self.expected_generation < 2**64:
+            raise ContractError("expected_generation must be a uint64 integer")
         for name, limit in (("vx", MAX_VX), ("vy", MAX_VY), ("wz", MAX_WZ)):
             value = finite_number(getattr(self, name), name)
             if abs(value) > limit:

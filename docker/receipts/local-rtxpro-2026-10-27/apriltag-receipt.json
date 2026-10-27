@@ -1,0 +1,319 @@
+{
+  "evidence_scope": "official_rosbag_not_live_microduck",
+  "backend": "CUDA",
+  "family": "tag36h11",
+  "tag_size_m": 0.22,
+  "image_count": 49,
+  "camera_info_count": 149,
+  "detection_messages": 37,
+  "matched_detections": [
+    {
+      "stamp_sec": 332,
+      "stamp_nanosec": 800017356,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        2,
+        0
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 83350704,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 150017375,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 166684042,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 200017377,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 216684045,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 250017380,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 300017382,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 316684050,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 350017385,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 383350720,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 400017388,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 450017390,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 533350728,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        2,
+        0
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 583350731,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 616684066,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 333,
+      "stamp_nanosec": 633350733,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        2,
+        0
+      ]
+    },
+    {
+      "stamp_sec": 334,
+      "stamp_nanosec": 83350757,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 334,
+      "stamp_nanosec": 500017445,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 334,
+      "stamp_nanosec": 833350796,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 83350809,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        2,
+        0
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 100017476,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 133350811,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 166684146,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 200017482,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        2,
+        0
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 216684149,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 250017484,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 683350840,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 883350851,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 916684186,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 335,
+      "stamp_nanosec": 950017521,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 336,
+      "stamp_nanosec": 17523,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        2,
+        0
+      ]
+    },
+    {
+      "stamp_sec": 336,
+      "stamp_nanosec": 266684204,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    },
+    {
+      "stamp_sec": 336,
+      "stamp_nanosec": 550017552,
+      "frame_id": "carter_camera_stereo_left",
+      "tag_ids": [
+        0,
+        2
+      ]
+    }
+  ],
+  "input_stopped_stale": true,
+  "passed": true
+}

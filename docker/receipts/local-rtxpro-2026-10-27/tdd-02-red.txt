@@ -1,0 +1,68 @@
+.FFF                                                                     [100%]
+=================================== FAILURES ===================================
+__________ test_priority_stop_overtakes_blocked_command_and_late_ack ___________
+
+    def test_priority_stop_overtakes_blocked_command_and_late_ack():
+        sim = SimFixture()
+        original = sim.post
+        entered, release = threading.Event(), threading.Event()
+        def blocked(path, body, token=None):
+            if path == '/v1/command':
+                entered.set()
+                assert release.wait(2)
+            return original(path, body, token)
+        sim.post = blocked
+        gateway = Gateway(sim)
+        gateway.claim()
+        result = []
+        worker = threading.Thread(target=lambda: result.append(gateway.command(command())))
+        worker.start()
+        assert entered.wait(1)
+        try:
+>           assert gateway.stop()['success']
+                   ^^^^^^^^^^^^
+E           AttributeError: 'Gateway' object has no attribute 'stop'
+
+tests/test_ros_gateway.py:63: AttributeError
+________________ test_uncertain_send_never_retries_and_disarms _________________
+
+    def test_uncertain_send_never_retries_and_disarms():
+        sim = SimFixture()
+        gateway = Gateway(sim)
+        gateway.claim()
+        def failed(*args):
+            raise TimeoutError('private payload must not leak')
+        sim.post = failed
+>       assert gateway.command(command())['status'] == 'delivery_unknown'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ros_gateway.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ros_ws/src/microduck_gateway/microduck_gateway/core.py:50: in command
+    result = self.transport.post('/v1/command', cmd.as_dict(), token)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ('/v1/command', {'episode_id': 'ep1', 'request_id': 'r1', 'expected_generation': 0, 'vx': 0.05, ...}, 'secret')
+
+    def failed(*args):
+>       raise TimeoutError('private payload must not leak')
+E       TimeoutError: private payload must not leak
+
+tests/test_ros_gateway.py:77: TimeoutError
+_____________ test_lease_renews_without_model_and_failure_disarms ______________
+
+    def test_lease_renews_without_model_and_failure_disarms():
+        sim = SimFixture()
+        gateway = Gateway(sim)
+        gateway.claim()
+>       gateway.start_renewal(interval=.01)
+        ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Gateway' object has no attribute 'start_renewal'
+
+tests/test_ros_gateway.py:88: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_ros_gateway.py::test_priority_stop_overtakes_blocked_command_and_late_ack
+FAILED tests/test_ros_gateway.py::test_uncertain_send_never_retries_and_disarms
+FAILED tests/test_ros_gateway.py::test_lease_renews_without_model_and_failure_disarms
+3 failed, 1 passed in 0.02s

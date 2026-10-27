@@ -1,0 +1,4 @@
+# ROS Python packages are installed by signed NVIDIA apt, never pip rclpy.
+# Runtime auxiliary libraries: python3-pil (Ubuntu apt); no Python ABI mixing.
+# CPU tests only (or use: uv run --with pytest pytest tests):
+pytest==8.4.2

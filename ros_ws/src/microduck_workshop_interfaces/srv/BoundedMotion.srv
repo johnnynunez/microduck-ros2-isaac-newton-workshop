@@ -1,0 +1,14 @@
+string episode_id
+string request_id
+uint64 expected_generation
+float64 vx
+float64 vy
+float64 wz
+float64 duration_s
+---
+bool accepted
+string episode_id
+string request_id
+uint64 generation
+string status
+string reason

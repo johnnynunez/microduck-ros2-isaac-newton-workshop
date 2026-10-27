@@ -1,0 +1,24 @@
+SANITIZED PUBLIC COPY: local filesystem prefixes redacted; original SHA-256 c779d2205869aefd986a7751c3dc39f9e822a92cc0fbbb708885fb6e45d7b3c4.
+Numerical results, error messages and failure status are unchanged. See ../redaction-manifest.json.
+
+Using CPython 3.12.15
+Creating virtual environment at: .venv
+   Building microduck-ros2-isaac-newton-workshop @ file://<WORKSHOP_ROOT>/.worktrees/ros
+      Built microduck-ros2-isaac-newton-workshop @ file://<WORKSHOP_ROOT>/.worktrees/ros
+Installed 7 packages in 2ms
+
+==================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_ros_gateway.py __________________
+ImportError while importing test module '<WORKSHOP_ROOT>/.worktrees/ros/tests/test_ros_gateway.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../../.local/share/uv/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_ros_gateway.py:6: in <module>
+    from microduck_gateway.core import Gateway
+E   ModuleNotFoundError: No module named 'microduck_gateway'
+=========================== short test summary info ============================
+ERROR tests/test_ros_gateway.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.04s

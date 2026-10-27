@@ -1,0 +1,18 @@
+{
+  "evidence_scope": "real_local_model_and_real_ROS_negative_case_no_simulator",
+  "provider_requests": 4,
+  "physical_success": false,
+  "actual_ros_observe": true,
+  "accepted_motion": false,
+  "agent_success": false,
+  "scope_limit": "No simulator/camera/physics was connected. The model observed and verified twice, then exhausted its four-step budget. This is a fail-closed transport diagnostic, not a successfully completed robot task.",
+  "ros_domain_id": 96,
+  "simulator_endpoint": "absent loopback port18766",
+  "cascade_source": "public pinned d7a456c22d46d53e9588db6a55a0c6c916aa4963 checkout, mounted read-only and checked against Git source bytes",
+  "initial_setup_failures": [
+    "Pip Git clone failed HTTP408; evidence retained privately",
+    "A locally built wheel without VCS-origin metadata was correctly refused; no provenance was fabricated"
+  ],
+  "provider_sha256": "e657d60d23f3097427635b07cbdb0938e5e79e7cc5284b524721de8ac4476e7e",
+  "agent_report_sha256": "4eb5439264583a3794a0eab91feeb58f0a43383490a949858a01c3274ed8a803"
+}
