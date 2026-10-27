@@ -188,11 +188,16 @@ class _Handler(BaseHTTPRequestHandler):
                     MotionCommand.from_dict(body), self.headers.get("X-Workshop-Lease")
                 )
             elif path == "/v1/renew":
-                result = owner.renew(
-                    _exact(body, ["episode_id"])["episode_id"],
-                    self.headers.get("X-Workshop-Lease"),
-                    proof(),
-                )
+                episode_id = _exact(body, ["episode_id"])["episode_id"]
+                token = self.headers.get("X-Workshop-Lease")
+                try:
+                    renewal_proof = proof()
+                except (ValueError, TypeError, ContractError):
+                    # Parsing must not bypass revocation, nor may a malformed
+                    # unauthenticated request revoke somebody else's step.
+                    owner.reject_renewal(episode_id, token)
+                    raise
+                result = owner.renew(episode_id, token, renewal_proof)
             elif path == "/v1/step":
                 result = owner.submit_step(
                     MotionCommand.from_dict(body), self.headers.get("X-Workshop-Lease"), proof()

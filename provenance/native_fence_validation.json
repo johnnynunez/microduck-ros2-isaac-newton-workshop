@@ -1,0 +1,467 @@
+{
+  "evidence_kind": "FRESH_NATIVE_OPERATOR_PROTOCOL_FENCE_REVALIDATION_NOT_ROS_PERCEPTION",
+  "initial_zero_s": 1.3,
+  "between_step_zero_s": 1.1,
+  "private_port": 18770,
+  "cameras": false,
+  "production_admission": true,
+  "source_sha256": {
+    "scripts/sim_validate_step.py": "65288c71e6f89d5028a57c58f211110a0a250996226bdbe9b788bd7f64d7f754",
+    "src/microduck_workshop/contracts.py": "de0a1aa5281ef6fee43e04b45695cc53e30528802831236ca5fe242f967f84ef",
+    "src/microduck_workshop/policy/onnx.py": "9aab1e328312c750f66a2a3058bb687c26ee0186e985900c14c075a98102e428",
+    "src/microduck_workshop/policy/step.py": "2d6e6e9b3d7adb475a78832151c6376d66fb419d5c74648a6fedbb57c58cbc89",
+    "src/microduck_workshop/sim/evaluate.py": "04d83c178af0465ad57d7551e32e0ec292f42bdcbb0ef645d4cf0ed94c83c037",
+    "src/microduck_workshop/sim/http.py": "e067f71928fa885c06f61de4561d86ab224c75159f530fe6fa3d270d94f89721",
+    "src/microduck_workshop/sim/intent.py": "8d487e862818e93a25b6f52e4f66ab469c49e2736cc5121094c35ca94c3125b7",
+    "src/microduck_workshop/sim/native.py": "de9b6a8ee541b1d1d55bf722b37c2f499aa0c19c4ee671d09e5c08b72eda2682",
+    "src/microduck_workshop/sim/play.py": "c9d1b3469c7d33479391b1439792182850dad9485eec02e10accb725812e5108"
+  },
+  "harness_sha256": "448a46c10fece4158b65460c3c6d7d7cecaa4bbe5300858b9f03b30c83b05ae4",
+  "prior_receipts_preserved": {
+    "provenance/step_validation.json": "5ad62744b4f9530b66e4c79b1034981cf68b7cc82006526e90deb223f6f29d4a",
+    "provenance/step_preregistration.json": "48698a7b30275ec5377a8052d0956729b453f9b5b6fad75030cacd0690d2cc52"
+  },
+  "runtime": {
+    "isaaclab": "28.0.0",
+    "isaacsim": "6.2.0.0",
+    "newton": "1.6.1",
+    "mujoco": "3.12.0",
+    "mujoco-warp": "3.12.0",
+    "warp-lang": "1.17.0",
+    "torch": "2.11.0+cu130",
+    "physics_owner": "isaaclab_newton.physics.NewtonManager",
+    "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+    "asset_sha256": "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8",
+    "isaaclab_git_sha": "e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4",
+    "model_body_count": 15,
+    "model_joint_count": 15,
+    "joint_names": [
+      "passive_right_hip_yaw_backlash:0",
+      "passive_right_hip_yaw_backlash:1",
+      "passive_right_hip_roll_backlash:0",
+      "passive_right_hip_roll_backlash:1",
+      "passive_right_hip_pitch_backlash:0",
+      "passive_right_hip_pitch_backlash:1",
+      "passive_right_knee_backlash:0",
+      "passive_right_knee_backlash:1",
+      "passive_right_ankle_backlash:0",
+      "passive_right_ankle_backlash:1",
+      "neck_pitch:0",
+      "neck_pitch:1",
+      "head_pitch:0",
+      "head_pitch:1",
+      "head_yaw:0",
+      "head_yaw:1",
+      "head_roll:0",
+      "head_roll:1",
+      "left_hip_yaw:0",
+      "left_hip_yaw:1",
+      "left_hip_roll:0",
+      "left_hip_roll:1",
+      "left_hip_pitch:0",
+      "left_hip_pitch:1",
+      "left_knee:0",
+      "left_knee:1",
+      "left_ankle:0",
+      "left_ankle:1"
+    ],
+    "camera_enabled": false,
+    "servo_ids": [
+      18,
+      20,
+      22,
+      24,
+      26,
+      10,
+      12,
+      14,
+      16,
+      1,
+      3,
+      5,
+      7,
+      9
+    ],
+    "backlash_ids": [
+      19,
+      21,
+      23,
+      25,
+      27,
+      11,
+      13,
+      15,
+      17,
+      0,
+      2,
+      4,
+      6,
+      8
+    ],
+    "joint_limits": [
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.5235987901687622,
+        0.4363323152065277
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.3839724361896515,
+        0.3839724361896515
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -1.5707963705062866,
+        1.0471975803375244
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -2.96705961227417,
+        2.96705961227417
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.4363323152065277,
+        0.4363323152065277
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.4363323152065277,
+        0.5235987901687622
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.3839724361896515,
+        0.3839724361896515
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ]
+    ],
+    "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+    "policy_mode": "training",
+    "command_profile": {
+      "name": "direct",
+      "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+      "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+      "adapter_source_sha256": "49faedc23f97e30125a3e9a15b3ccc75ef3ef528a60042a37ab1d4873f3811ce",
+      "profile_sha256": "f83e077e6f09b0d6de44863fb953a3fcff51e7cfe0e60dbabcf8514f5f15a2a1"
+    },
+    "step_profile": {
+      "name": "step-forward-v1",
+      "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+      "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+      "adapter_source_sha256": "2d6e6e9b3d7adb475a78832151c6376d66fb419d5c74648a6fedbb57c58cbc89",
+      "requested_peak": [
+        0.1,
+        0.0,
+        0.0
+      ],
+      "drive_s": 1.0,
+      "settle_s": 1.0,
+      "horizon_s": 2.0,
+      "drive_neural_command": [
+        0.25,
+        0.0,
+        0.0
+      ],
+      "settle_neural_command": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "validation_status": "NATIVE_VALIDATED",
+      "candidate_validation": false,
+      "online_feedback": false,
+      "production_requires_observation_proof": true,
+      "profile_sha256": "3133b14592e13e7e941dda085d2d4c12dcb7ce741a3839fb34e926e4c7e80bdf"
+    }
+  },
+  "requests": [
+    {
+      "request_id": "step",
+      "ack": {
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "step",
+        "generation": 1,
+        "status": "accepted",
+        "reason": "queued; no physical verdict",
+        "accepted": true
+      },
+      "completed_status": {
+        "known": true,
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "step",
+        "generation": 1,
+        "status": "completed",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "planned step horizon ended; physical verdict pending"
+      },
+      "physical_status": {
+        "known": true,
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "step",
+        "generation": 1,
+        "status": "completed",
+        "completed": true,
+        "verification_available": true,
+        "verified": true,
+        "reason": "native motion and rest checks passed"
+      },
+      "unauthenticated_renewal_http_code": 409
+    },
+    {
+      "request_id": "resume",
+      "ack": {
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "resume",
+        "generation": 2,
+        "status": "accepted",
+        "reason": "queued; no physical verdict",
+        "accepted": true
+      },
+      "completed_status": {
+        "known": true,
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "resume",
+        "generation": 2,
+        "status": "completed",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "planned step horizon ended; physical verdict pending"
+      },
+      "physical_status": {
+        "known": true,
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "resume",
+        "generation": 2,
+        "status": "completed",
+        "completed": true,
+        "verification_available": true,
+        "verified": true,
+        "reason": "native motion and rest checks passed"
+      },
+      "unauthenticated_renewal_http_code": 409
+    }
+  ],
+  "tail_fence_rejections": [
+    {
+      "after": "step",
+      "endpoint": "/v1/command",
+      "http_code": 409,
+      "receipt": {
+        "accepted": false,
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "step-tail-legacy",
+        "generation": 1,
+        "status": "rejected",
+        "reason": "prior motion verification is still pending"
+      }
+    },
+    {
+      "after": "step",
+      "endpoint": "/v1/step",
+      "http_code": 409,
+      "receipt": {
+        "accepted": false,
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "step-tail-step",
+        "generation": 1,
+        "status": "rejected",
+        "reason": "prior motion verification is still pending"
+      }
+    },
+    {
+      "after": "resume",
+      "endpoint": "/v1/command",
+      "http_code": 409,
+      "receipt": {
+        "accepted": false,
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "resume-tail-legacy",
+        "generation": 2,
+        "status": "rejected",
+        "reason": "prior motion verification is still pending"
+      }
+    },
+    {
+      "after": "resume",
+      "endpoint": "/v1/step",
+      "http_code": 409,
+      "receipt": {
+        "accepted": false,
+        "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+        "request_id": "resume-tail-step",
+        "generation": 2,
+        "status": "rejected",
+        "reason": "prior motion verification is still pending"
+      }
+    }
+  ],
+  "authenticated_malformed_renewal": {
+    "http_code": 409,
+    "cancelled": {
+      "known": true,
+      "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+      "request_id": "malformed",
+      "generation": 3,
+      "status": "expired",
+      "completed": true,
+      "verification_available": false,
+      "verified": false,
+      "reason": "fresh observation proof missing or invalid on renewal"
+    },
+    "later_valid_renewal_http_code": 409,
+    "physical_status": {
+      "known": true,
+      "episode_id": "ep_7976eecf057d4564a48f166dc6034ecb",
+      "request_id": "malformed",
+      "generation": 3,
+      "status": "expired",
+      "completed": true,
+      "verification_available": true,
+      "verified": false,
+      "reason": "request interrupted; motion not verified"
+    },
+    "zero_neural_rows_after_cancellation": 60
+  },
+  "physical_verdicts": [
+    {
+      "request_id": "step",
+      "verified": true,
+      "reason": "native motion and rest checks passed",
+      "metrics": {
+        "forward_displacement_m": 0.09048641732621926,
+        "yaw_delta_rad": -0.03425293168867951,
+        "tail_speed_m_s": 0.0012615022653821811,
+        "tail_yaw_rate_rad_s": 0.02489321908532557,
+        "elapsed_sim_s": 2.3599999999999497,
+        "safe": true
+      }
+    },
+    {
+      "request_id": "resume",
+      "verified": true,
+      "reason": "native motion and rest checks passed",
+      "metrics": {
+        "forward_displacement_m": 0.09290747202155979,
+        "yaw_delta_rad": -0.051569521753876316,
+        "tail_speed_m_s": 0.0005015549299724315,
+        "tail_yaw_rate_rad_s": 0.007604435678910126,
+        "elapsed_sim_s": 2.3599999999999497,
+        "safe": true
+      }
+    },
+    {
+      "request_id": "malformed",
+      "verified": false,
+      "reason": "request interrupted; motion not verified",
+      "metrics": {
+        "forward_displacement_m": 0.000926901806263167,
+        "yaw_delta_rad": -0.05343935341202834,
+        "tail_speed_m_s": 0.01712530231804684,
+        "tail_yaw_rate_rad_s": 0.03977588210254908,
+        "elapsed_sim_s": 0.47999999999999954,
+        "safe": true
+      }
+    }
+  ],
+  "renewal_errors": [],
+  "native_exit_code": 0,
+  "artifact_sha256": {
+    "policy_trace.jsonl": "aa40997f841985c67e9b6b1d6f5e6cd141fcc6d8c0b2f51b9e80c5c5360fa936",
+    "evaluator_truth.jsonl": "44e1b7a899c81feea7265920e75d2c9c96d83fc66021342f6bb294364b0d1561",
+    "evaluator_verdicts.jsonl": "86323137acdbe5f5c2cf06245d88954f9d2ef81cd1347654a92f20dbe5d94a20",
+    "evaluation.json": "96ff2f4c13549711066c83f20432458677501fe0cf4fbdeaa015373ca2da1a6d",
+    "runtime_identity.json": "2050ba8b71c254ca78de6a7fa0c8e2a6c865a81586c8418727ad280fc15f8322"
+  },
+  "execution": {
+    "unit": "heavy-roscon-nativefence-confirm-063756-10600",
+    "physical_gpu_index": 0,
+    "physical_gpu_uuid": "GPU-87c0fe81-bcfb-b636-9eec-e56fd88c33c3",
+    "native_pid": 948770,
+    "memory_cap": "32G",
+    "peak_memory": "2.8G",
+    "unit_result": "success",
+    "unit_exit_status": 0,
+    "raw_artifacts_local": ".workshop/native-fences/native-confirm",
+    "scope": "Separate confirmation of native protocol fences; does not replace or relabel the original six gating and two confirmation requests, nor the failed velocity receipts."
+  }
+}

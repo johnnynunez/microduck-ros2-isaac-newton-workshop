@@ -95,6 +95,9 @@ def test_renewal_keeps_step_live_without_rewriting_phase_and_stops_on_replay():
         expected = (0.1, 0.0, 0.0) if tick < 200 else (0.0, 0.0, 0.0)
         assert owner.consume(sim_time=elapsed) == expected
     assert owner.status("step")["status"] == "completed"
+    # This is an owner-only fixture; close its private evaluation interval before
+    # starting the replay test. A completed ACK alone no longer permits motion.
+    owner.verdict("step", verified=False, reason="CPU fixture; no physical verdict")
     owner.submit_step(
         MotionCommand("ep", "again", 1, 0.1, 0, 0, 2.0),
         token,

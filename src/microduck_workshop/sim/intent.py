@@ -155,6 +155,16 @@ class IntentOwner:
                 "lease_timeout_s": LEASE_TIMEOUT_S,
             }
 
+    def reject_renewal(self, episode_id, token):
+        """Revoke an active step for malformed transport proof, only after auth."""
+        with self.lock:
+            if episode_id != self.episode_id:
+                raise ContractError("episode mismatch")
+            self._lease(token)
+            if self._pending and self._pending.is_step:
+                self._finish("expired", "fresh observation proof missing or invalid on renewal")
+                self._owner_id = self._token = None
+
     def submit(self, command, token):
         return self._submit(command, token)
 
@@ -187,6 +197,11 @@ class IntentOwner:
                 raise ContractError("repeated request ID; unknown delivery must not be retried")
             if self._pending is not None:
                 raise ContractError("a motion request is already active")
+            # Completion ends actuation, not the evaluator's collection interval.
+            # Keep every admission lane (including legacy and a reclaimed lease)
+            # fenced until the private verdict callback closes that interval.
+            if any(not record["verification_available"] for record in self._records.values()):
+                raise ContractError("prior motion verification is still pending")
             if not is_step and self.command_profile is not None:
                 self.command_profile.validate_request(command)
             if len(self._records) >= self.max_records:
