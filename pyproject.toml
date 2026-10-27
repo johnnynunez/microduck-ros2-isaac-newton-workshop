@@ -31,7 +31,7 @@ packages = ["src/microduck_workshop"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "ros_ws/src/microduck_gateway"]
 markers = [
   "ros: requires the real ROS 2 Lyrical workspace",
   "gpu: requires the actual Isaac Lab/Newton GPU runtime",

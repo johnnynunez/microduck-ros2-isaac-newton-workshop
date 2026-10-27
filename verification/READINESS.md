@@ -1,26 +1,27 @@
-# Integration readiness
+# Release readiness
 
-**The combined classroom release is not yet approved.** Component success is recorded separately from the integrated robot task.
+**Implementation and teaching materials are available; reliable uninstrumented capstone acceptance remains blocked.** Do not label this a classroom-approved motion release from CPU tests or one successful diagnostic.
 
-## Verified components
+## Verified
 
-- **Assets:** all 121 public files were independently downloaded and verified by exact SHA-256 and size.
-- **Native physics and training:** Isaac Sim 6.2.0.0, Lab 3.0 GA source and Newton 1.6.1 exercised reset, native sensors, BAM/backlash and fresh PPO on local RTX PRO. A short PPO update is not a converged walking policy.
-- **New fixed maneuver:** `step-forward-v1` passed six preregistered native step/resume requests plus two fresh confirmation requests. The parent independently checked every raw artifact hash and all eight positive verdicts, plus 12 intentionally interrupted/unverified probes. These tests did **not** enable cameras or ROS; see [the immutable campaign](../provenance/step_validation.json).
-- **Perception:** real CUDA Isaac ROS 5 AprilTag processed the official bag and the actual rendered MicroDuck head camera. The integrated preflight produced same-episode GO with an original-capture age of 0.121 seconds, not a synthetic detection.
-- **Model:** the pinned public Qwen3.8 GGUF and CUDA llama.cpp build executed genuine CASCADE tool calls. The compiled library contains SM 89 and SM 120a code; this does not establish L40S hardware execution.
-- **Deployment:** the merged Sim, ROS and agent images were rebuilt successfully. The read-only preview and private shared ROS/agent IPC path were exercised locally. The parent CPU suite passed 436 tests with 15 explicitly skipped optional/live checks.
+- Public assets: 121 exact size/SHA-256 admissions; code/mesh/model licensing remains separate.
+- Isaac Sim 6.2.0.0, Isaac Lab 3.0 GA source and Newton 1.6.1 run the actual robot with native BAM/backlash, IMU/encoders and rendered cameras. No PhysX physics fallback.
+- [Fresh PPO](fresh-ppo.json): 512 native physics steps, four updates, 16 optimizer steps, changed weights and both checkpoint hashes independently checked. This is not a converged gait or resumed ONNX training.
+- Native fixed-step campaigns and later protocol confirmations passed their original motion/rest gates. Historical receipts remain immutable and new source revisions have separate receipts.
+- Actual camera images reach CUDA Isaac ROS 5 AprilTag and real ROS services. The 320×240 authored head render product fixes the measured large-image delivery loss without incompatible intrinsics or restamped pixels.
+- The pinned public Qwen3.8 GGUF executes genuine CASCADE tool calls locally. One complete **observation-instrumented** camera → ROS → model → fixed step → native verdict → agent-success episode passed.
+- Safety repairs cover transient STOP retention, proof-renewer wakeup, native verifier-tail admission, authenticated malformed-renewal cancellation and exact task/request-bound late-verdict reconciliation. Final parent CPU run: **485 passed, 19 optional/live checks skipped**. Those skips are not runtime evidence.
 
-## Remaining integrated gates
+## Remaining blocker
 
-The first joined portable-model game safely refused motion after its observation became unavailable/stale. The preceding real ROS preflight was fresh, so rendering/model/perception latency needs diagnosis; no limit is being widened and no successful step is claimed for that run.
+Two subsequent **uninstrumented** production GO attempts expired and correctly reported failure. A further native-observed/full-agent attempt refused a stale observation before motion; a real ROS-service diagnostic passed, but it had no model decision. The difference is not yet causally resolved. Imported production source/bytecode, images, ROS settings and resource limits were audited; no hidden alternative implementation was found.
 
-The review's native attribution and malformed-renewal findings are fixed: all actuation is fenced through the prior verifier's collection interval, and malformed authenticated renewal proofs revoke the active step. A separate fresh native step/resume run passed both unchanged physical verdicts and the new rejection/cancellation probes; [its receipt and boundaries](../docs/native_fences.md) preserve the original campaign unchanged. Parent readback verified all five raw artifact hashes. The transient ROS STOP-event loss and joined rendering/perception availability remain under repair; they still block classroom acceptance of the joined path.
+The successful diagnostic is real, but does not erase failed repetitions or establish reliable classroom availability. The fixed 0.5-second original-capture and actuator-lease budgets, two-simulation-second maneuver, unchanged physical evaluator and no-retry/stop rules remain enforced. See [scene/read-only wait decisions](../docs/integration_decisions.md), [camera measurements](../docs/camera_latency.md), [native fences](../docs/native_fences.md) and [case evidence](integrated-cases.json).
 
-The original direct low-speed commands stall. The older constant-velocity calibration failed all 12 unchanged rest gates and remains **NOT READY**. The new planned maneuver is a different skill, not a new verdict for those failed commands.
+The motion lab requires a fresh successful staff rehearsal on the selected instance. Until that gate is met, use the documented CPU exercise and explicitly no-motion observation route; do not substitute a fixture/replay for live acceptance.
 
-## Explicit exclusions
+## Hardware and deployment limits
 
-No paid Brev VM was provisioned; no L40S hardware, Brev Secure Link, cold network bootstrap or complete fleet deployment is claimed. Local runtime builds used a private copied package cache after a real download timeout. Rendering warmup caches may be reused; asset and model hashes remain enforced.
+All live results are local RTX PRO, not a paid Brev deployment or L40S hardware run. The model binary contains SM 89 and SM 120a code; that is not hardware validation. Base container installation used a copied private package cache after a genuine cold-download timeout. Model downloads/builds, warmup, explicit NVIDIA/mesh-license acknowledgments and cloud cleanup are documented in [Brev preparation](../docs/brev.md).
 
-See [runtime](../docs/runtime.md), [step](../docs/step.md), [calibration failures](../docs/calibration.md), [ROS evidence](../docker/receipts/README.md), [local model](../docs/local_model.md), and [Brev](../docs/brev.md). CPU CI is not a substitute for the integrated physical and safety gates.
+The older direct/calibrated velocity requests remain failed / NOT READY. A distinct planned step is not a relabeling of those failures. No private assets, weights, credentials, world-truth control or physical-robot actions are included.

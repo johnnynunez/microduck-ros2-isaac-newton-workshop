@@ -99,7 +99,7 @@ class MicroduckDomain:
         *,
         episode_id,
         frame_id,
-        verification_timeout_s=5.0,
+        verification_timeout_s=8.0,
         poll_interval_s=0.05,
         observation_handler=translate_observation,
         motion_handler=None,

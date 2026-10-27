@@ -40,6 +40,12 @@ def test_native_step_receipts_match_fixed_preregistration_and_current_sources():
     # Only these protocol files changed, then passed a separate fresh native
     # fence/restart campaign. Never rewrite the original eight-pass receipt.
     fence = json.loads((ROOT / "provenance/native_fence_validation.json").read_text())
+    merged = json.loads((ROOT / "provenance/native_merged_validation.json").read_text())
+    assert merged["prior_native_fence_sha256"] == hashlib.sha256(
+        (ROOT / "provenance/native_fence_validation.json").read_bytes()
+    ).hexdigest()
+    assert merged["runtime"]["camera_enabled"] is False
+    assert all(r["physical_status"]["verified"] for r in merged["requests"])
     for path, digest in fence["prior_receipts_preserved"].items():
         assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest
     revalidated_protocol = {
@@ -53,6 +59,10 @@ def test_native_step_receipts_match_fixed_preregistration_and_current_sources():
             digest = receipt["production_adapter_sha256"]
         elif path in revalidated_protocol:
             digest = fence["source_sha256"][path]
+        elif path in {"src/microduck_workshop/sim/native.py", "src/microduck_workshop/sim/play.py"}:
+            # Render configuration changed, then this merged code ran another
+            # genuine native-only confirmation. No ROS acceptance is inferred.
+            digest = merged["source_sha256"][path]
         assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest
     for path, digest in receipt["additional_unchanged_source_sha256"].items():
         assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest

@@ -1,0 +1,109 @@
+{
+  "release_ready": false,
+  "reason": "One diagnostic full-path success; two production positive attempts expired. Final fixes/STOP test pending.",
+  "cases": [
+    {
+      "case": "instrumented-go",
+      "observation_only_instrumentation": true,
+      "episode_id": "ep_3db49fd155624b2680d8ca6d271c106c",
+      "agent_success": true,
+      "tool_sequence": [
+        "microduck.observe",
+        "microduck.step_forward",
+        "microduck.verify",
+        "task_done"
+      ],
+      "native_verdicts": [
+        {
+          "request_id": "964ab3d414754031ba1b1daecd0be241",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09379541391144645,
+            "yaw_delta_rad": -0.07147297708109719,
+            "tail_speed_m_s": 0.0007999362553977165,
+            "tail_yaw_rate_rad_s": 0.01243867549452592,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts_sha256": {
+        "report.json": "afb216fe5cda94b333ef28b61f39bb96f95469f62c545f4fed11b98bf1764caa",
+        "provider.jsonl": "0ae802be51bc5f177b57bd7ed08d897f4133b2fc660abc29922876a6b8107fb8",
+        "policy_trace.jsonl": "a4b87e7c3feedf28d7cd44751222da7c693e0a56b46a869303b30ba0505dfeb0",
+        "evaluator_truth.jsonl": "d73f33d92f96369002ab33ba49eabba9d9b7474cf2e4d3d4feb42faeea4733da",
+        "evaluator_verdicts.jsonl": "de632a38075113e45948990ef164a85066d372f5ced7805a606692086f1ca253"
+      }
+    },
+    {
+      "case": "production-go-04",
+      "observation_only_instrumentation": false,
+      "episode_id": "ep_f5b551083d084e36b82e3f5eafbd2679",
+      "agent_success": false,
+      "tool_sequence": [
+        "microduck.observe",
+        "microduck.step_forward",
+        "microduck.verify",
+        "task_done"
+      ],
+      "native_verdicts": [
+        {
+          "request_id": "428def9dac364a11be3eabcedab96d88",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.09601563713550806,
+            "yaw_delta_rad": -0.08281451857867975,
+            "tail_speed_m_s": 0.001334957606224197,
+            "tail_yaw_rate_rad_s": 0.01782275533928028,
+            "elapsed_sim_s": 1.8199999999999612,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts_sha256": {
+        "report.json": "7f996fc1e3ec416b39d12e6e90ba5e92ed9ce0d1a193a1660c76c3bf95696697",
+        "provider.jsonl": "ae932aa5267b297e49bb330dce6afae97bce002c45bee7856d2345c5025ab3c8",
+        "policy_trace.jsonl": "98261c33de4a05d2e5847aee8a359c80ff1ea4ae2430b9f00b99d30be38e4ff5",
+        "evaluator_truth.jsonl": "da25b09a304e737d6350761a30a460a20075a8d13b0981c099d17ca4b6c1113a",
+        "evaluator_verdicts.jsonl": "0e91698879be1382aec02f64cecf0457832352f5831fe24d349b52dc42ed5207"
+      }
+    },
+    {
+      "case": "production-go-05",
+      "observation_only_instrumentation": false,
+      "episode_id": "ep_4baaf9b681024a4ebf574fb3e08f2486",
+      "agent_success": false,
+      "tool_sequence": [
+        "microduck.observe",
+        "microduck.step_forward",
+        "microduck.verify",
+        "task_done"
+      ],
+      "native_verdicts": [
+        {
+          "request_id": "b4c3ef0546634bf18d835e712bc5fdf9",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.0956652517107335,
+            "yaw_delta_rad": -0.09965551285194521,
+            "tail_speed_m_s": 0.0006728648498600629,
+            "tail_yaw_rate_rad_s": 0.007844153815478256,
+            "elapsed_sim_s": 2.119999999999955,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts_sha256": {
+        "report.json": "59c84b29b681d14949006763ed94cf5fb6116972deffe386dbf7467e30d950c9",
+        "provider.jsonl": "dbc9efad5cfba09bf0306b57d7a5fb790678272e94aff4d4ebba4d7d3e26aa09",
+        "policy_trace.jsonl": "68666c4d36146b1bc4501d102be5dd89ec7725047710c37dcaabf00bdfc8b328",
+        "evaluator_truth.jsonl": "348473975f814487f690418ec1d8e7f7298a9feca71a2f1573524c72dbde63b9",
+        "evaluator_verdicts.jsonl": "d9d4edab96a9ccd6e4823e028c5e62b7c4348716b36bbe2f19eb1fc763de3f2b"
+      }
+    }
+  ],
+  "scope": "Real local RTX PRO execution; original outcomes retained. Instrumented pass is not reliable production readiness."
+}

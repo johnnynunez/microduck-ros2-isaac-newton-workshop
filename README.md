@@ -6,7 +6,7 @@ A two-hour, hands-on workshop using **ROS 2 Lyrical, NVIDIA Isaac ROS 5.0, Isaac
 
 Participants work in **NVIDIA Brev**, using instructor-provided one-day credits on **L40S or RTX PRO**. No laptop GPU is required. Prepare downloads and environments before the two-hour session.
 
-> **Readiness:** implementation and live validation are in progress. The target stack is explicit, but source availability and passing CPU tests are not proof of a working ROS/Isaac ROS/Newton/agent episode. Do not use this initial revision as an unqualified classroom-ready release. Runtime results and reproducible commands are being added before the instructor's 08:30 handoff.
+> **Readiness:** implementation, exercises and measured evidence are available. **Reliable uninstrumented camera → ROS → agent → Newton acceptance is still blocked.** A complete instrumented episode passed, but ordinary repetitions expired safely. Use the [current readiness record](verification/READINESS.md); CPU CI and native-only passes do not approve the motion lab.
 
 ## Official MicroDuck sources
 
@@ -24,7 +24,7 @@ Participants work in **NVIDIA Brev**, using instructor-provided one-day credits 
 - [ROS 2 exercises](exercises/ros_basics/README.md) and [complete reference solution](solutions/ros_basics/README.md)
 - [Troubleshooting](docs/troubleshooting.md)
 
-The course files and all runtime components are available. **Combined classroom acceptance is still pending.** The distinct fixed step-and-settle primitive passed six preregistered native tests and two fresh confirmation requests. A joined camera/ROS/model rehearsal subsequently refused motion because perception was no longer fresh; that availability issue and final boundary-review findings are being repaired. The older direct/calibrated velocity failures remain documented, with no relaxed verifier limits. See the [current readiness record](verification/READINESS.md).
+The native step, real PPO, CUDA detector, portable local model, read-only preview and bounded Brev lifecycle are implemented. The latest joined-run outcomes, repaired safety boundaries and remaining availability issue are recorded separately in [release readiness](verification/READINESS.md). Earlier failed velocity and integrated attempts are retained rather than relabeled as success.
 
 - [Isaac Lab/Newton runtime and real PPO exercise](docs/runtime.md)
 - [Isaac ROS 5.0 setup and actual CUDA detector evidence](docs/isaac_ros.md)

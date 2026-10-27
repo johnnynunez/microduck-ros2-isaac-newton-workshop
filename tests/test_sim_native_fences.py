@@ -181,7 +181,13 @@ def test_native_fence_receipt_binds_protocol_sources_without_rewriting_old_evide
     assert receipt["evidence_kind"] == (
         "FRESH_NATIVE_OPERATOR_PROTOCOL_FENCE_REVALIDATION_NOT_ROS_PERCEPTION"
     )
+    merged = json.loads((root / "provenance/native_merged_validation.json").read_text())
+    assert merged["prior_native_fence_sha256"] == hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    assert merged["runtime"]["camera_enabled"] is False
+    assert all(r["physical_status"]["verified"] for r in merged["requests"])
     for path, digest in receipt["source_sha256"].items():
+        if path in {"src/microduck_workshop/sim/native.py", "src/microduck_workshop/sim/play.py"}:
+            digest = merged["source_sha256"][path]
         assert hashlib.sha256((root / path).read_bytes()).hexdigest() == digest
     for path, digest in receipt["prior_receipts_preserved"].items():
         assert hashlib.sha256((root / path).read_bytes()).hexdigest() == digest

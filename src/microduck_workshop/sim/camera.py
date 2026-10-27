@@ -61,6 +61,17 @@ def make_tag_texture(tag_id, output):
     return output
 
 
+def teaching_signal_vertices():
+    """Fixed lesson prop; no runtime pose feedback or camera retargeting."""
+    x, y, z, half_size = 1.0, 0.0, 0.16, 0.125
+    return (
+        (x, y + half_size, z + half_size),
+        (x, y - half_size, z + half_size),
+        (x, y - half_size, z - half_size),
+        (x, y + half_size, z - half_size),
+    )
+
+
 def spawn_boards(prim_path, cfg, translation=None, orientation=None):
     from isaaclab.sim import SimulationContext
     from pxr import Gf, Sdf, UsdGeom, UsdShade
@@ -71,15 +82,7 @@ def spawn_boards(prim_path, cfg, translation=None, orientation=None):
         path = prim_path + f"/Tag{tag_id}"
         mesh = UsdGeom.Mesh.Define(stage, path)
         # Front face looks back along -X. Only the selected board is visible.
-        x, y, z, s = 0.65, 0.0, 0.23, 0.125
-        mesh.CreatePointsAttr(
-            [
-                Gf.Vec3f(x, y + s, z + s),
-                Gf.Vec3f(x, y - s, z + s),
-                Gf.Vec3f(x, y - s, z - s),
-                Gf.Vec3f(x, y + s, z - s),
-            ]
-        )
+        mesh.CreatePointsAttr([Gf.Vec3f(*point) for point in teaching_signal_vertices()])
         mesh.CreateFaceVertexCountsAttr([4])
         mesh.CreateFaceVertexIndicesAttr([0, 1, 2, 3])
         mesh.CreateDoubleSidedAttr(True)
@@ -188,6 +191,8 @@ def configure_cameras(scene_cfg, mjcf, output_dir, *, tag_id=0, head_resolution=
         "width": width,
         "height": height,
         "source": "authored teaching pinhole; not hardware calibration",
+        "signal_board_vertices_m": teaching_signal_vertices(),
+        "signal_black_border_m": 0.20,
         "head_body": "jaw_soft",
         "local_translation_m": position,
         "local_quaternion_xyzw_world_convention": rotation,
