@@ -1,0 +1,36 @@
+{
+  "kind": "historical_failed_notebook_rehearsal",
+  "source_commit": "034c10e95243eb613fc942de6eea256d5f901a5f",
+  "all_acceptance_complete": false,
+  "requested_notebooks": 6,
+  "complete_notebooks": 3,
+  "executed_notebooks": 4,
+  "requested_code_cells": 39,
+  "executed_code_cells": 22,
+  "passed_code_cells": 21,
+  "failed_code_cells": 1,
+  "not_executed_code_cells": 17,
+  "failure": {
+    "notebook": "04_train_isaac_lab_3.ipynb",
+    "code_execution_count": 4,
+    "reason": "The network-isolated training container could not retrieve the SDK ground asset; it failed before optimizer updates.",
+    "asset_url": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.2/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda",
+    "network_mode": "none",
+    "retained_failure_log_sha256": "48ae1f5ad760b01f2033e6e0f02df0403bd0879fbf9a7fe73765b52ae04e32f6",
+    "initial_checkpoint_exists": true,
+    "updated_checkpoint_export_manifest_receipt_exist": false
+  },
+  "notebooks_05_06": "NOT EXECUTED; no substitute or manual predecessor completion",
+  "resource_scope": "Unmodified public RAM/CPU defaults; explicit public CDI selector, local physical GPU1, private domain83. Not Brev/L40S evidence.",
+  "images": {
+    "sim": "sha256:d8e8d046d59033f97a86fe7510eee8a769bc3eb56f12de61fe0fe719306c8152",
+    "ros": "sha256:577ceddd6b31a6924d6cf756ec207879bea3998c8739f943fd6efade96d1192f",
+    "agent": "sha256:35af25ab13250c45c5e12ef1d17b2857ce1c59435d96e92813cc1abda1a3b33c"
+  },
+  "parent_verified": [
+    "Counts recomputed from the six original and four actual executed notebook files",
+    "Failure log contains the ground asset FileNotFoundError",
+    "Initial checkpoint exists; updated checkpoint, actor, training receipt and manifest are absent"
+  ],
+  "raw_evidence": "Private original execution files retained; no failed run was overwritten or relabeled."
+}

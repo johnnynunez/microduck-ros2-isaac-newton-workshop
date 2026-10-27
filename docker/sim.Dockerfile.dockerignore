@@ -4,6 +4,7 @@
 !LICENSE
 !NOTICE
 !requirements-sim.txt
+!requirements-policy-training.txt
 !requirements-agent.txt
 !src
 !src/**

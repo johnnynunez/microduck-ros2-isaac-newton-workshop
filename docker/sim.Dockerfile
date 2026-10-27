@@ -21,11 +21,11 @@ RUN --mount=from=download-cache,target=/uv-seed \
 # MaterialX's transitive libXt dependency is needed even for headless cameras.
 RUN apt-get update && apt-get install -y --no-install-recommends libxt6t64 libglu1-mesa \
     && rm -rf /var/lib/apt/lists/*
-COPY pyproject.toml README.md LICENSE NOTICE requirements-sim.txt /opt/workshop/
+COPY pyproject.toml README.md LICENSE NOTICE requirements-sim.txt requirements-policy-training.txt /opt/workshop/
 COPY src /opt/workshop/src
 COPY provenance /opt/workshop/provenance
 # Explicit security overlay, tested with actual Kit camera/JPEG. Do not re-sync afterwards.
-RUN uv pip install --python .venv/bin/python --no-deps /opt/workshop -r /opt/workshop/requirements-sim.txt     && uv pip install --python .venv/bin/python --no-deps Pillow==13.0.0     && uv cache clean
+RUN uv pip install --python .venv/bin/python --no-deps /opt/workshop -r /opt/workshop/requirements-sim.txt -r /opt/workshop/requirements-policy-training.txt     && uv pip install --python .venv/bin/python --no-deps Pillow==13.0.0     && uv cache clean
 ENV PYTHONUNBUFFERED=1 NVIDIA_DRIVER_CAPABILITIES=graphics,compute,utility
 # Acceptance is deliberately NOT baked into this image.
 WORKDIR /opt/workshop

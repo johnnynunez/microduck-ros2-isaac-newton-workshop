@@ -13,5 +13,6 @@
 !ros_ws/src/**
 !docker
 !docker/entrypoint.sh
+!docker/patch_rclpy_executor.py
 **/__pycache__
 **/*.pyc

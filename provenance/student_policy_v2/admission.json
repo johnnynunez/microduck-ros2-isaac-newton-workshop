@@ -1,0 +1,644 @@
+{
+  "schema_version": 1,
+  "scope": "native_only_not_ros_agent_acceptance",
+  "policy_sha256": "5c4e7b23a012eebaebe3f8f1fcba81ebdd0c1bd45f443910220bb4bafec94074",
+  "manifest_sha256": "8b19c0ad49227140c0850615f038fae0d78bdde28ea47b0b3997ede1c2dc78c8",
+  "policy_mode": "training",
+  "source_sha256": {
+    "contracts.py": "de0a1aa5281ef6fee43e04b45695cc53e30528802831236ca5fe242f967f84ef",
+    "policy/contract.py": "05c275180e49ec13efa53a15a54c9ab7270e8ea401b180effb82d3da7043fc98",
+    "policy/imu.py": "9af40ae13f36b3874f8b2292856b1fece2743f632db3ac67365d9fd3cead9e72",
+    "policy/onnx.py": "9aab1e328312c750f66a2a3058bb687c26ee0186e985900c14c075a98102e428",
+    "policy/step.py": "2d6e6e9b3d7adb475a78832151c6376d66fb419d5c74648a6fedbb57c58cbc89",
+    "policy/student.py": "ca36d3508e4807dfab40f80d2ad12ab03ad93732b83ad4313bd865bde539ea78",
+    "sim/native.py": "c8706640e29c8c1197eb5dc62d4eacbb2d4f1193590135a70a548e12491c75e2",
+    "sim/prepare.py": "e87f3175ea13ec2e386b340e9e76d2423103831af0581304de1f49da4cfe6e2a",
+    "sim/bam.py": "43c15b119052b6428fe9ad8511e6d5eed3efff77d1d127d635542f26fc7cfabb",
+    "sim/joint_map.py": "35ab63c23f87f2d9422bcdda06c10eee22af11eb50272119d752184d849fceeb",
+    "sim/play.py": "c9717d857307b6256eb8627a6d9927124088f770d8829556f5a322d8be1016fa",
+    "sim/evaluate.py": "04d83c178af0465ad57d7551e32e0ec292f42bdcbb0ef645d4cf0ed94c83c037",
+    "sim/intent.py": "8d487e862818e93a25b6f52e4f66ab469c49e2736cc5121094c35ca94c3125b7",
+    "sim/http.py": "e067f71928fa885c06f61de4561d86ab224c75159f530fe6fa3d270d94f89721",
+    "sim/admit_policy.py": "1a294af798ebbade1b3eb79baa324c6da45712d39bd43d79cb577ac64fef28bf"
+  },
+  "fixed_step": {
+    "name": "step-forward-v1",
+    "requested_peak": [
+      0.1,
+      0.0,
+      0.0
+    ],
+    "drive_neural_command": [
+      0.25,
+      0.0,
+      0.0
+    ],
+    "drive_s": 1.0,
+    "settle_neural_command": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "settle_s": 1.0,
+    "horizon_s": 2.0,
+    "verifier_wait_s": 0.36
+  },
+  "passed": true,
+  "lifecycle": "complete",
+  "cases": [
+    {
+      "id": "h1-w04",
+      "verdicts": [
+        {
+          "request": "step",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.08064942050760925,
+            "yaw_delta_rad": -0.08843470663038244,
+            "tail_speed_m_s": 0.0005626734188072045,
+            "tail_yaw_rate_rad_s": 0.010289475491101091,
+            "elapsed_sim_s": 2.359999999999963,
+            "safe": true
+          }
+        },
+        {
+          "request": "resume",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.0896414846927026,
+            "yaw_delta_rad": -0.06261570125458223,
+            "tail_speed_m_s": 0.000683160780906811,
+            "tail_yaw_rate_rad_s": 0.009477496168322184,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request": "rest_control",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": -1.4586942318317144e-05,
+            "yaw_delta_rad": 0.0011021091832029706,
+            "tail_speed_m_s": 0.0006005818216231067,
+            "tail_yaw_rate_rad_s": 0.00435974549988962,
+            "elapsed_sim_s": 1.359999999999971,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "h1-w04_policy.jsonl",
+          "sha256": "4d84af987a23e889ce1b9d004c9cbef1ccae1e49d4a4f1d1207b95a4d091fb10"
+        },
+        {
+          "path": "h1-w04_truth.jsonl",
+          "sha256": "0e2a6e360be9d9c9a68f0b19c5aaa8ab84537e6267c4ce3eba00c03a85d326a1"
+        }
+      ]
+    },
+    {
+      "id": "h2-w08",
+      "verdicts": [
+        {
+          "request": "step",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.08174672297202447,
+            "yaw_delta_rad": -0.10136220088268269,
+            "tail_speed_m_s": 0.0005143261687316256,
+            "tail_yaw_rate_rad_s": 0.004628124600276351,
+            "elapsed_sim_s": 2.3600000000002543,
+            "safe": true
+          }
+        },
+        {
+          "request": "resume",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.0912018675198726,
+            "yaw_delta_rad": -0.06483356569949525,
+            "tail_speed_m_s": 0.0008662455805979215,
+            "tail_yaw_rate_rad_s": 0.013426071137655527,
+            "elapsed_sim_s": 2.360000000000369,
+            "safe": true
+          }
+        },
+        {
+          "request": "rest_control",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": -0.00011766976436365419,
+            "yaw_delta_rad": -0.0010758955848551854,
+            "tail_speed_m_s": 0.0004680877964085119,
+            "tail_yaw_rate_rad_s": 0.004441809572745115,
+            "elapsed_sim_s": 1.3600000000002126,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "h2-w08_policy.jsonl",
+          "sha256": "6bf76b07a85772bd2bd19f0caeb1aef8a80e5eb6d1b982ca708f84bfbc7afdf7"
+        },
+        {
+          "path": "h2-w08_truth.jsonl",
+          "sha256": "2d6ddf38aac128314126f4debd06b67ab3337c29a0249763da092b31094c4ea5"
+        }
+      ]
+    },
+    {
+      "id": "h3-w14",
+      "verdicts": [
+        {
+          "request": "step",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09131038123748841,
+            "yaw_delta_rad": -0.0841556527200126,
+            "tail_speed_m_s": 0.0006796170466047217,
+            "tail_yaw_rate_rad_s": 0.006318014189177616,
+            "elapsed_sim_s": 2.35999999999963,
+            "safe": true
+          }
+        },
+        {
+          "request": "resume",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.08782475119818232,
+            "yaw_delta_rad": -0.09865359240287985,
+            "tail_speed_m_s": 0.0008319289848644978,
+            "tail_yaw_rate_rad_s": 0.0033949152354828334,
+            "elapsed_sim_s": 2.3599999999995305,
+            "safe": true
+          }
+        },
+        {
+          "request": "rest_control",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": -0.0001399123252624612,
+            "yaw_delta_rad": -0.001979712047717408,
+            "tail_speed_m_s": 0.0006603976811585976,
+            "tail_yaw_rate_rad_s": 0.009913249618627808,
+            "elapsed_sim_s": 1.3599999999997294,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "h3-w14_policy.jsonl",
+          "sha256": "0cf8ed6003d572ec430d2d70cd293b94b97981c044ef0ecaf17f68053af04d47"
+        },
+        {
+          "path": "h3-w14_truth.jsonl",
+          "sha256": "7e097bb31f66a02cd458ac2aa432763e6658a786823fb52205abde7edfb7cf01"
+        }
+      ]
+    },
+    {
+      "id": "confirmation-w11",
+      "verdicts": [
+        {
+          "request": "step",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09046402959408255,
+            "yaw_delta_rad": -0.06088193877980084,
+            "tail_speed_m_s": 0.0009009414123954766,
+            "tail_yaw_rate_rad_s": 0.008143988490866666,
+            "elapsed_sim_s": 2.3599999999995305,
+            "safe": true
+          }
+        },
+        {
+          "request": "resume",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.08963610561571603,
+            "yaw_delta_rad": -0.08036709562578971,
+            "tail_speed_m_s": 0.0007400864742404819,
+            "tail_yaw_rate_rad_s": 0.010275431675836444,
+            "elapsed_sim_s": 2.3599999999995305,
+            "safe": true
+          }
+        },
+        {
+          "request": "rest_control",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": -0.00019297616137433407,
+            "yaw_delta_rad": -0.00638623866077187,
+            "tail_speed_m_s": 0.0005828291265760644,
+            "tail_yaw_rate_rad_s": 0.00588011818472296,
+            "elapsed_sim_s": 1.3600000000002552,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "confirmation-w11_policy.jsonl",
+          "sha256": "da4a026ec0d5f19bd26ecca00bfb25934dab133499c90ecf99ccd0e688c23d75"
+        },
+        {
+          "path": "confirmation-w11_truth.jsonl",
+          "sha256": "252e382e55c1faf4cee7ef83743c44220eff176d6790198b93da9654c8c9f911"
+        }
+      ]
+    }
+  ],
+  "plan": [
+    {
+      "id": "h1-w04",
+      "initial_zero_s": 0.4,
+      "zero_wait_s": 0.4
+    },
+    {
+      "id": "h2-w08",
+      "initial_zero_s": 0.8,
+      "zero_wait_s": 0.8
+    },
+    {
+      "id": "h3-w14",
+      "initial_zero_s": 1.4,
+      "zero_wait_s": 1.4
+    },
+    {
+      "id": "confirmation-w11",
+      "initial_zero_s": 1.3,
+      "zero_wait_s": 1.1
+    }
+  ],
+  "gates": "unchanged evaluate_motion: .04m/s, .10rad/s after >=.35sim seconds",
+  "reset_scope": "between independent holdout episodes only; never between requests",
+  "runtime": {
+    "isaaclab": "28.0.0",
+    "isaacsim": "6.2.0.0",
+    "newton": "1.6.1",
+    "mujoco": "3.12.0",
+    "mujoco-warp": "3.12.0",
+    "warp-lang": "1.17.0",
+    "torch": "2.11.0+cu130",
+    "physics_owner": "isaaclab_newton.physics.NewtonManager",
+    "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+    "asset_sha256": "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8",
+    "isaaclab_git_sha": "e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4",
+    "model_body_count": 15,
+    "model_joint_count": 15,
+    "joint_names": [
+      "passive_right_hip_yaw_backlash:0",
+      "passive_right_hip_yaw_backlash:1",
+      "passive_right_hip_roll_backlash:0",
+      "passive_right_hip_roll_backlash:1",
+      "passive_right_hip_pitch_backlash:0",
+      "passive_right_hip_pitch_backlash:1",
+      "passive_right_knee_backlash:0",
+      "passive_right_knee_backlash:1",
+      "passive_right_ankle_backlash:0",
+      "passive_right_ankle_backlash:1",
+      "neck_pitch:0",
+      "neck_pitch:1",
+      "head_pitch:0",
+      "head_pitch:1",
+      "head_yaw:0",
+      "head_yaw:1",
+      "head_roll:0",
+      "head_roll:1",
+      "left_hip_yaw:0",
+      "left_hip_yaw:1",
+      "left_hip_roll:0",
+      "left_hip_roll:1",
+      "left_hip_pitch:0",
+      "left_hip_pitch:1",
+      "left_knee:0",
+      "left_knee:1",
+      "left_ankle:0",
+      "left_ankle:1"
+    ],
+    "camera_enabled": false,
+    "servo_ids": [
+      18,
+      20,
+      22,
+      24,
+      26,
+      10,
+      12,
+      14,
+      16,
+      1,
+      3,
+      5,
+      7,
+      9
+    ],
+    "backlash_ids": [
+      19,
+      21,
+      23,
+      25,
+      27,
+      11,
+      13,
+      15,
+      17,
+      0,
+      2,
+      4,
+      6,
+      8
+    ],
+    "joint_limits": [
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.5235987901687622,
+        0.4363323152065277
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.3839724361896515,
+        0.3839724361896515
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -1.5707963705062866,
+        1.0471975803375244
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -2.96705961227417,
+        2.96705961227417
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.4363323152065277,
+        0.4363323152065277
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.4363323152065277,
+        0.5235987901687622
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.3839724361896515,
+        0.3839724361896515
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ]
+    ]
+  },
+  "bam": {
+    "current_limit_A": 1.75,
+    "voltage": 7.5,
+    "sag_gain": 0.1,
+    "delay_physics_steps": 4,
+    "motor_armature": [
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409,
+      0.001807743334211409
+    ],
+    "motor_damping": [
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617,
+      0.005359668284654617
+    ],
+    "friction_solref": [
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ],
+      [
+        -50000.0,
+        -200.0
+      ]
+    ],
+    "friction_native_verified": true,
+    "native_servo_dofs": [
+      24,
+      26,
+      28,
+      30,
+      32,
+      16,
+      18,
+      20,
+      22,
+      7,
+      9,
+      11,
+      13,
+      15
+    ],
+    "mjc_servo_dofs": [
+      24,
+      26,
+      28,
+      30,
+      32,
+      16,
+      18,
+      20,
+      22,
+      7,
+      9,
+      11,
+      13,
+      15
+    ],
+    "last_motor_torque": [
+      -0.000430461106589064,
+      -0.030732126906514168,
+      0.03450824320316315,
+      -0.06160261109471321,
+      0.004213470034301281,
+      0.014549859799444675,
+      -0.044648028910160065,
+      -0.011204811744391918,
+      -0.009835148230195045,
+      0.011050182394683361,
+      0.030264075845479965,
+      0.016338620334863663,
+      0.06478499621152878,
+      -0.007089633960276842
+    ],
+    "last_friction_budget": [
+      0.00957810040563345,
+      0.020615437999367714,
+      0.020757772028446198,
+      0.03320933133363724,
+      0.011762470006942749,
+      0.014217336662113667,
+      0.02484116703271866,
+      0.012435962446033955,
+      0.012255191802978516,
+      0.012420253828167915,
+      0.021556459367275238,
+      0.014196409843862057,
+      0.03142920136451721,
+      0.012188288383185863
+    ]
+  },
+  "physics_steps": 6548
+}

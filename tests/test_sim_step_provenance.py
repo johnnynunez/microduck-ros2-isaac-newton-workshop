@@ -41,9 +41,22 @@ def test_native_step_receipts_match_fixed_preregistration_and_current_sources():
     # fence/restart campaign. Never rewrite the original eight-pass receipt.
     fence = json.loads((ROOT / "provenance/native_fence_validation.json").read_text())
     merged = json.loads((ROOT / "provenance/native_merged_validation.json").read_text())
-    assert merged["prior_native_fence_sha256"] == hashlib.sha256(
-        (ROOT / "provenance/native_fence_validation.json").read_bytes()
-    ).hexdigest()
+    selected = json.loads((ROOT / "provenance/native_policy_default_revalidation.json").read_text())
+    assert (
+        selected["prior_native_merged_sha256"]
+        == hashlib.sha256(
+            (ROOT / "provenance/native_merged_validation.json").read_bytes()
+        ).hexdigest()
+    )
+    assert selected["passed"] and all(
+        r["physical_status"]["verified"] for r in selected["requests"]
+    )
+    assert (
+        merged["prior_native_fence_sha256"]
+        == hashlib.sha256(
+            (ROOT / "provenance/native_fence_validation.json").read_bytes()
+        ).hexdigest()
+    )
     assert merged["runtime"]["camera_enabled"] is False
     assert all(r["physical_status"]["verified"] for r in merged["requests"])
     for path, digest in fence["prior_receipts_preserved"].items():
@@ -59,6 +72,11 @@ def test_native_step_receipts_match_fixed_preregistration_and_current_sources():
             digest = receipt["production_adapter_sha256"]
         elif path in revalidated_protocol:
             digest = fence["source_sha256"][path]
+        elif path == "src/microduck_workshop/sim/play.py":
+            # Explicit policy selection changed, then BOTH canonical and actual
+            # student actors ran fresh native HTTP confirmations. Old receipts
+            # stay byte-identical; the new default confirmation extends the chain.
+            digest = selected["source_sha256"][path]
         elif path in {"src/microduck_workshop/sim/native.py", "src/microduck_workshop/sim/play.py"}:
             # Render configuration changed, then this merged code ran another
             # genuine native-only confirmation. No ROS acceptance is inferred.

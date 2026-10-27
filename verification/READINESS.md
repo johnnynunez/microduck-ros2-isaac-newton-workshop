@@ -1,6 +1,14 @@
 # Release readiness
 
-**Two short uninstrumented full-pipeline GO episodes and a real STOP refusal now pass. Sustained classroom availability remains blocked.** The notebook-first student-policy route is being implemented separately; these runs use the existing pretrained policy, not a newly trained student checkpoint.
+**Notebook release candidate; full-course acceptance is BLOCKED at Notebook 04.** All six notebooks and the instructor guide are implemented. Actual01–03 execution passes locally. The latest full run stopped before PPO updates because its network-isolated training container could not retrieve the pinned SDK's ground asset;05–06 were not executed. No student-policy end-to-end success is claimed.
+
+## Current notebook and policy gates
+
+- [Configured01–03 rehearsal](notebook-rehearsal-01-03.json): the parent rechecked all three executed notebook hashes, every cell source hash, 18 sequential actual code executions without errors, and exact displayed JPEG bytes. That component run used explicit CDI/GPU1 and 24 GiB/6CPU ROS configuration; it is not default-resource or full-course acceptance.
+- A subsequent immutable `034c10e` full-course attempt used the public resource defaults and the new explicit CDI configuration, again passed 01–03, then failed04 on `default_ground_plane.usda` retrieval. It executed 22 of 39 requested code cells: 21 passed, one failed, 17 were not executed. The session HOME cache did not preserve the separate container's temporary SDK asset mirror. This failed attempt remains private and unaltered; an asset/network preparation fix and a new rehearsal are required.
+- Current student-policy R1–R4 repairs have independent review: 68 focused real CPU regressions, additional real socket/timing checks, all 38 v3 raw artifact hashes, all 12 native admission verdicts and exact ONNX replay were checked. See [v3 native evidence](../provenance/student_policy_v3/README.md). This is native-only, not the missing04→05→06 notebook/ROS/model acceptance.
+- The first v3 HTTP resume genuinely failed the unchanged yaw gate; a separate confirmation passed. Both remain recorded. 51 inference rows are asynchronous substep-boundary evaluations, not an extra control period: phase durations remain 200 physics steps each. No timing, policy or evaluator change is justified by row counts alone; repeated-run robustness is not established.
+- Public receipt copies are explicitly sanitized and nondeployable, with original/published hashes. Runtime loaders still require complete unredacted local training/admission bundles and reject modified bytes. No publication manifest bypass was added.
 
 ## Verified
 
@@ -18,9 +26,11 @@ The [parent-audited receipt](production-gpu0.json) records two real camera → C
 
 This is a successful small repetition, not proof of sustained availability. The isolated campaign omitted the browser preview because its current upstream port restriction would cross the test boundary. It changes no physics, control thresholds or policy, and adds no timing instrumentation in the runtime loop.
 
-## Remaining blocker
+## Historical ROS stall and independently checked repair
 
-Earlier ordinary attempts expired or refused stale input. A later instrumented idle-exposure run identified a 0.807-second gap in progress across the ROS gateway Python threads: native physics and camera production continued, but lease renewal missed the unchanged 0.5-second deadline. Native correctly expired the lease; the later renewal received HTTP 409 and the gateway latched STOP. The precise blocking operation in the ROS process is still being isolated. The successful short GPU0 runs do not erase this counterexample.
+Earlier ordinary attempts expired or refused stale input. An instrumented idle-exposure run identified a 0.807-second gap in ROS Python progress while native physics/camera continued. The subsequent causal investigation reproduced event-induced empty rclpy wait-set wakeups and GIL starvation. The explicit version/SHA-gated scheduling repair is documented in [executor fairness](executor-fairness.md).
+
+The parent reran the [independent raw-evidence audit](executor-fairness-independent.json): all 721 files and sizes match, both canonical GO verdicts recompute exactly after 65 seconds idle, and STOP admits no motion. An ordinary stock-executor failure and a separate diagnostic failure remain negative. These bounded canonical results do not prove the new student-policy route or arbitrary-load availability. A contained external-context shutdown exception caveat is documented rather than presented as a generally semantics-preserving upstream patch.
 
 The successful diagnostic is real, but does not erase failed repetitions or establish reliable classroom availability. The fixed 0.5-second original-capture and actuator-lease budgets, two-simulation-second maneuver, unchanged physical evaluator and no-retry/stop rules remain enforced. See [scene/read-only wait decisions](../docs/integration_decisions.md), [camera measurements](../docs/camera_latency.md), [native fences](../docs/native_fences.md) and [case evidence](integrated-cases.json).
 

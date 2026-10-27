@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "scope": "native_only_not_ros_agent_acceptance",
+  "policy_sha256": "5c4e7b23a012eebaebe3f8f1fcba81ebdd0c1bd45f443910220bb4bafec94074",
+  "manifest_sha256": "8b19c0ad49227140c0850615f038fae0d78bdde28ea47b0b3997ede1c2dc78c8",
+  "policy_mode": "training",
+  "source_sha256": {
+    "contracts.py": "de0a1aa5281ef6fee43e04b45695cc53e30528802831236ca5fe242f967f84ef",
+    "policy/contract.py": "05c275180e49ec13efa53a15a54c9ab7270e8ea401b180effb82d3da7043fc98",
+    "policy/imu.py": "9af40ae13f36b3874f8b2292856b1fece2743f632db3ac67365d9fd3cead9e72",
+    "policy/onnx.py": "9aab1e328312c750f66a2a3058bb687c26ee0186e985900c14c075a98102e428",
+    "policy/step.py": "2d6e6e9b3d7adb475a78832151c6376d66fb419d5c74648a6fedbb57c58cbc89",
+    "policy/student.py": "ca36d3508e4807dfab40f80d2ad12ab03ad93732b83ad4313bd865bde539ea78",
+    "sim/native.py": "c8706640e29c8c1197eb5dc62d4eacbb2d4f1193590135a70a548e12491c75e2",
+    "sim/prepare.py": "e87f3175ea13ec2e386b340e9e76d2423103831af0581304de1f49da4cfe6e2a",
+    "sim/bam.py": "43c15b119052b6428fe9ad8511e6d5eed3efff77d1d127d635542f26fc7cfabb",
+    "sim/joint_map.py": "35ab63c23f87f2d9422bcdda06c10eee22af11eb50272119d752184d849fceeb",
+    "sim/play.py": "c9717d857307b6256eb8627a6d9927124088f770d8829556f5a322d8be1016fa",
+    "sim/evaluate.py": "04d83c178af0465ad57d7551e32e0ec292f42bdcbb0ef645d4cf0ed94c83c037",
+    "sim/intent.py": "8d487e862818e93a25b6f52e4f66ab469c49e2736cc5121094c35ca94c3125b7",
+    "sim/http.py": "e067f71928fa885c06f61de4561d86ab224c75159f530fe6fa3d270d94f89721",
+    "sim/admit_policy.py": "1a294af798ebbade1b3eb79baa324c6da45712d39bd43d79cb577ac64fef28bf"
+  },
+  "fixed_step": {
+    "name": "step-forward-v1",
+    "requested_peak": [
+      0.1,
+      0.0,
+      0.0
+    ],
+    "drive_neural_command": [
+      0.25,
+      0.0,
+      0.0
+    ],
+    "drive_s": 1.0,
+    "settle_neural_command": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "settle_s": 1.0,
+    "horizon_s": 2.0,
+    "verifier_wait_s": 0.36
+  },
+  "passed": false,
+  "lifecycle": "running",
+  "cases": [],
+  "plan": [
+    {
+      "id": "h1-w04",
+      "initial_zero_s": 0.4,
+      "zero_wait_s": 0.4
+    },
+    {
+      "id": "h2-w08",
+      "initial_zero_s": 0.8,
+      "zero_wait_s": 0.8
+    },
+    {
+      "id": "h3-w14",
+      "initial_zero_s": 1.4,
+      "zero_wait_s": 1.4
+    },
+    {
+      "id": "confirmation-w11",
+      "initial_zero_s": 1.3,
+      "zero_wait_s": 1.1
+    }
+  ],
+  "gates": "unchanged evaluate_motion: .04m/s, .10rad/s after >=.35sim seconds",
+  "reset_scope": "between independent holdout episodes only; never between requests"
+}

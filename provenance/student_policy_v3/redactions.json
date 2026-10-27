@@ -1,0 +1,110 @@
+{
+  "scope": "publication_copies_not_deployable_artifacts",
+  "originals_preserved": true,
+  "replacement": "[REDACTED: private absolute runtime path]",
+  "files": [
+    {
+      "public_file": "training_receipt.json",
+      "private_artifact": ".workshop/train-v3/training_receipt.json",
+      "original_sha256": "5c6675ad9e56476c0613be9ffa5b9151206fe22b73240b6f40e7a7f5d056cd0d",
+      "public_sha256": "f4d36af44d4991c134d593ff96049481b1ffde33c30a10ca9546091cfacddb32",
+      "redacted_json_pointers": [
+        "/imported_training_file",
+        "/imported_isaaclab_file"
+      ]
+    },
+    {
+      "public_file": "policy_manifest.json",
+      "private_artifact": ".workshop/train-v3/policy_manifest.json",
+      "original_sha256": "7c0a9a7d71dce5dd5e5d5688a112b41cd95f50105e678bb2cbbfd4021be3d453",
+      "public_sha256": "7c0a9a7d71dce5dd5e5d5688a112b41cd95f50105e678bb2cbbfd4021be3d453",
+      "redacted_json_pointers": []
+    },
+    {
+      "public_file": "preregistration.json",
+      "private_artifact": ".workshop/admit-v3/preregistration.json",
+      "original_sha256": "200bdf24013454286668c9c624ab6c9530b5efad215ce1f82d96b145e5d4711c",
+      "public_sha256": "200bdf24013454286668c9c624ab6c9530b5efad215ce1f82d96b145e5d4711c",
+      "redacted_json_pointers": []
+    },
+    {
+      "public_file": "admission.json",
+      "private_artifact": ".workshop/admit-v3/admission.json",
+      "original_sha256": "619efce51350bdd2b7392395fe6c87dc7271c7e3e2520ea42b396fd3826d96e8",
+      "public_sha256": "619efce51350bdd2b7392395fe6c87dc7271c7e3e2520ea42b396fd3826d96e8",
+      "redacted_json_pointers": []
+    },
+    {
+      "public_file": "first_attempt_native_handoff.json",
+      "private_artifact": ".workshop/handoff-v3/receipt.json",
+      "original_sha256": "e83a10ab0d5296606632bb35a6d5217902ff5a709410ae8fa79064cbd7395434",
+      "public_sha256": "706bd00eb1337938cc802100c41b0ec5e481fddd1592564860e8f7e41a584659",
+      "redacted_json_pointers": [
+        "/launch_command/0",
+        "/launch_command/4",
+        "/launch_command/12",
+        "/launch_command/14",
+        "/launch_command/16"
+      ]
+    },
+    {
+      "public_file": "native_handoff.json",
+      "private_artifact": ".workshop/handoff-v3-confirmation/receipt.json",
+      "original_sha256": "c26f76b668ca07da7d81de7243ee9ac7d70533645a3031685557f8fb385b16c3",
+      "public_sha256": "1f21a7ae1670a2482084ef30bdbaf874afb88fa31024ccb5b48028f0b6c4484b",
+      "redacted_json_pointers": [
+        "/launch_command/0",
+        "/launch_command/4",
+        "/launch_command/12",
+        "/launch_command/14",
+        "/launch_command/16"
+      ]
+    },
+    {
+      "public_file": "policy_identity.json",
+      "private_artifact": ".workshop/handoff-v3-confirmation/policy_identity.json",
+      "original_sha256": "e4fb2ba414cdd89ebc11603d32123bd22a3c8a061a756d8ea0308f0f36ce254d",
+      "public_sha256": "e4fb2ba414cdd89ebc11603d32123bd22a3c8a061a756d8ea0308f0f36ce254d",
+      "redacted_json_pointers": []
+    },
+    {
+      "public_file": "cpu_adversarial_actor_audit.json",
+      "private_artifact": ".workshop/review-probes-v3/audit_saved_actor_results.json",
+      "original_sha256": "500e304b2109ccb269e3e62140bbf799e238eb91a1c04c6a62a32f26e3268bcf",
+      "public_sha256": "c6ac3439472dd466bd5a93546300fb4b1127a7359286700462b4fe3370430381",
+      "redacted_json_pointers": [
+        "/stale_traces_rebound_to_unexecuted_zero_actor/test_only_bundle"
+      ]
+    },
+    {
+      "public_file": "cpu_identity_admission_rejections.json",
+      "private_artifact": ".workshop/review-probes-v3/probe_review_results.json",
+      "original_sha256": "21dd4d12a67696130913a59998c8a8a498f689a74810cbe05b0c59d35762491e",
+      "public_sha256": "974075a2f475b4ff149bb6b06f09e3c7f97a5a7f5024fda3ceb06aba0275b5c1",
+      "redacted_json_pointers": [
+        "/source",
+        "/probe_workspace"
+      ]
+    },
+    {
+      "public_file": "cpu_teardown_rejection.json",
+      "private_artifact": ".workshop/review-probes-v3/probe_teardown_results.json",
+      "original_sha256": "f41d2144f10b0f645ef39906db9f7fa587a4f2208b676b0f62581cf3d769842b",
+      "public_sha256": "7b1120842ada7d74549f23fe3184b9b37c71573bec034ca1208933460b7ba848",
+      "redacted_json_pointers": [
+        "/fixture_output"
+      ]
+    },
+    {
+      "public_file": "canonical_native_handoff.json",
+      "private_artifact": ".workshop/default-v3/receipt.json",
+      "original_sha256": "52352f1a682f80d90d1b9e9a4b5178e732df6daf3ec86c97811007a89884a27c",
+      "public_sha256": "fd1908880b1282c1d146f2e06d43242a6bd839ff8c21a56d9961e5ad45acc8ca",
+      "redacted_json_pointers": [
+        "/launch_command/0",
+        "/launch_command/4",
+        "/launch_command/12"
+      ]
+    }
+  ]
+}

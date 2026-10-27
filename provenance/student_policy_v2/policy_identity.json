@@ -1,0 +1,7 @@
+{
+  "policy_sha256": "5c4e7b23a012eebaebe3f8f1fcba81ebdd0c1bd45f443910220bb4bafec94074",
+  "manifest_sha256": "8b19c0ad49227140c0850615f038fae0d78bdde28ea47b0b3997ede1c2dc78c8",
+  "admission_sha256": "181a6f7fb60336a4f1d84669fdbf3c8b9df6da528ee91b8e7b5caa396c7f8445",
+  "episode_id": "ep_85412bd142904b9493610a261c84bb0d",
+  "scope": "identity_only_not_physical_acceptance"
+}

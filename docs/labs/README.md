@@ -1,5 +1,7 @@
 # Student route — two hours with MicroDuck
 
+> **Primary classroom route:** follow the [six executable notebooks](../../notebooks/README.md). These earlier terminal-based labs remain reference material; their timetable is an alternative, not additional classroom time.
+
 **ROSCon España · Valencia · 27 October 2026 · 15:00–17:00 Europe/Madrid · Aula 2-7.**
 Use your own NVIDIA Brev **L40S or RTX PRO** instance and the instructor's one-day credits. Your laptop is a terminal and browser; it does not need a GPU.
 

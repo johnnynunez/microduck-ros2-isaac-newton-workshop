@@ -1,0 +1,116 @@
+{
+  "scope": "live_local_notebooks_01_03_configured_rehearsal_not_full_course",
+  "source_commit": "53dd85503445fc8c0a9d0c31669e6671f9a0c632",
+  "parent_checked": [
+    "all three executed notebook byte hashes",
+    "every original/executed cell source hash",
+    "18 sequential real code-cell execution counts and no error outputs",
+    "exact displayed JPEG bytes versus retained producer file"
+  ],
+  "notebooks": [
+    {
+      "name": "01_ros2.ipynb",
+      "executed_cells": 6,
+      "errors": 0,
+      "elapsed_s": 9.057889938354492,
+      "cell_seconds": {
+        "1": 0.010076274003949948,
+        "3": 0.002100205994793214,
+        "4": 3.3947145540005295,
+        "6": 2.1990970100014238,
+        "8": 2.4649821460043313,
+        "10": 0.3274493530043401
+      },
+      "executed_file_sha256": "d1aae30e1609977ede823fd339a82d18db33217d93e9ec7c970f647c7804de02",
+      "changed_cell_indices": [
+        3
+      ]
+    },
+    {
+      "name": "02_isaac_ros_5.ipynb",
+      "executed_cells": 6,
+      "errors": 0,
+      "elapsed_s": 11.497870445251465,
+      "cell_seconds": {
+        "1": 0.010186993007664569,
+        "3": 0.0028599219949683174,
+        "4": 1.9418833179952344,
+        "6": 5.387431262002792,
+        "8": 0.4505885519902222,
+        "10": 2.8298800460033817
+      },
+      "executed_file_sha256": "c8f93394c25257d9f5c9cb6ba8c1d6b45d34eea02c555183b66bcd64cfe70f07",
+      "changed_cell_indices": [
+        3,
+        4
+      ]
+    },
+    {
+      "name": "03_microduck_isaac_sim_6_2.ipynb",
+      "executed_cells": 6,
+      "errors": 0,
+      "elapsed_s": 230.8788778781891,
+      "cell_seconds": {
+        "1": 0.01005332000204362,
+        "3": 0.0028692259948002174,
+        "4": 220.44203458899574,
+        "6": 0.029331736004678532,
+        "8": 5.262519063995569,
+        "10": 4.003902889002347
+      },
+      "executed_file_sha256": "f258e7090b1203027eea32ec3e1ab4e2b1077289ec94d9d4c864f8e9f7c04f79",
+      "changed_cell_indices": [
+        3,
+        4,
+        8
+      ]
+    }
+  ],
+  "snapshot": {
+    "sha256": "92c3f98e7ef5d4249bc123a379527042df36f87a274b6e7addc0ab264781f270",
+    "bytes": 7425,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.3",
+      "Date": "Tue, 27 Oct 2026 11:21:09 GMT",
+      "Content-Type": "image/jpeg",
+      "Content-Length": "7425",
+      "Cache-Control": "no-store",
+      "X-Microduck-Episode": "ep_f673c07966864ab3aac668a60f2b0ba3",
+      "X-Microduck-Sequence": "24",
+      "X-Microduck-Sim-Time": "0.12000000000000004",
+      "X-Microduck-Capture-Monotonic": "120945.304693689"
+    }
+  },
+  "snapshot_visual_review": "Nonblank pale scene; fully visible tilted black-and-white fiducial. No image-only claim of CUDA detection, robot motion or physical success.",
+  "images": {
+    "tutorial": {
+      "reference": "roscon/microduck-ros5:notebook-candidate",
+      "image_id": "sha256:508bb9ccb79326767de503c545f5594574493df19cac2a1a57edf38ef31a1291"
+    },
+    "detector": {
+      "reference": "roscon/microduck-ros5:notebook-candidate",
+      "image_id": "sha256:508bb9ccb79326767de503c545f5594574493df19cac2a1a57edf38ef31a1291"
+    },
+    "sim": {
+      "reference": "roscon/microduck-sim:student-candidate",
+      "image_id": "sha256:d3af33c527e7e672f69e65b69c0f72c91b1739c21e94f7495f63d77cc6097b5f"
+    },
+    "ros": {
+      "reference": "roscon/microduck-ros5:notebook-candidate",
+      "image_id": "sha256:508bb9ccb79326767de503c545f5594574493df19cac2a1a57edf38ef31a1291"
+    }
+  },
+  "configuration_deltas": [
+    "explicit live/EULA opt-ins",
+    "GPU1 via CDI",
+    "ROS 24GiB/6CPU rather than public 8GiB/4CPU defaults",
+    "immutable candidate image names and isolated domain81/prefix"
+  ],
+  "limits": [
+    "No student-policy or notebook04-06 acceptance",
+    "No gait/motion or detector-result acceptance",
+    "Cloud/Brev/L40S unverified",
+    "Historical component source; later integrated GPU-selector and policy changes require their own rehearsal"
+  ],
+  "gpu": "physical GPU1, local RTX PRO; exact UUID/PID correlation retained privately"
+}

@@ -6,6 +6,7 @@ if [[ "${1:-}" != --accept-nvidia-eula || "${2:-}" != --accept-mesh-license ]]; 
   echo 'Review licenses; use --accept-nvidia-eula --accept-mesh-license.' >&2
   exit 2
 fi
+command -v uv >/dev/null || { printf '%s\n' 'uv is required for the host notebook kernel; ask staff to prepare it before building images.' >&2; exit 2; }
 bash scripts/brev_preflight.sh
 mkdir -p .workshop/receipts .workshop/agent-output
 # Reuse the signed-package base; build it only if absent. No host apt changes.
@@ -38,4 +39,5 @@ if [[ ! -f scripts/model_setup.sh ]]; then
 fi
 bash scripts/model_setup.sh
 bash scripts/model_setup.sh --verify-only
-printf '%s\n' 'Sim, ROS5, CASCADE and pinned local model prepared. No paid cloud resources were created.'
+bash scripts/notebook_setup.sh
+printf '%s\n' 'Sim, ROS5, CASCADE, pinned local model and host notebook kernel prepared. No paid cloud resources were created.'

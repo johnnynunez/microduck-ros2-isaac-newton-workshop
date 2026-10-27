@@ -28,6 +28,10 @@ from .native import MicroDuckRuntime
 def parser():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--asset-root", type=Path, required=True)
+    p.add_argument("--policy-manifest", type=Path, help="explicit student actor; never falls back")
+    p.add_argument(
+        "--policy-admission", type=Path, help="exact-policy native admission for serving"
+    )
     p.add_argument("--output", type=Path, default=Path("artifacts/runtime"))
     p.add_argument("--mode", choices=("validate", "serve"), default="serve")
     p.add_argument(
@@ -167,14 +171,29 @@ def main(argv=None):
     if not 0 < args.validation_vx <= 0.4:
         raise ValueError("validation velocity must be in (0,.4], the source training range")
     args.output.mkdir(parents=True, exist_ok=True)
-    policy = VelStandPolicy(args.asset_root / "policies/velstand.onnx", mode=args.policy_mode)
-    profile = CommandProfile(args.command_profile)
+    if args.policy_manifest is not None:
+        from microduck_workshop.policy.student import select_student
+
+        policy, profile, step_profile = select_student(
+            args.policy_manifest,
+            mode=args.mode,
+            policy_mode=args.policy_mode,
+            command_profile=args.command_profile,
+            step_profile=args.step_profile,
+            candidate_validation=args.step_candidate_validation,
+            admission_path=args.policy_admission,
+        )
+    else:
+        if args.policy_admission is not None:
+            raise ValueError("policy admission requires an explicit student manifest")
+        policy = VelStandPolicy(args.asset_root / "policies/velstand.onnx", mode=args.policy_mode)
+        profile = CommandProfile(args.command_profile)
+        step_profile = (
+            StepProfile(args.step_candidate_validation) if args.step_profile == STEP_NAME else None
+        )
+        if args.step_candidate_validation and step_profile is None:
+            raise ValueError("candidate validation requires explicit --step-profile")
     profile.bind(policy_sha256=policy.sha256, policy_mode=policy.mode)
-    step_profile = (
-        StepProfile(args.step_candidate_validation) if args.step_profile == STEP_NAME else None
-    )
-    if args.step_candidate_validation and step_profile is None:
-        raise ValueError("candidate validation requires explicit --step-profile")
     if step_profile is not None:
         step_profile.bind(policy_sha256=policy.sha256, policy_mode=policy.mode)
     owner = IntentOwner(
@@ -196,6 +215,7 @@ def main(argv=None):
                 runtime.identity,
                 policy_sha256=policy.sha256,
                 policy_mode=policy.mode,
+                policy_manifest_sha256=getattr(policy, "manifest", {}).get("manifest_sha256"),
                 command_profile=profile.receipt(),
                 step_profile=step_profile.receipt() if step_profile else None,
             ),

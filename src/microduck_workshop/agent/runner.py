@@ -339,12 +339,29 @@ def main(argv=None):
     parser.add_argument("--max-steps", type=int, default=6)
     parser.add_argument("--task", default=TASK)
     parser.add_argument(
+        "--policy-manifest", type=Path, help="bind provider receipts to this student"
+    )
+    parser.add_argument("--policy-admission", type=Path, help="required with student manifest")
+    parser.add_argument("--native-health-url", default="http://127.0.0.1:8766/v1/health")
+    parser.add_argument(
         "--tools-file", type=Path, help="explicit trusted student/reference tools.py"
     )
     args = parser.parse_args(argv)
     from .api_check import check_cascade_api
 
     check_cascade_api()
+    policy_identity = None
+    if (args.policy_manifest is None) != (args.policy_admission is None):
+        raise ValueError("student manifest and exact-policy admission must be provided together")
+    if args.policy_manifest is not None:
+        from microduck_workshop.policy.identity import read_policy_identity
+
+        policy_identity = read_policy_identity(
+            args.policy_manifest,
+            args.policy_admission,
+            args.native_health_url,
+            episode_id=args.episode_id,
+        )
     handlers = {}
     if args.tools_file:
         import importlib.util
@@ -360,6 +377,10 @@ def main(argv=None):
         if not all(callable(value) for value in handlers.values()):
             raise ValueError("tools file must supply both callable handlers")
     args.run_dir.mkdir(parents=True, exist_ok=False)
+    if policy_identity is not None:
+        (args.run_dir / "policy_identity.json").write_text(
+            json.dumps(policy_identity, indent=2) + "\n"
+        )
     llm = RecordedLocalClient(
         model=args.model,
         base_url=args.base_url,
@@ -367,6 +388,8 @@ def main(argv=None):
         max_requests=args.max_steps,
     )
     gateway = RclpyGateway(namespace=args.namespace)
+    if policy_identity is not None:
+        llm._record({"kind": "selected_native_policy_identity", **policy_identity})
     agent, runtime = build_agent(
         llm,
         gateway,
@@ -383,6 +406,7 @@ def main(argv=None):
             "namespace": args.namespace,
             "episode_id": args.episode_id,
             "physical_acceptance": "requires_independent_same_episode_evidence",
+            "selected_policy_identity": policy_identity,
         }
     )
     cancel = threading.Event()
@@ -397,6 +421,17 @@ def main(argv=None):
         payload = asdict(report)
         # Report is an agent assertion, NOT a replacement for physical acceptance artifacts.
         payload["evidence_scope"] = "agent_ROS_episode_requires_independent_audit"
+        if policy_identity is not None:
+            final_identity = read_policy_identity(
+                args.policy_manifest,
+                args.policy_admission,
+                args.native_health_url,
+                episode_id=args.episode_id,
+            )
+            if final_identity != policy_identity:
+                raise ValueError("student policy identity changed during agent episode")
+            payload["selected_policy_identity"] = final_identity
+            llm._record({"kind": "final_native_policy_identity", **final_identity})
         (args.run_dir / "report.json").write_text(json.dumps(payload, indent=2) + "\n")
         print(json.dumps(payload, indent=2))
         return 0 if report.success else 2

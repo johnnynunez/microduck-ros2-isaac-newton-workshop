@@ -1,0 +1,6 @@
+{
+  "exception": "controlled teardown exception",
+  "receipt_passed_after_exception": false,
+  "receipt_error": "RuntimeError: controlled teardown exception",
+  "fixture_output": "[REDACTED: private absolute runtime path]"
+}

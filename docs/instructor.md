@@ -1,5 +1,7 @@
 # Instructor runbook — 120 minutes, not a two-hour installation
 
+> **Primary classroom route:** use the [notebook instructor guide](notebook_instructor.md) and [six notebooks](../notebooks/README.md). This page retains the earlier terminal-based timing and commands as technical reference; do not mix its timetable with the notebook agenda.
+
 **27 October 2026 · 15:00–17:00 Europe/Madrid · Aula 2-7 · ROSCon España, Valencia.**
 Use [the student route](labs/README.md) as the projected navigation page. Bring your own NVIDIA/Newton slides; this runbook does **not** replace them with a generic deck.
 

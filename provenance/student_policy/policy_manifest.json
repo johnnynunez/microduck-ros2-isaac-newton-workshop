@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "student_actor",
+  "actor": {
+    "path": "actor.onnx",
+    "sha256": "d997842181623f1ce030d86cb815f0aa954d29f8f7bdbad0073cd50f236139a2"
+  },
+  "checkpoint": {
+    "path": "checkpoint.pt",
+    "sha256": "b640f92f9495487de7cf4392a03c1a8c8ce36ba192c89190ef5b78ed0d373316"
+  },
+  "training_receipt": {
+    "path": "training_receipt.json",
+    "sha256": "495c016eceea0a5df16a22090074dbebe4312a6dec83ebbe4fd39c0241526c42"
+  },
+  "parent_policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+  "policy_mode": "training",
+  "input": {
+    "name": "obs",
+    "shape": [
+      1,
+      61
+    ]
+  },
+  "output": {
+    "name": "actions",
+    "shape": [
+      1,
+      14
+    ]
+  },
+  "source_sha256": {
+    "contracts.py": "de0a1aa5281ef6fee43e04b45695cc53e30528802831236ca5fe242f967f84ef",
+    "policy/contract.py": "05c275180e49ec13efa53a15a54c9ab7270e8ea401b180effb82d3da7043fc98",
+    "policy/imu.py": "9af40ae13f36b3874f8b2292856b1fece2743f632db3ac67365d9fd3cead9e72",
+    "policy/onnx.py": "9aab1e328312c750f66a2a3058bb687c26ee0186e985900c14c075a98102e428",
+    "policy/step.py": "2d6e6e9b3d7adb475a78832151c6376d66fb419d5c74648a6fedbb57c58cbc89",
+    "policy/student.py": "73294de7d7406c5374ed528b2e6295f5d982bd0a633d3266e09e823c7b57a561",
+    "sim/native.py": "c8706640e29c8c1197eb5dc62d4eacbb2d4f1193590135a70a548e12491c75e2",
+    "sim/prepare.py": "e87f3175ea13ec2e386b340e9e76d2423103831af0581304de1f49da4cfe6e2a",
+    "sim/bam.py": "43c15b119052b6428fe9ad8511e6d5eed3efff77d1d127d635542f26fc7cfabb",
+    "sim/joint_map.py": "35ab63c23f87f2d9422bcdda06c10eee22af11eb50272119d752184d849fceeb",
+    "sim/play.py": "c9717d857307b6256eb8627a6d9927124088f770d8829556f5a322d8be1016fa",
+    "sim/evaluate.py": "04d83c178af0465ad57d7551e32e0ec292f42bdcbb0ef645d4cf0ed94c83c037",
+    "sim/intent.py": "8d487e862818e93a25b6f52e4f66ab469c49e2736cc5121094c35ca94c3125b7",
+    "sim/http.py": "e067f71928fa885c06f61de4561d86ab224c75159f530fe6fa3d270d94f89721",
+    "sim/admit_policy.py": "7cbfecad740b013a5462ca75a1c8824b9fd1f7746a8d6698ede46972c6ee8230"
+  },
+  "admission": "not_admitted"
+}

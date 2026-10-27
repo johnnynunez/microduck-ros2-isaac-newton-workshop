@@ -1,0 +1,362 @@
+{
+  "scope": "native_only_not_ros_agent_acceptance",
+  "passed": false,
+  "policy_sha256": "95b0018ab09be1a02cbed2498b5730df831d13d9d29dac8317b18e2f9a6c597c",
+  "port": 18766,
+  "launch_command": [
+    "[REDACTED: private absolute runtime path]",
+    "-c",
+    "import functools; from microduck_workshop.sim import play; from microduck_workshop.sim.http import serve; play.serve=functools.partial(serve,port=18766); play.main()",
+    "--asset-root",
+    "[REDACTED: private absolute runtime path]",
+    "--mode",
+    "serve",
+    "--steps",
+    "0",
+    "--step-profile",
+    "step-forward-v1",
+    "--output",
+    "[REDACTED: private absolute runtime path]",
+    "--policy-manifest",
+    "[REDACTED: private absolute runtime path]",
+    "--policy-admission",
+    "[REDACTED: private absolute runtime path]"
+  ],
+  "source_sha256": {
+    "src/microduck_workshop/contracts.py": "de0a1aa5281ef6fee43e04b45695cc53e30528802831236ca5fe242f967f84ef",
+    "src/microduck_workshop/policy/contract.py": "05c275180e49ec13efa53a15a54c9ab7270e8ea401b180effb82d3da7043fc98",
+    "src/microduck_workshop/policy/imu.py": "9af40ae13f36b3874f8b2292856b1fece2743f632db3ac67365d9fd3cead9e72",
+    "src/microduck_workshop/policy/onnx.py": "9aab1e328312c750f66a2a3058bb687c26ee0186e985900c14c075a98102e428",
+    "src/microduck_workshop/policy/step.py": "2d6e6e9b3d7adb475a78832151c6376d66fb419d5c74648a6fedbb57c58cbc89",
+    "src/microduck_workshop/policy/student.py": "ca36d3508e4807dfab40f80d2ad12ab03ad93732b83ad4313bd865bde539ea78",
+    "src/microduck_workshop/sim/native.py": "c8706640e29c8c1197eb5dc62d4eacbb2d4f1193590135a70a548e12491c75e2",
+    "src/microduck_workshop/sim/prepare.py": "e87f3175ea13ec2e386b340e9e76d2423103831af0581304de1f49da4cfe6e2a",
+    "src/microduck_workshop/sim/bam.py": "43c15b119052b6428fe9ad8511e6d5eed3efff77d1d127d635542f26fc7cfabb",
+    "src/microduck_workshop/sim/joint_map.py": "35ab63c23f87f2d9422bcdda06c10eee22af11eb50272119d752184d849fceeb",
+    "src/microduck_workshop/sim/play.py": "c9717d857307b6256eb8627a6d9927124088f770d8829556f5a322d8be1016fa",
+    "src/microduck_workshop/sim/evaluate.py": "04d83c178af0465ad57d7551e32e0ec292f42bdcbb0ef645d4cf0ed94c83c037",
+    "src/microduck_workshop/sim/intent.py": "8d487e862818e93a25b6f52e4f66ab469c49e2736cc5121094c35ca94c3125b7",
+    "src/microduck_workshop/sim/http.py": "e067f71928fa885c06f61de4561d86ab224c75159f530fe6fa3d270d94f89721",
+    "src/microduck_workshop/sim/admit_policy.py": "c587e23f497341622010e57ed14588a4c28cf043f6473199335eb3c7fd9f5e2b"
+  },
+  "harness_sha256": "a9d39bfa862ceaad766ea333520b3c65de9cbaaffeceed0a0771c6d7d34bc3ec",
+  "requests": [
+    {
+      "request_id": "step",
+      "ack": {
+        "episode_id": "ep_512723f51aa54f2c8707ba4f3a872e62",
+        "request_id": "step",
+        "generation": 1,
+        "status": "accepted",
+        "reason": "queued; no physical verdict",
+        "accepted": true
+      },
+      "completed_status": {
+        "known": true,
+        "episode_id": "ep_512723f51aa54f2c8707ba4f3a872e62",
+        "request_id": "step",
+        "generation": 1,
+        "status": "completed",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "planned step horizon ended; physical verdict pending"
+      },
+      "physical_status": {
+        "known": true,
+        "episode_id": "ep_512723f51aa54f2c8707ba4f3a872e62",
+        "request_id": "step",
+        "generation": 1,
+        "status": "completed",
+        "completed": true,
+        "verification_available": true,
+        "verified": true,
+        "reason": "native motion and rest checks passed"
+      }
+    },
+    {
+      "request_id": "resume",
+      "ack": {
+        "episode_id": "ep_512723f51aa54f2c8707ba4f3a872e62",
+        "request_id": "resume",
+        "generation": 2,
+        "status": "accepted",
+        "reason": "queued; no physical verdict",
+        "accepted": true
+      },
+      "completed_status": {
+        "known": true,
+        "episode_id": "ep_512723f51aa54f2c8707ba4f3a872e62",
+        "request_id": "resume",
+        "generation": 2,
+        "status": "completed",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "planned step horizon ended; physical verdict pending"
+      },
+      "physical_status": {
+        "known": true,
+        "episode_id": "ep_512723f51aa54f2c8707ba4f3a872e62",
+        "request_id": "resume",
+        "generation": 2,
+        "status": "completed",
+        "completed": true,
+        "verification_available": true,
+        "verified": false,
+        "reason": "native motion or rest check failed"
+      }
+    }
+  ],
+  "prior_native_merged_sha256": "9ebe93d4c8af30df0ea71f25051738d2e42ba5b9e811e8a475db9dcaeaef158b",
+  "runtime": {
+    "isaaclab": "28.0.0",
+    "isaacsim": "6.2.0.0",
+    "newton": "1.6.1",
+    "mujoco": "3.12.0",
+    "mujoco-warp": "3.12.0",
+    "warp-lang": "1.17.0",
+    "torch": "2.11.0+cu130",
+    "physics_owner": "isaaclab_newton.physics.NewtonManager",
+    "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+    "asset_sha256": "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8",
+    "isaaclab_git_sha": "e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4",
+    "model_body_count": 15,
+    "model_joint_count": 15,
+    "joint_names": [
+      "passive_right_hip_yaw_backlash:0",
+      "passive_right_hip_yaw_backlash:1",
+      "passive_right_hip_roll_backlash:0",
+      "passive_right_hip_roll_backlash:1",
+      "passive_right_hip_pitch_backlash:0",
+      "passive_right_hip_pitch_backlash:1",
+      "passive_right_knee_backlash:0",
+      "passive_right_knee_backlash:1",
+      "passive_right_ankle_backlash:0",
+      "passive_right_ankle_backlash:1",
+      "neck_pitch:0",
+      "neck_pitch:1",
+      "head_pitch:0",
+      "head_pitch:1",
+      "head_yaw:0",
+      "head_yaw:1",
+      "head_roll:0",
+      "head_roll:1",
+      "left_hip_yaw:0",
+      "left_hip_yaw:1",
+      "left_hip_roll:0",
+      "left_hip_roll:1",
+      "left_hip_pitch:0",
+      "left_hip_pitch:1",
+      "left_knee:0",
+      "left_knee:1",
+      "left_ankle:0",
+      "left_ankle:1"
+    ],
+    "camera_enabled": false,
+    "servo_ids": [
+      18,
+      20,
+      22,
+      24,
+      26,
+      10,
+      12,
+      14,
+      16,
+      1,
+      3,
+      5,
+      7,
+      9
+    ],
+    "backlash_ids": [
+      19,
+      21,
+      23,
+      25,
+      27,
+      11,
+      13,
+      15,
+      17,
+      0,
+      2,
+      4,
+      6,
+      8
+    ],
+    "joint_limits": [
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.5235987901687622,
+        0.4363323152065277
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.3839724361896515,
+        0.3839724361896515
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -1.5707963705062866,
+        1.0471975803375244
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -2.96705961227417,
+        2.96705961227417
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.4363323152065277,
+        0.4363323152065277
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.4363323152065277,
+        0.5235987901687622
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -0.3839724361896515,
+        0.3839724361896515
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ],
+      [
+        -1.5707963705062866,
+        1.5707963705062866
+      ],
+      [
+        -0.01745329238474369,
+        0.01745329238474369
+      ]
+    ],
+    "policy_sha256": "95b0018ab09be1a02cbed2498b5730df831d13d9d29dac8317b18e2f9a6c597c",
+    "policy_mode": "training",
+    "policy_manifest_sha256": "7c0a9a7d71dce5dd5e5d5688a112b41cd95f50105e678bb2cbbfd4021be3d453",
+    "command_profile": {
+      "name": "direct",
+      "policy_sha256": "95b0018ab09be1a02cbed2498b5730df831d13d9d29dac8317b18e2f9a6c597c",
+      "policy_mode": "training",
+      "nonzero_direct_motion": "NOT_READY"
+    },
+    "step_profile": {
+      "name": "step-forward-v1",
+      "requested_peak": [
+        0.1,
+        0.0,
+        0.0
+      ],
+      "drive_neural_command": [
+        0.25,
+        0.0,
+        0.0
+      ],
+      "drive_s": 1.0,
+      "settle_neural_command": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "settle_s": 1.0,
+      "horizon_s": 2.0,
+      "verifier_wait_s": 0.36,
+      "policy_sha256": "95b0018ab09be1a02cbed2498b5730df831d13d9d29dac8317b18e2f9a6c597c",
+      "policy_mode": "training",
+      "validation_status": "NATIVE_VALIDATED",
+      "admission_sha256": "619efce51350bdd2b7392395fe6c87dc7271c7e3e2520ea42b396fd3826d96e8",
+      "candidate_validation": false,
+      "online_feedback": false,
+      "production_requires_observation_proof": true,
+      "scope": "native_only_not_ros_agent_acceptance",
+      "profile_sha256": "4bd74075824b3ba39a20f725c5074436cbfe74bc6a54519d1048a9af1bf6c17f"
+    }
+  },
+  "episode_id": "ep_512723f51aa54f2c8707ba4f3a872e62",
+  "selected_policy_identity": {
+    "policy_sha256": "95b0018ab09be1a02cbed2498b5730df831d13d9d29dac8317b18e2f9a6c597c",
+    "manifest_sha256": "7c0a9a7d71dce5dd5e5d5688a112b41cd95f50105e678bb2cbbfd4021be3d453",
+    "admission_sha256": "619efce51350bdd2b7392395fe6c87dc7271c7e3e2520ea42b396fd3826d96e8",
+    "episode_id": "ep_512723f51aa54f2c8707ba4f3a872e62",
+    "scope": "identity_only_not_physical_acceptance"
+  },
+  "error": "AssertionError: {'known': True, 'episode_id': 'ep_512723f51aa54f2c8707ba4f3a872e62', 'request_id': 'resume', 'generation': 2, 'status': 'completed', 'completed': True, 'verification_available': True, 'verified': False, 'reason': 'native motion or rest check failed'}",
+  "renewal_errors": [],
+  "server_exit_code": 0,
+  "artifacts_sha256": {
+    "evaluator_verdicts.jsonl": "8bde7e1b596ea10b24d762aae580d605c63642691238f4cec4dd86e523aaf6c1",
+    "runtime_identity.json": "2050ba8b71c254ca78de6a7fa0c8e2a6c865a81586c8418727ad280fc15f8322",
+    "evaluator_truth.jsonl": "070aaa4eef44f2b546abdc9f400bdfe405faacaabf7d1a6feba8de83e1394b07",
+    "policy_trace.jsonl": "a32d099c01b6487fd81dbb3eb4533d5d251ea950af0239dfd98d5e9b23e828d8",
+    "evaluation.json": "82d9bdf58f82913579fcefb70a6e2f8bfc0ef8a27e93009d28f57b4e15850b36"
+  }
+}

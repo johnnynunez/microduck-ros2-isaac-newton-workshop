@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "public_sanitized_historical_evidence",
+  "deployable": false,
+  "runtime_authorization": false,
+  "description": "These are path-redacted publication copies, not byte-identical raw receipts or a deployable policy bundle. Original artifact bindings remain unchanged. This manifest is publication provenance only, never a runtime validation bypass.",
+  "transformation": {
+    "kind": "literal_checkout_prefix_substitution",
+    "replacement": "${WORKSHOP_ROOT}",
+    "description": "Replace only the original host checkout root with the portable marker, preserving every suffix and every other byte. The private prefix and raw originals are retained outside Git. JSON keys, numbers, booleans, source hashes, artifact identities, timestamps, verdicts and failure messages (apart from paths) are unchanged. The marker denotes the historical project root, including its worktree and local-runtime suffixes; it is not a runnable location."
+  },
+  "files": [
+    {
+      "path": "provenance/native_policy_default_revalidation.json",
+      "original_sha256": "9a60ae327629ed3de6d876ec8f404c55899680d99ac05e623e9b7e1b76c07e26",
+      "published_sha256": "ab135332249e84ade50bd3912b065b2f7959a0c41b44ea990d6c25c77a10c639",
+      "replacement_count": 3,
+      "changed_json_pointers": [
+        "/launch_command/0",
+        "/launch_command/4",
+        "/launch_command/12"
+      ]
+    },
+    {
+      "path": "provenance/student_policy/attempt01_training_receipt.json",
+      "original_sha256": "6aae908c54d865246769fce74f8e9ebed19ce9b26dd67dbe57ec51f21b195887",
+      "published_sha256": "712af064b9e134a82e2c2622e0127aa9a3444eb9b0f337f8620be76eec41a215",
+      "replacement_count": 2,
+      "changed_json_pointers": [
+        "/imported_training_file",
+        "/imported_isaaclab_file"
+      ]
+    },
+    {
+      "path": "provenance/student_policy/native_handoff.json",
+      "original_sha256": "794d9a79627b331eab4d3440da9e33dc24b99e1d398075934a80202a4c8248f6",
+      "published_sha256": "1d93eac949f7d2d1a77aa1812307c2516c60053c9eac4055fbe65ba16fd92d51",
+      "replacement_count": 5,
+      "changed_json_pointers": [
+        "/launch_command/0",
+        "/launch_command/4",
+        "/launch_command/12",
+        "/launch_command/14",
+        "/launch_command/16"
+      ]
+    },
+    {
+      "path": "provenance/student_policy/training_receipt.json",
+      "original_sha256": "495c016eceea0a5df16a22090074dbebe4312a6dec83ebbe4fd39c0241526c42",
+      "published_sha256": "3898e5678c55f0215aaa360a9f589ece479a5153d0134c1cdf7cd21d472cc3c3",
+      "replacement_count": 2,
+      "changed_json_pointers": [
+        "/imported_training_file",
+        "/imported_isaaclab_file"
+      ]
+    }
+  ]
+}

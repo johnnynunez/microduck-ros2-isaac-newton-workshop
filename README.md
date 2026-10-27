@@ -6,7 +6,7 @@ A two-hour, hands-on workshop using **ROS 2 Lyrical, NVIDIA Isaac ROS 5.0, Isaac
 
 Participants work in **NVIDIA Brev**, using instructor-provided one-day credits on **L40S or RTX PRO**. No laptop GPU is required. Prepare downloads and environments before the two-hour session.
 
-> **Readiness:** two short ordinary camera → ROS → agent → Newton episodes and a real STOP refusal now pass with parent-audited evidence. **Sustained classroom availability remains blocked by intermittent ROS gateway progress stalls.** The new notebook-first student-policy route is also pending validation. Use the [current readiness record](verification/READINESS.md); a small passing repetition does not erase failed cases.
+> **Release candidate — not full-course acceptance.** All six notebooks and the teaching guide are implemented. Notebooks 01–03 have real local execution evidence, and the ROS stall repair has independently audited GO/STOP results after 65 seconds idle. **The current full-course rehearsal is blocked at Notebook 04:** its offline training container cannot retrieve the SDK ground asset;05–06 were not executed. Follow the [current readiness record](verification/READINESS.md), preserve the failed attempt, and do not label this a complete classroom or Brev/L40S pass.
 
 ## Official MicroDuck sources
 
@@ -19,9 +19,10 @@ Participants work in **NVIDIA Brev**, using instructor-provided one-day credits 
 
 ## Workshop materials
 
-- [Student route and 120-minute agenda](docs/labs/README.md)
+- **[Start here: six executable Jupyter notebooks](notebooks/README.md)**
+- **[Instructor speaking, questions and recovery guide](docs/notebook_instructor.md)**
 - [Before class: Brev preparation](docs/labs/00-before-class.md)
-- [Instructor runbook](docs/instructor.md)
+- [Terminal-based reference labs](docs/labs/README.md) and [technical instructor reference](docs/instructor.md)
 - [ROS 2 exercises](exercises/ros_basics/README.md) and [complete reference solution](solutions/ros_basics/README.md)
 - [Troubleshooting](docs/troubleshooting.md)
 
@@ -41,13 +42,18 @@ The read-only ROS exercises do not bypass the motion gateway.
 
 ## Learning route
 
-1. Understand the technology stack and why the physics engine is Newton.
-2. Inspect ROS 2 nodes, topics, messages, QoS, parameters and simulation time.
-3. Run a public MicroDuck asset in Isaac Lab/Newton, rendered through Isaac Sim.
-4. Inspect observations/actions/rewards and run a short real RL training experiment.
-5. Process actual onboard camera images with Isaac ROS 5.0.
-6. Implement CASCADE observation and fixed-step tools, then run the agent game.
-7. Stop workshop processes and stop/delete the Brev instance when finished.
+Keep the instructor's existing 15-minute introduction. Then follow this notebook sequence:
+
+1. **[ROS 2](notebooks/01_ros2.ipynb)** — nodes, typed topics, publishers and subscribers.
+2. **[Isaac ROS 5.0](notebooks/02_isaac_ros_5.ipynb)** — load and inspect the CUDA perception component; camera input arrives in the next stage.
+3. **[MicroDuck in Isaac Sim 6.2.0](notebooks/03_microduck_isaac_sim_6_2.ipynb)** — Newton physics, actual onboard images and ROS sensors.
+4. **[Train with Isaac Lab 3.0](notebooks/04_train_isaac_lab_3.ipynb)** — short actor warm-start PPO training, your checkpoint and actual exported ONNX.
+5. **[Policy inference](notebooks/05_policy_inference.ipynb)** — evaluate and admit that exact export, then load it in Isaac Sim; no pretrained substitution.
+6. **[CASCADE with your policy](notebooks/06_cascade_policy_agent.ipynb)** — implement the adapter, run a local-agent attempt and inspect the independent verdict for the same admitted policy.
+
+The notebook timeboxes are 15/15/15/20/15/20 minutes, followed by five minutes of mandatory shutdown. Setup and image/model downloads happen before the class. A short fine-tuning run is not a promise of converged walking from scratch, and an admission failure does not trigger a hidden fallback.
+
+For a host already configured for NVIDIA CDI, set `WORKSHOP_GPU_SELECTOR=cdi` and the assigned numeric `WORKSHOP_GPU` before starting Jupyter. Otherwise the explicit default is Docker's `--gpus device=N` selector. Unknown selectors fail; no silent device fallback is attempted. This is host configuration, not evidence that a particular cloud instance was tested.
 
 **Stopping a Docker container does not stop cloud billing.** Do not assume credits automatically shut an instance down.
 
@@ -63,8 +69,9 @@ The read-only ROS exercises do not bypass the motion gateway.
 ## Development checks available now
 
 ```bash
-# Small CPU-only environment, not the simulator or ROS installation.
+# CPU software/notebook checks, not the simulator or ROS installation.
 uv sync --extra policy --extra agent --group dev
+uv pip install --python .venv/bin/python -r requirements-notebooks.txt
 uv run --no-sync pytest -q
 uv run --no-sync python -m microduck_workshop.doctor
 

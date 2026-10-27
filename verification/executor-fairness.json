@@ -1,0 +1,592 @@
+{
+  "schema": 1,
+  "base_commit": "c1fe1cbb96ab9240d0076552788af071c96a5a83",
+  "scope": "ROS executor image patch only; no physics, policy, evaluator or notebook changes",
+  "patch": {
+    "module": "/opt/ros/lyrical/lib/python3.12/site-packages/rclpy/executors.py",
+    "sha256": "516b88e7a011d679ce68d999e11ef12d9a78b10c86a402f7c13e20ba74105ffd",
+    "receipt": {
+      "rclpy_version": "10.0.10",
+      "path": "/opt/ros/lyrical/lib/python3.12/site-packages/rclpy/executors.py",
+      "original_sha256": "0830da415e9a63732b8a8bba734883110d04a4be7b21adcf232ac0567332a4a7",
+      "patched_sha256": "516b88e7a011d679ce68d999e11ef12d9a78b10c86a402f7c13e20ba74105ffd",
+      "installer_sha256": "54baa1f17131398cf465b16fed1e6fc330262d5db27a019f95fcf002641042a0",
+      "change": "zero-duration OS wait only after a complete no-handler iteration"
+    }
+  },
+  "environment": {
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "scheduler": 0,
+    "switch_interval": 0.005,
+    "rclpy": "10.0.10",
+    "rmw": "rmw_fastrtps_cpp",
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39"
+  },
+  "host_cpu_result": "493 passed, 22 skipped in 41.98s",
+  "focused_ros_result": "47 passed in 12.02s",
+  "stock_repeated": [
+    {
+      "events_enabled": true,
+      "empty_including_events": 94868,
+      "max_renewal_gap_s": 0.7750169390055817,
+      "renewals": 17,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 0, 0, 0, 0)",
+          94868
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "events_enabled": false,
+      "empty_including_events": 0,
+      "max_renewal_gap_s": 0.050307626006542705,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "events_enabled": true,
+      "empty_including_events": 102251,
+      "max_renewal_gap_s": 0.4240106959914556,
+      "renewals": 18,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 0, 0, 0, 0)",
+          102251
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "events_enabled": false,
+      "empty_including_events": 0,
+      "max_renewal_gap_s": 0.05029793099674862,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "events_enabled": true,
+      "empty_including_events": 106946,
+      "max_renewal_gap_s": 0.3579968599951826,
+      "renewals": 24,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 0, 0, 0, 0)",
+          106946
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "events_enabled": false,
+      "empty_including_events": 0,
+      "max_renewal_gap_s": 0.050263227996765636,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    }
+  ],
+  "candidate_repeated": [
+    {
+      "events_enabled": true,
+      "empty_including_events": 34667,
+      "max_renewal_gap_s": 0.05038602399872616,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 0, 0, 0, 0)",
+          34667
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "events_enabled": false,
+      "empty_including_events": 0,
+      "max_renewal_gap_s": 0.05027581700414885,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "wakes": 33673,
+      "renewals": 61,
+      "max_renewal_gap_s": 0.050295387001824565,
+      "matched": [
+        1
+      ]
+    },
+    {
+      "events_enabled": true,
+      "empty_including_events": 34971,
+      "max_renewal_gap_s": 0.05039065099845175,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 0, 0, 0, 0)",
+          34971
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "events_enabled": false,
+      "empty_including_events": 0,
+      "max_renewal_gap_s": 0.050359353990643285,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "wakes": 33633,
+      "renewals": 61,
+      "max_renewal_gap_s": 0.050290750004933216,
+      "matched": [
+        1
+      ]
+    },
+    {
+      "events_enabled": true,
+      "empty_including_events": 34465,
+      "max_renewal_gap_s": 0.05042492400389165,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 0, 0, 0, 0)",
+          34465
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "events_enabled": false,
+      "empty_including_events": 0,
+      "max_renewal_gap_s": 0.05029300300520845,
+      "renewals": 61,
+      "waits": [
+        [
+          "(0, 1, 0, 0, 0, 0)",
+          1
+        ],
+        [
+          "(0, 0, 1, 0, 0, 0)",
+          5
+        ]
+      ]
+    },
+    {
+      "wakes": 33109,
+      "renewals": 61,
+      "max_renewal_gap_s": 0.05073166100191884,
+      "matched": [
+        1
+      ]
+    }
+  ],
+  "rejected_sched_yield_candidate": [
+    {
+      "change": "sched_yield only after a complete no-handler wait-set iteration",
+      "installer_sha256": "71a8fcab824241a448ddbe697af25857ead303889fe88457b1fb16a4bca133f6",
+      "original_sha256": "0830da415e9a63732b8a8bba734883110d04a4be7b21adcf232ac0567332a4a7",
+      "patched_sha256": "0f0d02415bed56358789cb04cd91576d7ce7b16a6a146f08a457deb560eede6a",
+      "path": "/opt/ros/lyrical/lib/python3.12/site-packages/rclpy/executors.py",
+      "rclpy_version": "10.0.10"
+    },
+    {
+      "wakes": 89931,
+      "renewals": 20,
+      "max_renewal_gap_s": 0.9870450640009949,
+      "matched": [
+        1
+      ]
+    }
+  ],
+  "runtime_attempts": [
+    {
+      "attempt": "EVENTS01",
+      "episode_id": "ep_e5e89661640c40d3b6b70dde28b3637d",
+      "idle_s": 65.00010231600027,
+      "agent_success": false,
+      "observed": {
+        "ok": true,
+        "fresh": true,
+        "episode_id": "ep_e5e89661640c40d3b6b70dde28b3637d",
+        "generation": 1,
+        "frame_sequence": 4164,
+        "sim_time": 20.820000000000142,
+        "age_s": 0.16861280699959025,
+        "frame_id": "microduck_head_optical",
+        "tag_ids": [
+          0
+        ],
+        "signal": "GO",
+        "reason": "sensor_observation"
+      },
+      "motions": [
+        {
+          "ok": false,
+          "accepted": false,
+          "request_id": "bfa25102fe67470abc4f80923113a034",
+          "status": "rejected",
+          "reason": "gateway_rejected"
+        }
+      ],
+      "verdicts": [],
+      "model": [
+        "qwen3.8-27b"
+      ],
+      "policy_rows": 1138,
+      "nonzero_policy_rows": 0,
+      "source_checks": {
+        "sim": 56,
+        "ros": 36,
+        "agent": 28
+      },
+      "source_mismatches": [],
+      "image_ids": [
+        "sha256:8ead646545ba12976b9d9cbcc25b22bd9a5f55799cd5704ebbf8eb8a991724d9",
+        "sha256:48f9d24dd26d9fe5d565ff4688b848bf37190e19cd27f413498c0630b28d0071"
+      ],
+      "diagnostic": true,
+      "stock": true,
+      "completed": "2026-10-27T11:02:13+01:00"
+    },
+    {
+      "attempt": "STOCK01",
+      "episode_id": "ep_5f1447f64f004b9ea419d71ae5cbbe44",
+      "idle_s": 65.00010625299183,
+      "agent_success": false,
+      "observed": {
+        "ok": true,
+        "fresh": true,
+        "episode_id": "ep_5f1447f64f004b9ea419d71ae5cbbe44",
+        "generation": 1,
+        "frame_sequence": 4340,
+        "sim_time": 21.699999999999967,
+        "age_s": 0.15078177199757192,
+        "frame_id": "microduck_head_optical",
+        "tag_ids": [
+          0
+        ],
+        "signal": "GO",
+        "reason": "sensor_observation"
+      },
+      "motions": [
+        {
+          "ok": false,
+          "accepted": false,
+          "request_id": "94827872c681483a99aa95a0ff62a337",
+          "status": "rejected",
+          "reason": "gateway_rejected"
+        }
+      ],
+      "verdicts": [],
+      "model": [
+        "qwen3.8-27b"
+      ],
+      "policy_rows": 1169,
+      "nonzero_policy_rows": 0,
+      "source_checks": {
+        "sim": 56,
+        "ros": 36,
+        "agent": 28
+      },
+      "source_mismatches": [],
+      "image_ids": [
+        "sha256:8ead646545ba12976b9d9cbcc25b22bd9a5f55799cd5704ebbf8eb8a991724d9",
+        "sha256:48f9d24dd26d9fe5d565ff4688b848bf37190e19cd27f413498c0630b28d0071"
+      ],
+      "diagnostic": false,
+      "stock": true,
+      "completed": "2026-10-27T11:22:22+01:00"
+    },
+    {
+      "attempt": "GO01",
+      "episode_id": "ep_5a6bfc34254c45dd8d3e1da26f3ed17b",
+      "idle_s": 65.00010624299466,
+      "agent_success": true,
+      "observed": {
+        "ok": true,
+        "fresh": true,
+        "episode_id": "ep_5a6bfc34254c45dd8d3e1da26f3ed17b",
+        "generation": 0,
+        "frame_sequence": 4284,
+        "sim_time": 21.420000000000023,
+        "age_s": 0.1975199439912103,
+        "frame_id": "microduck_head_optical",
+        "tag_ids": [
+          0
+        ],
+        "signal": "GO",
+        "reason": "sensor_observation"
+      },
+      "motions": [
+        {
+          "ok": true,
+          "episode_id": "ep_5a6bfc34254c45dd8d3e1da26f3ed17b",
+          "request_id": "5e38bef4b2524d418a3d6bf129426dff",
+          "generation": 1,
+          "known": true,
+          "completed": true,
+          "verification_available": true,
+          "verified": true,
+          "status": "completed",
+          "reason": "gateway_verdict",
+          "postcondition": {
+            "status": "confirmed"
+          },
+          "accepted": true,
+          "execution_ok": true
+        }
+      ],
+      "verdicts": [
+        {
+          "request_id": "5e38bef4b2524d418a3d6bf129426dff",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.0923910452535419,
+            "yaw_delta_rad": -0.09442908368657019,
+            "tail_speed_m_s": 0.0007893289843341887,
+            "tail_yaw_rate_rad_s": 0.004870004068255763,
+            "elapsed_sim_s": 2.3799999999995265,
+            "safe": true
+          }
+        }
+      ],
+      "model": [
+        "qwen3.8-27b"
+      ],
+      "policy_rows": 1259,
+      "nonzero_policy_rows": 50,
+      "source_checks": {
+        "sim": 56,
+        "ros": 36,
+        "agent": 28
+      },
+      "source_mismatches": [],
+      "image_ids": [
+        "sha256:8ead646545ba12976b9d9cbcc25b22bd9a5f55799cd5704ebbf8eb8a991724d9",
+        "sha256:6c2496ee77e9b2881e2906b6333698f03bd491f7d51282f971c735a9e7378e7f"
+      ],
+      "diagnostic": false,
+      "stock": false,
+      "completed": "2026-10-27T11:10:52+01:00"
+    },
+    {
+      "attempt": "GO02",
+      "episode_id": "ep_1c829b57a56d48b69c470b589bd53ffe",
+      "idle_s": 65.00010580199887,
+      "agent_success": true,
+      "observed": {
+        "ok": true,
+        "fresh": true,
+        "episode_id": "ep_1c829b57a56d48b69c470b589bd53ffe",
+        "generation": 0,
+        "frame_sequence": 4316,
+        "sim_time": 21.57999999999999,
+        "age_s": 0.14795345699531026,
+        "frame_id": "microduck_head_optical",
+        "tag_ids": [
+          0
+        ],
+        "signal": "GO",
+        "reason": "sensor_observation"
+      },
+      "motions": [
+        {
+          "ok": true,
+          "episode_id": "ep_1c829b57a56d48b69c470b589bd53ffe",
+          "request_id": "335b00429509442fb0d5e4df816d6eb2",
+          "generation": 1,
+          "known": true,
+          "completed": true,
+          "verification_available": false,
+          "verified": false,
+          "status": "completed",
+          "reason": "gateway_verdict",
+          "postcondition": {
+            "status": "unverified"
+          },
+          "accepted": true,
+          "execution_ok": true
+        }
+      ],
+      "verdicts": [
+        {
+          "request_id": "335b00429509442fb0d5e4df816d6eb2",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09536679856803977,
+            "yaw_delta_rad": -0.07138378175113079,
+            "tail_speed_m_s": 0.0007701501192336375,
+            "tail_yaw_rate_rad_s": 0.010155579477379268,
+            "elapsed_sim_s": 2.3599999999995305,
+            "safe": true
+          }
+        }
+      ],
+      "model": [
+        "qwen3.8-27b"
+      ],
+      "policy_rows": 1268,
+      "nonzero_policy_rows": 51,
+      "source_checks": {
+        "sim": 56,
+        "ros": 36,
+        "agent": 28
+      },
+      "source_mismatches": [],
+      "image_ids": [
+        "sha256:8ead646545ba12976b9d9cbcc25b22bd9a5f55799cd5704ebbf8eb8a991724d9",
+        "sha256:6c2496ee77e9b2881e2906b6333698f03bd491f7d51282f971c735a9e7378e7f"
+      ],
+      "diagnostic": false,
+      "stock": false,
+      "completed": "2026-10-27T11:14:25+01:00"
+    },
+    {
+      "attempt": "STOP01",
+      "episode_id": "ep_3d83513497fa4c3d917ca19ab07f6de8",
+      "idle_s": 65.00009742801194,
+      "agent_success": false,
+      "observed": {
+        "ok": true,
+        "fresh": true,
+        "episode_id": "ep_3d83513497fa4c3d917ca19ab07f6de8",
+        "generation": 0,
+        "frame_sequence": 4316,
+        "sim_time": 21.57999999999999,
+        "age_s": 0.0747712330048671,
+        "frame_id": "microduck_head_optical",
+        "tag_ids": [
+          1
+        ],
+        "signal": "STOP",
+        "reason": "sensor_observation"
+      },
+      "motions": [],
+      "verdicts": [],
+      "model": [
+        "qwen3.8-27b"
+      ],
+      "policy_rows": 1136,
+      "nonzero_policy_rows": 0,
+      "source_checks": {
+        "sim": 56,
+        "ros": 36,
+        "agent": 28
+      },
+      "source_mismatches": [],
+      "image_ids": [
+        "sha256:8ead646545ba12976b9d9cbcc25b22bd9a5f55799cd5704ebbf8eb8a991724d9",
+        "sha256:6c2496ee77e9b2881e2906b6333698f03bd491f7d51282f971c735a9e7378e7f"
+      ],
+      "diagnostic": false,
+      "stock": false,
+      "completed": "2026-10-27T11:17:47+01:00"
+    }
+  ],
+  "artifact_manifest": {
+    "path": ".workshop/artifact-manifest.json",
+    "sha256": "b96ad61338475d3f567415dfe5973d687ed5ed5bf06d17d4f6f13ce4d5bbf3cf",
+    "files": 721
+  },
+  "raw_evidence": ".worktrees/executor-fairness/.workshop",
+  "coverage_limit": "fixed-port preview omitted; short-run evidence, not hard-real-time guarantees",
+  "safety_gates_unchanged": {
+    "lease_wall_s": 0.5,
+    "capture_wall_s": 0.5,
+    "native_heartbeat_wall_s": 0.5,
+    "step_sim_s": 2,
+    "settle_sim_s": 0.35,
+    "tail_speed_m_s": 0.04,
+    "tail_yaw_rate_rad_s": 0.1
+  }
+}

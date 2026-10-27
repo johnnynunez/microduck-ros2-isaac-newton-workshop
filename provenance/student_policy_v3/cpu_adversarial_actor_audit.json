@@ -1,0 +1,101 @@
+{
+  "recorded_observations": 128,
+  "actual_changed_actor_parameters": 186532,
+  "saved_optimizer_steps": 16,
+  "optimizer_state_step_values": [
+    16.0
+  ],
+  "frozen_mean_unchanged": true,
+  "frozen_scale_unchanged": true,
+  "checkpoint_onnx_max_abs_error": 3.8743019104003906e-07,
+  "seed_import_max_abs_error": 4.470348358154297e-07,
+  "actual_actor_sha256": "95b0018ab09be1a02cbed2498b5730df831d13d9d29dac8317b18e2f9a6c597c",
+  "actual_checkpoint_sha256": "b6a27e562af771556cf937d7cb00da52882adbdde6b9019cf9ac7590fff4a386",
+  "recorded_training_previous_raw_and_targets_verified": true,
+  "admission_cases": [
+    {
+      "id": "h1-w04",
+      "rows": 328,
+      "phase_counts": {
+        "initial_zero": 20,
+        "step": 100,
+        "step_verify_wait": 18,
+        "step_remaining_zero_wait": 2,
+        "resume": 100,
+        "resume_verify_wait": 18,
+        "resume_remaining_zero_wait": 2,
+        "rest_control": 68
+      },
+      "actual_onnx_raw_max_abs_error": 0.0
+    },
+    {
+      "id": "h2-w08",
+      "rows": 388,
+      "phase_counts": {
+        "initial_zero": 40,
+        "step": 100,
+        "step_verify_wait": 18,
+        "step_remaining_zero_wait": 22,
+        "resume": 100,
+        "resume_verify_wait": 18,
+        "resume_remaining_zero_wait": 22,
+        "rest_control": 68
+      },
+      "actual_onnx_raw_max_abs_error": 0.0
+    },
+    {
+      "id": "h3-w14",
+      "rows": 478,
+      "phase_counts": {
+        "initial_zero": 70,
+        "step": 100,
+        "step_verify_wait": 18,
+        "step_remaining_zero_wait": 52,
+        "resume": 100,
+        "resume_verify_wait": 18,
+        "resume_remaining_zero_wait": 52,
+        "rest_control": 68
+      },
+      "actual_onnx_raw_max_abs_error": 0.0
+    },
+    {
+      "id": "confirmation-w11",
+      "rows": 443,
+      "phase_counts": {
+        "initial_zero": 65,
+        "step": 100,
+        "step_verify_wait": 18,
+        "step_remaining_zero_wait": 37,
+        "resume": 100,
+        "resume_verify_wait": 18,
+        "resume_remaining_zero_wait": 37,
+        "rest_control": 68
+      },
+      "actual_onnx_raw_max_abs_error": 0.0
+    }
+  ],
+  "stale_traces_rebound_to_unexecuted_zero_actor": {
+    "selected_for_serve": false,
+    "rejection": "admission ONNX output/raw action mismatch",
+    "different_policy_sha256": "133ba9749b3e901ce8f62c053760df7efd03d723942edffb87a56d66c4f8c9ee",
+    "test_only_bundle": "[REDACTED: private absolute runtime path]",
+    "zero_actor_output": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ]
+  }
+}

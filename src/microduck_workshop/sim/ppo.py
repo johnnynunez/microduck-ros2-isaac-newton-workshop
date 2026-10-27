@@ -1,6 +1,6 @@
 """Minimal transparent PPO for the short workshop optimizer exercise.
 
-This is a fresh actor+critic+optimizer, not an ONNX resume or a converged gait.
+An optional exact imported actor warm-start still uses a fresh critic and optimizer.
 """
 
 import torch
@@ -8,26 +8,31 @@ from torch import nn
 
 
 class ActorCritic(nn.Module):
-    def __init__(self):
+    def __init__(self, *, actor=None, initial_std=0.1):
         super().__init__()
-        self.actor = nn.Sequential(
-            nn.Linear(61, 64), nn.Tanh(), nn.Linear(64, 64), nn.Tanh(), nn.Linear(64, 14)
+        self.actor = (
+            actor
+            if actor is not None
+            else nn.Sequential(
+                nn.Linear(61, 64), nn.Tanh(), nn.Linear(64, 64), nn.Tanh(), nn.Linear(64, 14)
+            )
         )
         self.critic = nn.Sequential(
             nn.Linear(61, 64), nn.Tanh(), nn.Linear(64, 64), nn.Tanh(), nn.Linear(64, 1)
         )
-        self.log_std = nn.Parameter(torch.full((14,), -2.3))
-        nn.init.orthogonal_(self.actor[-1].weight, gain=0.01)
-        nn.init.zeros_(self.actor[-1].bias)
+        self.log_std = nn.Parameter(torch.full((14,), float(torch.tensor(initial_std).log())))
+        if actor is None:
+            nn.init.orthogonal_(self.actor[-1].weight, gain=0.01)
+            nn.init.zeros_(self.actor[-1].bias)
 
     def distribution(self, obs):
         return torch.distributions.Normal(self.actor(obs), self.log_std.exp())
 
 
 class PPO:
-    def __init__(self, *, device="cpu", learning_rate=3e-4):
+    def __init__(self, *, device="cpu", learning_rate=3e-4, actor=None, initial_std=0.1):
         self.device = device
-        self.model = ActorCritic().to(device)
+        self.model = ActorCritic(actor=actor, initial_std=initial_std).to(device)
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
         self.optimizer_steps = 0
 
@@ -39,6 +44,9 @@ class PPO:
     def update(self, obs, actions, old_logp, *, returns, advantages, epochs=4):
         advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
         before = torch.cat([p.detach().flatten() for p in self.model.parameters()]).clone()
+        actor_before = torch.cat(
+            [p.detach().flatten() for p in self.model.actor.parameters()]
+        ).clone()
         for _ in range(epochs):
             dist = self.model.distribution(obs)
             logp = dist.log_prob(actions).sum(-1)
@@ -59,14 +67,17 @@ class PPO:
             self.optimizer.step()
             self.optimizer_steps += 1
         after = torch.cat([p.detach().flatten() for p in self.model.parameters()])
+        actor_after = torch.cat([p.detach().flatten() for p in self.model.actor.parameters()])
+        actor_delta = float(torch.linalg.vector_norm(actor_after - actor_before))
         delta = float(torch.linalg.vector_norm(after - before))
-        if delta <= 0:
+        if delta <= 0 or actor_delta <= 0:
             raise RuntimeError("PPO optimizer did not change weights")
         return {
             "policy_loss": float(policy_loss.detach()),
             "value_loss": float(value_loss.detach()),
             "entropy": float(entropy.detach()),
             "weight_delta_l2": delta,
+            "actor_weight_delta_l2": actor_delta,
             "gradient_norm": float(norm),
             "optimizer_steps": self.optimizer_steps,
         }

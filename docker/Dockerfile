@@ -1,6 +1,9 @@
 ARG ROS_BASE=roscon/ros5-base:5.0
 FROM ${ROS_BASE}
 SHELL ["/bin/bash", "-c"]
+# Reviewed no-work executor cooperation; rejects unreviewed rclpy version/source.
+COPY docker/patch_rclpy_executor.py /opt/workshop/patch_rclpy_executor.py
+RUN source /opt/ros/lyrical/setup.bash && python3 /opt/workshop/patch_rclpy_executor.py
 COPY pyproject.toml README.md LICENSE NOTICE requirements-agent.txt /opt/workshop/
 COPY provenance /opt/workshop/provenance
 COPY src /opt/workshop/src

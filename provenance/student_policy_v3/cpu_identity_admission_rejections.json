@@ -1,0 +1,46 @@
+{
+  "source": "[REDACTED: private absolute runtime path]",
+  "real_chain_readback_passed": true,
+  "probe_workspace": "[REDACTED: private absolute runtime path]",
+  "duplicated_first_case_and_wrong_plan": {
+    "accepted": false,
+    "error": "ValueError('policy admission missing, failed, or binding mismatch')"
+  },
+  "zero_raw_actions_invalid_gravity_and_command_observations": {
+    "accepted": false,
+    "error": "ValueError('admission policy trace contract mismatch')"
+  },
+  "final_receipt_with_teardown_error": {
+    "accepted": false,
+    "error": "ValueError('policy admission missing, failed, or binding mismatch')"
+  },
+  "redirect_error": "ValueError('native identity requires a direct HTTP 200 response')",
+  "redirect_followed": {
+    "accepted": false,
+    "requests": [
+      "/v1/health"
+    ]
+  },
+  "proxy_error": "ConnectionRefusedError(111, 'Connection refused')",
+  "environment_proxy_used": {
+    "accepted": false,
+    "requests": []
+  },
+  "source_files": [
+    "contracts.py",
+    "policy/contract.py",
+    "policy/imu.py",
+    "policy/onnx.py",
+    "policy/step.py",
+    "policy/student.py",
+    "sim/native.py",
+    "sim/prepare.py",
+    "sim/bam.py",
+    "sim/joint_map.py",
+    "sim/play.py",
+    "sim/evaluate.py",
+    "sim/intent.py",
+    "sim/http.py",
+    "sim/admit_policy.py"
+  ]
+}
