@@ -37,3 +37,43 @@ def test_http_private_endpoint_and_atomic_camera():
         server.shutdown()
         server.server_close()
         thread.join()
+
+
+def test_step_headers_reach_http_without_changing_body():
+    calls = []
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_POST(self):
+            calls.append((self.path, dict(self.headers),
+                          json.loads(self.rfile.read(int(self.headers['Content-Length'])))))
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b'{"accepted": true}')
+
+    server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    body = dict(episode_id='ep', request_id='step', expected_generation=3,
+                vx=.1, vy=0, wz=0, duration_s=2)
+    proof = {'X-Workshop-Observation-Episode': 'ep',
+             'X-Workshop-Observation-Sequence': '8',
+             'X-Workshop-Observation-Deadline': '100.5'}
+    try:
+        transport = SimHTTP(f'http://127.0.0.1:{server.server_port}')
+        assert transport.post('/v1/step', body, 'private-token',
+                              observation_headers=proof)['accepted']
+        path, headers, received = calls[0]
+        assert path == '/v1/step' and received == body
+        assert {key: headers[key] for key in proof} == proof
+        assert headers['X-Workshop-Lease'] == 'private-token'
+        with pytest.raises(ValueError):
+            transport.post('/v1/step', body, 'private-token',
+                           observation_headers={**proof, 'X-Workshop-Lease': 'override'})
+        assert len(calls) == 1
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join()

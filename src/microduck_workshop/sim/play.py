@@ -17,6 +17,7 @@ from microduck_workshop.policy.calibration import PROFILE_NAME, CommandProfile
 from microduck_workshop.policy.contract import DECIMATION, PHYSICS_DT
 from microduck_workshop.policy.imu import GravityEstimator
 from microduck_workshop.policy.onnx import VelStandPolicy
+from microduck_workshop.policy.step import STEP_NAME, StepProfile
 
 from .evaluate import MotionVerifier, evaluate_trace
 from .http import SnapshotStore, serve
@@ -36,6 +37,12 @@ def parser():
         help="50 Hz control steps; 0 explicitly serves until SIGINT/SIGTERM",
     )
     p.add_argument("--command-profile", choices=("direct", PROFILE_NAME), default="direct")
+    p.add_argument("--step-profile", choices=("disabled", STEP_NAME), default="disabled")
+    p.add_argument(
+        "--step-candidate-validation",
+        action="store_true",
+        help="explicit native operator diagnostic, never ROS/perception acceptance",
+    )
     p.add_argument("--policy-mode", choices=("training", "deployment"), default="training")
     p.add_argument("--cameras", action="store_true")
     p.add_argument(
@@ -128,6 +135,14 @@ def infer_command(policy, profile, sample, gravity, desired):
     return target, neural
 
 
+def infer_owned_command(policy, profile, owner, sample, gravity, desired):
+    context = owner.control_context.copy()
+    selected = owner.step_profile if context.get("maneuver") == STEP_NAME else profile
+    target, neural = infer_command(policy, selected, sample, gravity, desired)
+    neural.update(context)
+    return target, neural
+
+
 def validation_command(sim_time, vx=0.08, *, shutdown=False):
     if shutdown:
         return "shutdown", (0.0, 0.0, 0.0)
@@ -149,7 +164,16 @@ def main(argv=None):
     policy = VelStandPolicy(args.asset_root / "policies/velstand.onnx", mode=args.policy_mode)
     profile = CommandProfile(args.command_profile)
     profile.bind(policy_sha256=policy.sha256, policy_mode=policy.mode)
-    owner = IntentOwner("ep_" + uuid.uuid4().hex, command_profile=profile)
+    step_profile = (
+        StepProfile(args.step_candidate_validation) if args.step_profile == STEP_NAME else None
+    )
+    if args.step_candidate_validation and step_profile is None:
+        raise ValueError("candidate validation requires explicit --step-profile")
+    if step_profile is not None:
+        step_profile.bind(policy_sha256=policy.sha256, policy_mode=policy.mode)
+    owner = IntentOwner(
+        "ep_" + uuid.uuid4().hex, command_profile=profile, step_profile=step_profile
+    )
     gravity = GravityEstimator()
     with MicroDuckRuntime(
         args.asset_root / "robot/robot_allcollisions_backlash.xml",
@@ -166,6 +190,7 @@ def main(argv=None):
                 policy_sha256=policy.sha256,
                 policy_mode=policy.mode,
                 command_profile=profile.receipt(),
+                step_profile=step_profile.receipt() if step_profile else None,
             ),
         )
         sample = runtime.sample()
@@ -199,7 +224,9 @@ def main(argv=None):
                 else:
                     verifier.begin_tick(runtime.sim_time, runtime.evaluator_truth())
                     phase, command = "transport", owner.consume(sim_time=runtime.sim_time)
-                target, neural = infer_command(policy, profile, sample, gravity.gravity, command)
+                target, neural = infer_owned_command(
+                    policy, profile, owner, sample, gravity.gravity, command
+                )
                 neural_log.write(
                     json.dumps(
                         dict(sequence=step, sim_time=runtime.sim_time, event="control", **neural),
@@ -214,8 +241,8 @@ def main(argv=None):
                         fresh = owner.consume(sim_time=runtime.sim_time)
                         if fresh != command:
                             command = fresh
-                            target, neural = infer_command(
-                                policy, profile, sample, gravity.gravity, command
+                            target, neural = infer_owned_command(
+                                policy, profile, owner, sample, gravity.gravity, command
                             )
                             neural_log.write(
                                 json.dumps(
@@ -265,6 +292,7 @@ def main(argv=None):
                 physics_steps=runtime.sequence,
                 control_steps=runtime.sequence // DECIMATION,
                 command_profile=profile.receipt(),
+                step_profile=step_profile.receipt() if step_profile else None,
                 telemetry_bounded=args.steps == 0,
                 shutdown_signal=shutdown[0] if shutdown else None,
                 wall_seconds=time.monotonic() - wall_start,

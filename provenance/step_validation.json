@@ -1,0 +1,1901 @@
+{
+  "status": "NATIVE_VALIDATED_NOT_ROS_PERCEPTION",
+  "preregistration_sha256": "48698a7b30275ec5377a8052d0956729b453f9b5b6fad75030cacd0690d2cc52",
+  "preregistration": {
+    "name": "step-forward-v1-round1",
+    "registered_at": "2026-10-27T04:42:56.573772+00:00",
+    "base_commit": "4596f3c",
+    "fixed_candidate": {
+      "peak_command": [
+        0.1,
+        0,
+        0
+      ],
+      "drive_neural_command": [
+        0.25,
+        0,
+        0
+      ],
+      "drive_s": 1.0,
+      "settle_neural_command": [
+        0,
+        0,
+        0
+      ],
+      "settle_s": 1.0,
+      "horizon_s": 2.0
+    },
+    "scope": "native operator diagnostics; not ROS/perception or autonomous acceptance",
+    "thresholds": "entire existing evaluate.py unchanged, including completion+.35s and last .2s planar<.04 m/s/yaw<.10 rad/s",
+    "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+    "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+    "code_sha256": {
+      "src/microduck_workshop/policy/step.py": "b670611a01415bd0198ae0e4a90887d95cabd930755108305b2ebbdd9b962a99",
+      "src/microduck_workshop/sim/intent.py": "9efe47b3b7635b64fea71967297a96136308da44125d099a7052d25ee485dc4e",
+      "src/microduck_workshop/sim/http.py": "d21f72aeb322c79b1caa939e02ffbe32a93a218b4515c30a7b270c7ddd064f2b",
+      "src/microduck_workshop/sim/play.py": "c9d1b3469c7d33479391b1439792182850dad9485eec02e10accb725812e5108",
+      "src/microduck_workshop/sim/evaluate.py": "04d83c178af0465ad57d7551e32e0ec292f42bdcbb0ef645d4cf0ed94c83c037",
+      "src/microduck_workshop/sim/native.py": "de9b6a8ee541b1d1d55bf722b37c2f499aa0c19c4ee671d09e5c08b72eda2682",
+      "src/microduck_workshop/contracts.py": "de0a1aa5281ef6fee43e04b45695cc53e30528802831236ca5fe242f967f84ef",
+      "src/microduck_workshop/policy/onnx.py": "9aab1e328312c750f66a2a3058bb687c26ee0186e985900c14c075a98102e428",
+      "scripts/sim_validate_step.py": "65288c71e6f89d5028a57c58f211110a0a250996226bdbe9b788bd7f64d7f754"
+    },
+    "cases": [
+      {
+        "id": "h1-w04",
+        "initial_zero_s": 0.4,
+        "zero_wait_s": 0.4,
+        "gating": true
+      },
+      {
+        "id": "h2-w08",
+        "initial_zero_s": 0.8,
+        "zero_wait_s": 0.8,
+        "gating": true
+      },
+      {
+        "id": "h3-w14",
+        "initial_zero_s": 1.4,
+        "zero_wait_s": 1.4,
+        "gating": true
+      },
+      {
+        "id": "confirmation-w11",
+        "initial_zero_s": 1.3,
+        "zero_wait_s": 1.1,
+        "gating": false
+      }
+    ],
+    "per_case": "step->fixed zero wait->step->fixed zero wait; live proof expiry, independent lease expiry, moving priority stop; no reset within episode",
+    "promotion": "all gating step/resume verdicts must pass unchanged; confirmation is fresh non-gating and run after readiness-only update if successful; no timing/gate retuning allowed",
+    "proofs": "diagnostic original native sample capture+.5; no synthesized ROS/GO claim; production always requires proof headers",
+    "preserve_prior_failures": true
+  },
+  "candidate_commit": "509bf48",
+  "production_change": "only VALIDATION_STATUS from CANDIDATE to NATIVE_VALIDATED; phase, conditioning, gates, native consumption unchanged",
+  "production_adapter_sha256": "2d6e6e9b3d7adb475a78832151c6376d66fb419d5c74648a6fedbb57c58cbc89",
+  "additional_unchanged_source_sha256": {
+    "src/microduck_workshop/sim/bam.py": "43c15b119052b6428fe9ad8511e6d5eed3efff77d1d127d635542f26fc7cfabb",
+    "src/microduck_workshop/policy/contract.py": "05c275180e49ec13efa53a15a54c9ab7270e8ea401b180effb82d3da7043fc98",
+    "src/microduck_workshop/policy/imu.py": "9af40ae13f36b3874f8b2292856b1fece2743f632db3ac67365d9fd3cead9e72",
+    "src/microduck_workshop/policy/calibration.py": "49faedc23f97e30125a3e9a15b3ccc75ef3ef528a60042a37ab1d4873f3811ce"
+  },
+  "gating_request_count": 6,
+  "confirmation_request_count": 2,
+  "gating_ranges": {
+    "forward_displacement_m": [
+      0.08177954962441493,
+      0.0920707173532212
+    ],
+    "tail_speed_m_s": [
+      0.00052560081291197,
+      0.001079930704430681
+    ],
+    "tail_yaw_rate_rad_s": [
+      0.006998666615056043,
+      0.02827532134357501
+    ]
+  },
+  "holdouts": [
+    {
+      "case": {
+        "id": "h1-w04",
+        "initial_zero_s": 0.4,
+        "zero_wait_s": 0.4,
+        "gating": true
+      },
+      "plan_sha256": "48698a7b30275ec5377a8052d0956729b453f9b5b6fad75030cacd0690d2cc52",
+      "evidence_kind": "FRESH_NATIVE_OPERATOR_STEP_DIAGNOSTIC_NOT_ROS_PERCEPTION",
+      "runtime": {
+        "isaaclab": "28.0.0",
+        "isaacsim": "6.2.0.0",
+        "newton": "1.6.1",
+        "mujoco": "3.12.0",
+        "mujoco-warp": "3.12.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0+cu130",
+        "physics_owner": "isaaclab_newton.physics.NewtonManager",
+        "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+        "asset_sha256": "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8",
+        "isaaclab_git_sha": "e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4",
+        "model_body_count": 15,
+        "model_joint_count": 15,
+        "joint_names": [
+          "passive_right_hip_yaw_backlash:0",
+          "passive_right_hip_yaw_backlash:1",
+          "passive_right_hip_roll_backlash:0",
+          "passive_right_hip_roll_backlash:1",
+          "passive_right_hip_pitch_backlash:0",
+          "passive_right_hip_pitch_backlash:1",
+          "passive_right_knee_backlash:0",
+          "passive_right_knee_backlash:1",
+          "passive_right_ankle_backlash:0",
+          "passive_right_ankle_backlash:1",
+          "neck_pitch:0",
+          "neck_pitch:1",
+          "head_pitch:0",
+          "head_pitch:1",
+          "head_yaw:0",
+          "head_yaw:1",
+          "head_roll:0",
+          "head_roll:1",
+          "left_hip_yaw:0",
+          "left_hip_yaw:1",
+          "left_hip_roll:0",
+          "left_hip_roll:1",
+          "left_hip_pitch:0",
+          "left_hip_pitch:1",
+          "left_knee:0",
+          "left_knee:1",
+          "left_ankle:0",
+          "left_ankle:1"
+        ],
+        "camera_enabled": false,
+        "servo_ids": [
+          18,
+          20,
+          22,
+          24,
+          26,
+          10,
+          12,
+          14,
+          16,
+          1,
+          3,
+          5,
+          7,
+          9
+        ],
+        "backlash_ids": [
+          19,
+          21,
+          23,
+          25,
+          27,
+          11,
+          13,
+          15,
+          17,
+          0,
+          2,
+          4,
+          6,
+          8
+        ],
+        "joint_limits": [
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.5235987901687622,
+            0.4363323152065277
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.3839724361896515,
+            0.3839724361896515
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -1.5707963705062866,
+            1.0471975803375244
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -2.96705961227417,
+            2.96705961227417
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.4363323152065277,
+            0.4363323152065277
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.4363323152065277,
+            0.5235987901687622
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.3839724361896515,
+            0.3839724361896515
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ]
+        ],
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "policy_mode": "training",
+        "command_profile": {
+          "name": "direct",
+          "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+          "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+          "adapter_source_sha256": "49faedc23f97e30125a3e9a15b3ccc75ef3ef528a60042a37ab1d4873f3811ce",
+          "profile_sha256": "f83e077e6f09b0d6de44863fb953a3fcff51e7cfe0e60dbabcf8514f5f15a2a1"
+        },
+        "step_profile": {
+          "name": "step-forward-v1",
+          "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+          "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+          "adapter_source_sha256": "b670611a01415bd0198ae0e4a90887d95cabd930755108305b2ebbdd9b962a99",
+          "requested_peak": [
+            0.1,
+            0.0,
+            0.0
+          ],
+          "drive_s": 1.0,
+          "settle_s": 1.0,
+          "horizon_s": 2.0,
+          "drive_neural_command": [
+            0.25,
+            0.0,
+            0.0
+          ],
+          "settle_neural_command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "validation_status": "CANDIDATE",
+          "candidate_validation": true,
+          "online_feedback": false,
+          "production_requires_observation_proof": true,
+          "profile_sha256": "4245bedc33e9c6abc8982f0d9c8c29ba5b174b3c4f4652b23e841e8257cb2ba3"
+        }
+      },
+      "requests": [
+        {
+          "request_id": "step",
+          "ack": {
+            "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+            "request_id": "step",
+            "generation": 1,
+            "status": "accepted",
+            "reason": "queued; no physical verdict",
+            "accepted": true
+          },
+          "completed_status": {
+            "known": true,
+            "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+            "request_id": "step",
+            "generation": 1,
+            "status": "completed",
+            "completed": true,
+            "verification_available": false,
+            "verified": false,
+            "reason": "planned step horizon ended; physical verdict pending"
+          },
+          "physical_status": {
+            "known": true,
+            "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+            "request_id": "step",
+            "generation": 1,
+            "status": "completed",
+            "completed": true,
+            "verification_available": true,
+            "verified": true,
+            "reason": "native motion and rest checks passed"
+          }
+        },
+        {
+          "request_id": "resume",
+          "ack": {
+            "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "accepted",
+            "reason": "queued; no physical verdict",
+            "accepted": true
+          },
+          "completed_status": {
+            "known": true,
+            "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "completed",
+            "completed": true,
+            "verification_available": false,
+            "verified": false,
+            "reason": "planned step horizon ended; physical verdict pending"
+          },
+          "physical_status": {
+            "known": true,
+            "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "completed",
+            "completed": true,
+            "verification_available": true,
+            "verified": true,
+            "reason": "native motion and rest checks passed"
+          }
+        }
+      ],
+      "physical_verdicts": [
+        {
+          "request_id": "step",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.08177954962441493,
+            "yaw_delta_rad": -0.051361375464254067,
+            "tail_speed_m_s": 0.001079930704430681,
+            "tail_yaw_rate_rad_s": 0.019162568485956977,
+            "elapsed_sim_s": 2.3599999999999626,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.08993680671603353,
+            "yaw_delta_rad": -0.04926029238901482,
+            "tail_speed_m_s": 0.0009920949191968597,
+            "tail_yaw_rate_rad_s": 0.02827532134357501,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "proof_expiry",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.001018070511485441,
+            "yaw_delta_rad": -0.0332871179383188,
+            "tail_speed_m_s": 0.043163119359056666,
+            "tail_yaw_rate_rad_s": 0.0561290771107782,
+            "elapsed_sim_s": 0.5999999999999872,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "lease_expiry",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.0003131939010634438,
+            "yaw_delta_rad": -0.005029432652260274,
+            "tail_speed_m_s": 0.014858134935300978,
+            "tail_yaw_rate_rad_s": 0.04979514385658232,
+            "elapsed_sim_s": 0.5199999999999889,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": -0.0019672012154741078,
+            "yaw_delta_rad": -0.00855827742614737,
+            "tail_speed_m_s": 0.02650576080440297,
+            "tail_yaw_rate_rad_s": 0.06486212564632296,
+            "elapsed_sim_s": 0.6800000000000059,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 0.41000000000000025,
+          "neural_end_sim_s": 1.409999999999992,
+          "actual_drive_s": 0.9999999999999917,
+          "drive_world_x_displacement_m": 0.07496031580376439
+        },
+        {
+          "neural_start_sim_s": 2.824999999999962,
+          "neural_end_sim_s": 3.8249999999999407,
+          "actual_drive_s": 0.9999999999999787,
+          "drive_world_x_displacement_m": 0.07958713173866272
+        },
+        {
+          "neural_start_sim_s": 5.309999999999909,
+          "neural_end_sim_s": 5.549999999999904,
+          "actual_drive_s": 0.23999999999999488,
+          "drive_world_x_displacement_m": 0.00953441858291626
+        },
+        {
+          "neural_start_sim_s": 6.444999999999885,
+          "neural_end_sim_s": 6.614999999999881,
+          "actual_drive_s": 0.16999999999999638,
+          "drive_world_x_displacement_m": 0.004028454422950745
+        },
+        {
+          "neural_start_sim_s": 7.429999999999864,
+          "neural_end_sim_s": 7.744999999999857,
+          "actual_drive_s": 0.3149999999999933,
+          "drive_world_x_displacement_m": 0.008936405181884766
+        }
+      ],
+      "proof_expiry": {
+        "known": true,
+        "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+        "request_id": "proof_expiry",
+        "generation": 3,
+        "status": "expired",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "observation proof expired"
+      },
+      "lease_expiry": {
+        "known": true,
+        "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+        "request_id": "lease_expiry",
+        "generation": 4,
+        "status": "expired",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "wall lease expired"
+      },
+      "interrupted": {
+        "known": true,
+        "episode_id": "ep_36c8b49f8258418886345740b7c8e46c",
+        "request_id": "interrupted",
+        "generation": 5,
+        "status": "stopped",
+        "completed": true,
+        "verification_available": true,
+        "verified": false,
+        "reason": "request interrupted; motion not verified"
+      },
+      "renewal_errors": [],
+      "both_completed_requests_verified": true,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "aee2d9c5a78334b3ab7cd8de730a759ab302409f88a6c07b038310ff23c387a6",
+        "evaluator_truth.jsonl": "f10ad1b4f949f35a99d03b5e2efe25db261ed1b887bd4763c4dc7bc45fb9c57a",
+        "evaluator_verdicts.jsonl": "a581c76630439fb420a53ae8efbe354021f42283b22df9ca32e6c3534e23397d",
+        "evaluation.json": "c36f23c48e245432600728f245d5f1373c0aea863abb69bfc1164684092d01fb"
+      }
+    },
+    {
+      "case": {
+        "id": "h2-w08",
+        "initial_zero_s": 0.8,
+        "zero_wait_s": 0.8,
+        "gating": true
+      },
+      "plan_sha256": "48698a7b30275ec5377a8052d0956729b453f9b5b6fad75030cacd0690d2cc52",
+      "evidence_kind": "FRESH_NATIVE_OPERATOR_STEP_DIAGNOSTIC_NOT_ROS_PERCEPTION",
+      "runtime": {
+        "isaaclab": "28.0.0",
+        "isaacsim": "6.2.0.0",
+        "newton": "1.6.1",
+        "mujoco": "3.12.0",
+        "mujoco-warp": "3.12.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0+cu130",
+        "physics_owner": "isaaclab_newton.physics.NewtonManager",
+        "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+        "asset_sha256": "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8",
+        "isaaclab_git_sha": "e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4",
+        "model_body_count": 15,
+        "model_joint_count": 15,
+        "joint_names": [
+          "passive_right_hip_yaw_backlash:0",
+          "passive_right_hip_yaw_backlash:1",
+          "passive_right_hip_roll_backlash:0",
+          "passive_right_hip_roll_backlash:1",
+          "passive_right_hip_pitch_backlash:0",
+          "passive_right_hip_pitch_backlash:1",
+          "passive_right_knee_backlash:0",
+          "passive_right_knee_backlash:1",
+          "passive_right_ankle_backlash:0",
+          "passive_right_ankle_backlash:1",
+          "neck_pitch:0",
+          "neck_pitch:1",
+          "head_pitch:0",
+          "head_pitch:1",
+          "head_yaw:0",
+          "head_yaw:1",
+          "head_roll:0",
+          "head_roll:1",
+          "left_hip_yaw:0",
+          "left_hip_yaw:1",
+          "left_hip_roll:0",
+          "left_hip_roll:1",
+          "left_hip_pitch:0",
+          "left_hip_pitch:1",
+          "left_knee:0",
+          "left_knee:1",
+          "left_ankle:0",
+          "left_ankle:1"
+        ],
+        "camera_enabled": false,
+        "servo_ids": [
+          18,
+          20,
+          22,
+          24,
+          26,
+          10,
+          12,
+          14,
+          16,
+          1,
+          3,
+          5,
+          7,
+          9
+        ],
+        "backlash_ids": [
+          19,
+          21,
+          23,
+          25,
+          27,
+          11,
+          13,
+          15,
+          17,
+          0,
+          2,
+          4,
+          6,
+          8
+        ],
+        "joint_limits": [
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.5235987901687622,
+            0.4363323152065277
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.3839724361896515,
+            0.3839724361896515
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -1.5707963705062866,
+            1.0471975803375244
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -2.96705961227417,
+            2.96705961227417
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.4363323152065277,
+            0.4363323152065277
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.4363323152065277,
+            0.5235987901687622
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.3839724361896515,
+            0.3839724361896515
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ]
+        ],
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "policy_mode": "training",
+        "command_profile": {
+          "name": "direct",
+          "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+          "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+          "adapter_source_sha256": "49faedc23f97e30125a3e9a15b3ccc75ef3ef528a60042a37ab1d4873f3811ce",
+          "profile_sha256": "f83e077e6f09b0d6de44863fb953a3fcff51e7cfe0e60dbabcf8514f5f15a2a1"
+        },
+        "step_profile": {
+          "name": "step-forward-v1",
+          "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+          "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+          "adapter_source_sha256": "b670611a01415bd0198ae0e4a90887d95cabd930755108305b2ebbdd9b962a99",
+          "requested_peak": [
+            0.1,
+            0.0,
+            0.0
+          ],
+          "drive_s": 1.0,
+          "settle_s": 1.0,
+          "horizon_s": 2.0,
+          "drive_neural_command": [
+            0.25,
+            0.0,
+            0.0
+          ],
+          "settle_neural_command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "validation_status": "CANDIDATE",
+          "candidate_validation": true,
+          "online_feedback": false,
+          "production_requires_observation_proof": true,
+          "profile_sha256": "4245bedc33e9c6abc8982f0d9c8c29ba5b174b3c4f4652b23e841e8257cb2ba3"
+        }
+      },
+      "requests": [
+        {
+          "request_id": "step",
+          "ack": {
+            "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+            "request_id": "step",
+            "generation": 1,
+            "status": "accepted",
+            "reason": "queued; no physical verdict",
+            "accepted": true
+          },
+          "completed_status": {
+            "known": true,
+            "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+            "request_id": "step",
+            "generation": 1,
+            "status": "completed",
+            "completed": true,
+            "verification_available": false,
+            "verified": false,
+            "reason": "planned step horizon ended; physical verdict pending"
+          },
+          "physical_status": {
+            "known": true,
+            "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+            "request_id": "step",
+            "generation": 1,
+            "status": "completed",
+            "completed": true,
+            "verification_available": true,
+            "verified": true,
+            "reason": "native motion and rest checks passed"
+          }
+        },
+        {
+          "request_id": "resume",
+          "ack": {
+            "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "accepted",
+            "reason": "queued; no physical verdict",
+            "accepted": true
+          },
+          "completed_status": {
+            "known": true,
+            "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "completed",
+            "completed": true,
+            "verification_available": false,
+            "verified": false,
+            "reason": "planned step horizon ended; physical verdict pending"
+          },
+          "physical_status": {
+            "known": true,
+            "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "completed",
+            "completed": true,
+            "verification_available": true,
+            "verified": true,
+            "reason": "native motion and rest checks passed"
+          }
+        }
+      ],
+      "physical_verdicts": [
+        {
+          "request_id": "step",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.08472997006460253,
+            "yaw_delta_rad": -0.06044528767295497,
+            "tail_speed_m_s": 0.0007833295135717753,
+            "tail_yaw_rate_rad_s": 0.006998666615056043,
+            "elapsed_sim_s": 2.3599999999999537,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09093999174828116,
+            "yaw_delta_rad": -0.07431140577702933,
+            "tail_speed_m_s": 0.0010509504875767333,
+            "tail_yaw_rate_rad_s": 0.026863012547520073,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "proof_expiry",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.0008577877324698472,
+            "yaw_delta_rad": -0.0331757069822505,
+            "tail_speed_m_s": 0.04234594267025181,
+            "tail_yaw_rate_rad_s": 0.05194951344112104,
+            "elapsed_sim_s": 0.5999999999999872,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "lease_expiry",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.00022278288785140815,
+            "yaw_delta_rad": -0.0017806222778695702,
+            "tail_speed_m_s": 0.01488960116142346,
+            "tail_yaw_rate_rad_s": 0.05007784217596054,
+            "elapsed_sim_s": 0.52000000000002,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": -0.0013777990161273985,
+            "yaw_delta_rad": 2.403253650667958e-05,
+            "tail_speed_m_s": 0.02219856422502786,
+            "tail_yaw_rate_rad_s": 0.07734541520476342,
+            "elapsed_sim_s": 0.6600000000001032,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 0.8100000000000006,
+          "neural_end_sim_s": 1.8099999999999834,
+          "actual_drive_s": 0.9999999999999828,
+          "drive_world_x_displacement_m": 0.07763523422181606
+        },
+        {
+          "neural_start_sim_s": 3.624999999999945,
+          "neural_end_sim_s": 4.624999999999924,
+          "actual_drive_s": 0.9999999999999787,
+          "drive_world_x_displacement_m": 0.07867012917995453
+        },
+        {
+          "neural_start_sim_s": 6.5049999999998835,
+          "neural_end_sim_s": 6.754999999999878,
+          "actual_drive_s": 0.24999999999999467,
+          "drive_world_x_displacement_m": 0.009730696678161621
+        },
+        {
+          "neural_start_sim_s": 7.649999999999859,
+          "neural_end_sim_s": 7.8199999999998555,
+          "actual_drive_s": 0.16999999999999638,
+          "drive_world_x_displacement_m": 0.004791781306266785
+        },
+        {
+          "neural_start_sim_s": 8.624999999999948,
+          "neural_end_sim_s": 8.924999999999995,
+          "actual_drive_s": 0.3000000000000469,
+          "drive_world_x_displacement_m": 0.008671745657920837
+        }
+      ],
+      "proof_expiry": {
+        "known": true,
+        "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+        "request_id": "proof_expiry",
+        "generation": 3,
+        "status": "expired",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "observation proof expired"
+      },
+      "lease_expiry": {
+        "known": true,
+        "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+        "request_id": "lease_expiry",
+        "generation": 4,
+        "status": "expired",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "wall lease expired"
+      },
+      "interrupted": {
+        "known": true,
+        "episode_id": "ep_aa42a8fe78994ea8916f11b59511f4d3",
+        "request_id": "interrupted",
+        "generation": 5,
+        "status": "stopped",
+        "completed": true,
+        "verification_available": true,
+        "verified": false,
+        "reason": "request interrupted; motion not verified"
+      },
+      "renewal_errors": [],
+      "both_completed_requests_verified": true,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "9ed01e59f9ac28e26858232b3b1f986b36efec5128a8fc5afe87e9e0f8193f6f",
+        "evaluator_truth.jsonl": "03cc8cb88a2e5489214c544e6556f1e70e573d943c3f0e4d7e303b07a3923ffa",
+        "evaluator_verdicts.jsonl": "4475ea5a2fa4a0e599fec305e4407c95237e1fc307fb44107806d2ffb5d400bb",
+        "evaluation.json": "96eeda0d94f27d99e28dd79b72575934f690e2f32f9ed321ce72ba2ed654e6a8"
+      }
+    },
+    {
+      "case": {
+        "id": "h3-w14",
+        "initial_zero_s": 1.4,
+        "zero_wait_s": 1.4,
+        "gating": true
+      },
+      "plan_sha256": "48698a7b30275ec5377a8052d0956729b453f9b5b6fad75030cacd0690d2cc52",
+      "evidence_kind": "FRESH_NATIVE_OPERATOR_STEP_DIAGNOSTIC_NOT_ROS_PERCEPTION",
+      "runtime": {
+        "isaaclab": "28.0.0",
+        "isaacsim": "6.2.0.0",
+        "newton": "1.6.1",
+        "mujoco": "3.12.0",
+        "mujoco-warp": "3.12.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0+cu130",
+        "physics_owner": "isaaclab_newton.physics.NewtonManager",
+        "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+        "asset_sha256": "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8",
+        "isaaclab_git_sha": "e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4",
+        "model_body_count": 15,
+        "model_joint_count": 15,
+        "joint_names": [
+          "passive_right_hip_yaw_backlash:0",
+          "passive_right_hip_yaw_backlash:1",
+          "passive_right_hip_roll_backlash:0",
+          "passive_right_hip_roll_backlash:1",
+          "passive_right_hip_pitch_backlash:0",
+          "passive_right_hip_pitch_backlash:1",
+          "passive_right_knee_backlash:0",
+          "passive_right_knee_backlash:1",
+          "passive_right_ankle_backlash:0",
+          "passive_right_ankle_backlash:1",
+          "neck_pitch:0",
+          "neck_pitch:1",
+          "head_pitch:0",
+          "head_pitch:1",
+          "head_yaw:0",
+          "head_yaw:1",
+          "head_roll:0",
+          "head_roll:1",
+          "left_hip_yaw:0",
+          "left_hip_yaw:1",
+          "left_hip_roll:0",
+          "left_hip_roll:1",
+          "left_hip_pitch:0",
+          "left_hip_pitch:1",
+          "left_knee:0",
+          "left_knee:1",
+          "left_ankle:0",
+          "left_ankle:1"
+        ],
+        "camera_enabled": false,
+        "servo_ids": [
+          18,
+          20,
+          22,
+          24,
+          26,
+          10,
+          12,
+          14,
+          16,
+          1,
+          3,
+          5,
+          7,
+          9
+        ],
+        "backlash_ids": [
+          19,
+          21,
+          23,
+          25,
+          27,
+          11,
+          13,
+          15,
+          17,
+          0,
+          2,
+          4,
+          6,
+          8
+        ],
+        "joint_limits": [
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.5235987901687622,
+            0.4363323152065277
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.3839724361896515,
+            0.3839724361896515
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -1.5707963705062866,
+            1.0471975803375244
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -2.96705961227417,
+            2.96705961227417
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.4363323152065277,
+            0.4363323152065277
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.4363323152065277,
+            0.5235987901687622
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.3839724361896515,
+            0.3839724361896515
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ]
+        ],
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "policy_mode": "training",
+        "command_profile": {
+          "name": "direct",
+          "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+          "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+          "adapter_source_sha256": "49faedc23f97e30125a3e9a15b3ccc75ef3ef528a60042a37ab1d4873f3811ce",
+          "profile_sha256": "f83e077e6f09b0d6de44863fb953a3fcff51e7cfe0e60dbabcf8514f5f15a2a1"
+        },
+        "step_profile": {
+          "name": "step-forward-v1",
+          "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+          "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+          "adapter_source_sha256": "b670611a01415bd0198ae0e4a90887d95cabd930755108305b2ebbdd9b962a99",
+          "requested_peak": [
+            0.1,
+            0.0,
+            0.0
+          ],
+          "drive_s": 1.0,
+          "settle_s": 1.0,
+          "horizon_s": 2.0,
+          "drive_neural_command": [
+            0.25,
+            0.0,
+            0.0
+          ],
+          "settle_neural_command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "validation_status": "CANDIDATE",
+          "candidate_validation": true,
+          "online_feedback": false,
+          "production_requires_observation_proof": true,
+          "profile_sha256": "4245bedc33e9c6abc8982f0d9c8c29ba5b174b3c4f4652b23e841e8257cb2ba3"
+        }
+      },
+      "requests": [
+        {
+          "request_id": "step",
+          "ack": {
+            "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+            "request_id": "step",
+            "generation": 1,
+            "status": "accepted",
+            "reason": "queued; no physical verdict",
+            "accepted": true
+          },
+          "completed_status": {
+            "known": true,
+            "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+            "request_id": "step",
+            "generation": 1,
+            "status": "completed",
+            "completed": true,
+            "verification_available": false,
+            "verified": false,
+            "reason": "planned step horizon ended; physical verdict pending"
+          },
+          "physical_status": {
+            "known": true,
+            "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+            "request_id": "step",
+            "generation": 1,
+            "status": "completed",
+            "completed": true,
+            "verification_available": true,
+            "verified": true,
+            "reason": "native motion and rest checks passed"
+          }
+        },
+        {
+          "request_id": "resume",
+          "ack": {
+            "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "accepted",
+            "reason": "queued; no physical verdict",
+            "accepted": true
+          },
+          "completed_status": {
+            "known": true,
+            "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "completed",
+            "completed": true,
+            "verification_available": false,
+            "verified": false,
+            "reason": "planned step horizon ended; physical verdict pending"
+          },
+          "physical_status": {
+            "known": true,
+            "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "completed",
+            "completed": true,
+            "verification_available": true,
+            "verified": true,
+            "reason": "native motion and rest checks passed"
+          }
+        }
+      ],
+      "physical_verdicts": [
+        {
+          "request_id": "step",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09074770213647748,
+            "yaw_delta_rad": -0.07896189684218315,
+            "tail_speed_m_s": 0.0009208246079233062,
+            "tail_yaw_rate_rad_s": 0.010992691121910784,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.0920707173532212,
+            "yaw_delta_rad": -0.06845343220928206,
+            "tail_speed_m_s": 0.00052560081291197,
+            "tail_yaw_rate_rad_s": 0.007563650115943429,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "proof_expiry",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.00047276233912378054,
+            "yaw_delta_rad": -0.015031883800539464,
+            "tail_speed_m_s": 0.03889963867701834,
+            "tail_yaw_rate_rad_s": 0.05835763309150934,
+            "elapsed_sim_s": 0.6000000000000938,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "lease_expiry",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.00016420591062521237,
+            "yaw_delta_rad": -0.001335076841846361,
+            "tail_speed_m_s": 0.013498127355033118,
+            "tail_yaw_rate_rad_s": 0.04383910773321986,
+            "elapsed_sim_s": 0.5200000000000813,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": -0.001267743524117751,
+            "yaw_delta_rad": 0.0017610066199861552,
+            "tail_speed_m_s": 0.02213964244161596,
+            "tail_yaw_rate_rad_s": 0.07188677936792373,
+            "elapsed_sim_s": 0.6600000000001032,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.4299999999999915,
+          "neural_end_sim_s": 2.4299999999999704,
+          "actual_drive_s": 0.9999999999999789,
+          "drive_world_x_displacement_m": 0.08022917748894542
+        },
+        {
+          "neural_start_sim_s": 4.844999999999919,
+          "neural_end_sim_s": 5.844999999999898,
+          "actual_drive_s": 0.9999999999999787,
+          "drive_world_x_displacement_m": 0.07809186726808548
+        },
+        {
+          "neural_start_sim_s": 8.3099999999999,
+          "neural_end_sim_s": 8.549999999999937,
+          "actual_drive_s": 0.24000000000003752,
+          "drive_world_x_displacement_m": 0.009296134114265442
+        },
+        {
+          "neural_start_sim_s": 9.425000000000074,
+          "neural_end_sim_s": 9.5950000000001,
+          "actual_drive_s": 0.17000000000002657,
+          "drive_world_x_displacement_m": 0.0041370689868927
+        },
+        {
+          "neural_start_sim_s": 10.390000000000224,
+          "neural_end_sim_s": 10.68500000000027,
+          "actual_drive_s": 0.2950000000000461,
+          "drive_world_x_displacement_m": 0.008607223629951477
+        }
+      ],
+      "proof_expiry": {
+        "known": true,
+        "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+        "request_id": "proof_expiry",
+        "generation": 3,
+        "status": "expired",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "observation proof expired"
+      },
+      "lease_expiry": {
+        "known": true,
+        "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+        "request_id": "lease_expiry",
+        "generation": 4,
+        "status": "expired",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "wall lease expired"
+      },
+      "interrupted": {
+        "known": true,
+        "episode_id": "ep_32ccf374f3ce4c5e9ef679748894fb14",
+        "request_id": "interrupted",
+        "generation": 5,
+        "status": "stopped",
+        "completed": true,
+        "verification_available": true,
+        "verified": false,
+        "reason": "request interrupted; motion not verified"
+      },
+      "renewal_errors": [],
+      "both_completed_requests_verified": true,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "c44db74e3f703dc040c196ebac15b3f47daa14d4923eb8d5dfbe368819550a83",
+        "evaluator_truth.jsonl": "31433388b9ae38003be99fc550472c326683a8df97d3eea80fcd3dc51a162b4b",
+        "evaluator_verdicts.jsonl": "59b410f1eda775d5add30d5352e6f447180165d3815ccf5eb1be5b1dfe6d9a8b",
+        "evaluation.json": "34ffa46bd7d38cae35bc2daf5004473f86def8f894092457b9f0a37d33afdc63"
+      }
+    },
+    {
+      "case": {
+        "id": "confirmation-w11",
+        "initial_zero_s": 1.3,
+        "zero_wait_s": 1.1,
+        "gating": false
+      },
+      "plan_sha256": "48698a7b30275ec5377a8052d0956729b453f9b5b6fad75030cacd0690d2cc52",
+      "evidence_kind": "FRESH_NATIVE_OPERATOR_STEP_DIAGNOSTIC_NOT_ROS_PERCEPTION",
+      "runtime": {
+        "isaaclab": "28.0.0",
+        "isaacsim": "6.2.0.0",
+        "newton": "1.6.1",
+        "mujoco": "3.12.0",
+        "mujoco-warp": "3.12.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0+cu130",
+        "physics_owner": "isaaclab_newton.physics.NewtonManager",
+        "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+        "asset_sha256": "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8",
+        "isaaclab_git_sha": "e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4",
+        "model_body_count": 15,
+        "model_joint_count": 15,
+        "joint_names": [
+          "passive_right_hip_yaw_backlash:0",
+          "passive_right_hip_yaw_backlash:1",
+          "passive_right_hip_roll_backlash:0",
+          "passive_right_hip_roll_backlash:1",
+          "passive_right_hip_pitch_backlash:0",
+          "passive_right_hip_pitch_backlash:1",
+          "passive_right_knee_backlash:0",
+          "passive_right_knee_backlash:1",
+          "passive_right_ankle_backlash:0",
+          "passive_right_ankle_backlash:1",
+          "neck_pitch:0",
+          "neck_pitch:1",
+          "head_pitch:0",
+          "head_pitch:1",
+          "head_yaw:0",
+          "head_yaw:1",
+          "head_roll:0",
+          "head_roll:1",
+          "left_hip_yaw:0",
+          "left_hip_yaw:1",
+          "left_hip_roll:0",
+          "left_hip_roll:1",
+          "left_hip_pitch:0",
+          "left_hip_pitch:1",
+          "left_knee:0",
+          "left_knee:1",
+          "left_ankle:0",
+          "left_ankle:1"
+        ],
+        "camera_enabled": false,
+        "servo_ids": [
+          18,
+          20,
+          22,
+          24,
+          26,
+          10,
+          12,
+          14,
+          16,
+          1,
+          3,
+          5,
+          7,
+          9
+        ],
+        "backlash_ids": [
+          19,
+          21,
+          23,
+          25,
+          27,
+          11,
+          13,
+          15,
+          17,
+          0,
+          2,
+          4,
+          6,
+          8
+        ],
+        "joint_limits": [
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.5235987901687622,
+            0.4363323152065277
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.3839724361896515,
+            0.3839724361896515
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -1.5707963705062866,
+            1.0471975803375244
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -2.96705961227417,
+            2.96705961227417
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.4363323152065277,
+            0.4363323152065277
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.4363323152065277,
+            0.5235987901687622
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -0.3839724361896515,
+            0.3839724361896515
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ],
+          [
+            -1.5707963705062866,
+            1.5707963705062866
+          ],
+          [
+            -0.01745329238474369,
+            0.01745329238474369
+          ]
+        ],
+        "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+        "policy_mode": "training",
+        "command_profile": {
+          "name": "direct",
+          "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+          "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+          "adapter_source_sha256": "49faedc23f97e30125a3e9a15b3ccc75ef3ef528a60042a37ab1d4873f3811ce",
+          "profile_sha256": "f83e077e6f09b0d6de44863fb953a3fcff51e7cfe0e60dbabcf8514f5f15a2a1"
+        },
+        "step_profile": {
+          "name": "step-forward-v1",
+          "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+          "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+          "adapter_source_sha256": "2d6e6e9b3d7adb475a78832151c6376d66fb419d5c74648a6fedbb57c58cbc89",
+          "requested_peak": [
+            0.1,
+            0.0,
+            0.0
+          ],
+          "drive_s": 1.0,
+          "settle_s": 1.0,
+          "horizon_s": 2.0,
+          "drive_neural_command": [
+            0.25,
+            0.0,
+            0.0
+          ],
+          "settle_neural_command": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "validation_status": "NATIVE_VALIDATED",
+          "candidate_validation": false,
+          "online_feedback": false,
+          "production_requires_observation_proof": true,
+          "profile_sha256": "3133b14592e13e7e941dda085d2d4c12dcb7ce741a3839fb34e926e4c7e80bdf"
+        }
+      },
+      "requests": [
+        {
+          "request_id": "step",
+          "ack": {
+            "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+            "request_id": "step",
+            "generation": 1,
+            "status": "accepted",
+            "reason": "queued; no physical verdict",
+            "accepted": true
+          },
+          "completed_status": {
+            "known": true,
+            "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+            "request_id": "step",
+            "generation": 1,
+            "status": "completed",
+            "completed": true,
+            "verification_available": false,
+            "verified": false,
+            "reason": "planned step horizon ended; physical verdict pending"
+          },
+          "physical_status": {
+            "known": true,
+            "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+            "request_id": "step",
+            "generation": 1,
+            "status": "completed",
+            "completed": true,
+            "verification_available": true,
+            "verified": true,
+            "reason": "native motion and rest checks passed"
+          }
+        },
+        {
+          "request_id": "resume",
+          "ack": {
+            "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "accepted",
+            "reason": "queued; no physical verdict",
+            "accepted": true
+          },
+          "completed_status": {
+            "known": true,
+            "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "completed",
+            "completed": true,
+            "verification_available": false,
+            "verified": false,
+            "reason": "planned step horizon ended; physical verdict pending"
+          },
+          "physical_status": {
+            "known": true,
+            "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+            "request_id": "resume",
+            "generation": 2,
+            "status": "completed",
+            "completed": true,
+            "verification_available": true,
+            "verified": true,
+            "reason": "native motion and rest checks passed"
+          }
+        }
+      ],
+      "physical_verdicts": [
+        {
+          "request_id": "step",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09011028692045502,
+            "yaw_delta_rad": -0.07400804983326223,
+            "tail_speed_m_s": 0.0013738231613162231,
+            "tail_yaw_rate_rad_s": 0.023468166039409964,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "resume",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09155909452164228,
+            "yaw_delta_rad": -0.06375748769527942,
+            "tail_speed_m_s": 0.0012023468884091912,
+            "tail_yaw_rate_rad_s": 0.03305710052055391,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "proof_expiry",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.0010210374537722737,
+            "yaw_delta_rad": -0.028335256091558084,
+            "tail_speed_m_s": 0.03992019562726136,
+            "tail_yaw_rate_rad_s": 0.04053354915231466,
+            "elapsed_sim_s": 0.600000000000029,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "lease_expiry",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": 0.0003676958972982248,
+            "yaw_delta_rad": 4.271060884883382e-05,
+            "tail_speed_m_s": 0.01393874406643463,
+            "tail_yaw_rate_rad_s": 0.0476873412495479,
+            "elapsed_sim_s": 0.5200000000000813,
+            "safe": true
+          }
+        },
+        {
+          "request_id": "interrupted",
+          "verified": false,
+          "reason": "request interrupted; motion not verified",
+          "metrics": {
+            "forward_displacement_m": -0.0017323228858798169,
+            "yaw_delta_rad": -0.002705286537600049,
+            "tail_speed_m_s": 0.023797698399325686,
+            "tail_yaw_rate_rad_s": 0.0659027817833703,
+            "elapsed_sim_s": 0.6600000000001032,
+            "safe": true
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "neural_start_sim_s": 1.3299999999999936,
+          "neural_end_sim_s": 2.3299999999999725,
+          "actual_drive_s": 0.9999999999999789,
+          "drive_world_x_displacement_m": 0.08097372064366937
+        },
+        {
+          "neural_start_sim_s": 4.4449999999999275,
+          "neural_end_sim_s": 5.444999999999906,
+          "actual_drive_s": 0.9999999999999787,
+          "drive_world_x_displacement_m": 0.07802944630384445
+        },
+        {
+          "neural_start_sim_s": 7.62999999999986,
+          "neural_end_sim_s": 7.8699999999998544,
+          "actual_drive_s": 0.23999999999999488,
+          "drive_world_x_displacement_m": 0.009496793150901794
+        },
+        {
+          "neural_start_sim_s": 8.744999999999967,
+          "neural_end_sim_s": 8.914999999999994,
+          "actual_drive_s": 0.17000000000002657,
+          "drive_world_x_displacement_m": 0.004374846816062927
+        },
+        {
+          "neural_start_sim_s": 9.72500000000012,
+          "neural_end_sim_s": 10.025000000000167,
+          "actual_drive_s": 0.3000000000000469,
+          "drive_world_x_displacement_m": 0.008834347128868103
+        }
+      ],
+      "proof_expiry": {
+        "known": true,
+        "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+        "request_id": "proof_expiry",
+        "generation": 3,
+        "status": "expired",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "observation proof expired"
+      },
+      "lease_expiry": {
+        "known": true,
+        "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+        "request_id": "lease_expiry",
+        "generation": 4,
+        "status": "expired",
+        "completed": true,
+        "verification_available": false,
+        "verified": false,
+        "reason": "wall lease expired"
+      },
+      "interrupted": {
+        "known": true,
+        "episode_id": "ep_8499152f58d4470eb11c5ee23d57e2d8",
+        "request_id": "interrupted",
+        "generation": 5,
+        "status": "stopped",
+        "completed": true,
+        "verification_available": true,
+        "verified": false,
+        "reason": "request interrupted; motion not verified"
+      },
+      "renewal_errors": [],
+      "both_completed_requests_verified": true,
+      "artifacts_sha256": {
+        "policy_trace.jsonl": "71c7aca48696e56e530beec5880ef6aed6b8a54558d9989cf35f8e9725f59845",
+        "evaluator_truth.jsonl": "233424e859658a33896cd80b79fd98830125da6d9af150acbdac4db222934dde",
+        "evaluator_verdicts.jsonl": "a2709ee8f8e554eee5a20d923ee6ee81c7ee9066aac84a069fddf11ac31fb35f",
+        "evaluation.json": "b9d8125b44f4b7d9420674f49b022401dec238484af10f19c753d7285196a150"
+      }
+    }
+  ],
+  "raw_artifacts_relative_to_validation_worktree": ".workshop/round1/<case>/native/",
+  "limitations": [
+    "No ROS, camera GO/STOP perception or autonomous model acceptance in this evidence",
+    "No cloud or physical robot test",
+    "Raw constant-velocity and calibrated-forward failures remain unchanged",
+    "Freshness proof in native diagnostics comes from original native sensor sample capture+.5; actual ROS production proof must come from original image capture+.5",
+    "No two-hour soak claim"
+  ]
+}

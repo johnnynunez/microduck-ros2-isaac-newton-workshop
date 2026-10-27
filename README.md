@@ -24,13 +24,16 @@ Participants work in **NVIDIA Brev**, using instructor-provided one-day credits 
 - [ROS 2 exercises](exercises/ros_basics/README.md) and [complete reference solution](solutions/ros_basics/README.md)
 - [Troubleshooting](docs/troubleshooting.md)
 
-The course files and individual runtime components are available. **Combined classroom acceptance is still pending:** the direct low-speed policy request stalls, and the first explicit calibration failed the unchanged rest gate. Those failures remain documented; a distinct planned-step skill is being evaluated rather than widening the verifier limits.
+The course files and all runtime components are available. **Combined classroom acceptance is still pending.** The distinct fixed step-and-settle primitive passed six preregistered native tests and two fresh confirmation requests. A joined camera/ROS/model rehearsal subsequently refused motion because perception was no longer fresh; that availability issue and final boundary-review findings are being repaired. The older direct/calibrated velocity failures remain documented, with no relaxed verifier limits. See the [current readiness record](verification/READINESS.md).
 
 - [Isaac Lab/Newton runtime and real PPO exercise](docs/runtime.md)
 - [Isaac ROS 5.0 setup and actual CUDA detector evidence](docs/isaac_ros.md)
 - [CASCADE capstone implementation and evidence limits](docs/capstone.md)
 - [Calibration results — currently NOT READY](docs/calibration.md)
-- [Brev setup status and cloud lifecycle](docs/brev.md)
+- [Brev setup and cloud lifecycle](docs/brev.md)
+- [Fixed step: native results and exact semantics](docs/step.md)
+- [Portable local Qwen3.8 model](docs/local_model.md)
+- [Read-only browser preview](docs/preview.md)
 
 The read-only ROS exercises do not bypass the motion gateway.
 

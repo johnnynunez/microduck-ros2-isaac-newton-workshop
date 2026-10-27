@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MicroDuck / Read-only preview</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="identity"><span class="kicker">BREV / ROBOTICS WORKSHOP</span><h1>MicroDuck<span class="slash"> / </span>observer</h1></div>
+    <span class="read-only">READ ONLY · NO ACTUATION</span>
+  </header>
+  <main>
+    <section class="runtime" aria-label="Runtime status">
+      <div><span class="label">SOURCE STATUS</span><strong id="runtime-state" data-state="offline">OFFLINE / awaiting status</strong></div>
+      <div><span class="label">PHYSICS</span><strong id="physics">—</strong></div>
+      <div><span class="label">EPISODE / EPOCH</span><strong id="episode">—</strong></div>
+      <div><span class="label">GENERATION</span><strong id="generation">—</strong></div>
+      <div><span class="label">SIM CLOCK</span><strong id="sim-time">—</strong></div>
+    </section>
+    <div class="views">
+      <section class="feed" id="overview" data-state="offline" aria-labelledby="overview-title">
+        <div class="feed-title"><div><span class="kicker">01 / HUMAN CONTEXT</span><h2 id="overview-title">Overview</h2></div><strong class="feed-state">OFFLINE</strong></div>
+        <div class="viewport"><img alt="Human-only simulation overview" hidden><p class="empty">Awaiting an actual overview frame.<br>No substitute image is shown.</p><span class="image-warning">NO FRAME</span></div>
+        <p class="purpose">For people, not agent input. This view is never a perception source.</p>
+        <dl><div><dt>CAPTURE EPOCH</dt><dd class="epoch">—</dd></div><div><dt>SEQUENCE</dt><dd class="sequence">—</dd></div><div><dt>SIM TIME</dt><dd class="sim-time">—</dd></div><div><dt>CAPTURE AGE</dt><dd class="age">—</dd></div></dl>
+        <p class="feed-note">Waiting for source provenance.</p>
+      </section>
+      <section class="feed" id="head" data-state="offline" aria-labelledby="head-title">
+        <div class="feed-title"><div><span class="kicker">02 / ONBOARD RGB</span><h2 id="head-title">Head camera</h2></div><strong class="feed-state">OFFLINE</strong></div>
+        <div class="viewport"><img alt="Actual onboard head RGB camera frame" hidden><p class="empty">Awaiting an actual head camera frame.<br>No substitute image is shown.</p><span class="image-warning">NO FRAME</span></div>
+        <p class="purpose">The onboard camera feed. Display only; no policy or task verdict is inferred.</p>
+        <dl><div><dt>CAPTURE EPOCH</dt><dd class="epoch">—</dd></div><div><dt>SEQUENCE</dt><dd class="sequence">—</dd></div><div><dt>SIM TIME</dt><dd class="sim-time">—</dd></div><div><dt>CAPTURE AGE</dt><dd class="age">—</dd></div></dl>
+        <p class="feed-note">Waiting for source provenance.</p>
+      </section>
+    </div>
+    <aside><strong>Capture time, not arrival time.</strong> Live means a source capture no older than 0.5 s, with a ready, matching episode. Stale or disconnected feeds retain their last image with a warning.</aside>
+  </main>
+  <footer><span>UI refresh target: 4 Hz · not renderer FPS</span><span>Independent views · not frame-synchronous · no interpolation</span></footer>
+  <noscript>JavaScript is required to fetch images and display freshness. No live feed is shown.</noscript>
+</body>
+</html>

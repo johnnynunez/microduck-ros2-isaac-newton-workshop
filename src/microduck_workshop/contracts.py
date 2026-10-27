@@ -8,6 +8,7 @@ MAX_VX = 0.10
 MAX_VY = 0.0
 MAX_WZ = 0.30
 MAX_DURATION_S = 2.0
+MIN_DURATION_S = 0.02
 LEASE_TIMEOUT_S = 0.5
 MAX_SENSOR_AGE_S = 0.5
 PROTOCOL_VERSION = 1
@@ -55,8 +56,8 @@ class MotionCommand:
             if abs(value) > limit:
                 raise ContractError(f"{name} exceeds {limit}; requests are rejected, not clipped")
         duration = finite_number(self.duration_s, "duration_s")
-        if not 0 < duration <= MAX_DURATION_S:
-            raise ContractError(f"duration_s must be in (0, {MAX_DURATION_S}]")
+        if not MIN_DURATION_S <= duration <= MAX_DURATION_S:
+            raise ContractError(f"duration_s must be in [{MIN_DURATION_S}, {MAX_DURATION_S}]")
 
     @classmethod
     def from_dict(cls, value: object) -> "MotionCommand":

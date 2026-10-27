@@ -9,7 +9,32 @@ import threading
 import time
 from dataclasses import dataclass
 
-from microduck_workshop.contracts import LEASE_TIMEOUT_S, ContractError, MotionCommand, identifier
+from microduck_workshop.contracts import (
+    LEASE_TIMEOUT_S,
+    MAX_SENSOR_AGE_S,
+    ContractError,
+    MotionCommand,
+    finite_number,
+    identifier,
+)
+
+
+@dataclass(frozen=True)
+class ObservationProof:
+    episode_id: str
+    sequence: int
+    deadline: float
+
+    def validate(self, episode_id, now):
+        if identifier(self.episode_id, "observation episode") != episode_id:
+            raise ContractError("observation episode mismatch")
+        if type(self.sequence) is not int or not 0 <= self.sequence < 2**64:
+            raise ContractError("observation sequence must be uint64")
+        deadline = finite_number(self.deadline, "observation deadline")
+        if not now < deadline <= now + MAX_SENSOR_AGE_S:
+            raise ContractError(
+                "observation proof expired or deadline beyond capture freshness limit"
+            )
 
 
 @dataclass
@@ -18,14 +43,26 @@ class Pending:
     generation: int
     accepted_wall: float
     start_sim: float | None = None
+    proof: ObservationProof | None = None
+    is_step: bool = False
 
 
 class IntentOwner:
-    def __init__(self, episode_id, *, clock=time.monotonic, command_profile=None, max_records=4096):
+    def __init__(
+        self,
+        episode_id,
+        *,
+        clock=time.monotonic,
+        command_profile=None,
+        step_profile=None,
+        max_records=4096,
+    ):
         if type(max_records) is not int or max_records < 1:
             raise ValueError("max_records must be a positive integer")
         self.max_records = max_records
         self.command_profile = command_profile
+        self.step_profile = step_profile
+        self.control_context = {}
         self.episode_id = identifier(episode_id, "episode_id")
         self.clock = clock
         self.lock = threading.RLock()
@@ -46,6 +83,9 @@ class IntentOwner:
 
     def _expire(self):
         now = self.clock()
+        if self._pending and self._pending.proof and now >= self._pending.proof.deadline:
+            self._finish("expired", "observation proof expired")
+            self._owner_id = self._token = None
         if now - self._renewed >= LEASE_TIMEOUT_S:
             self._finish("expired", "wall lease expired")
             self._owner_id = self._token = None
@@ -85,11 +125,29 @@ class IntentOwner:
                 "lease_timeout_s": LEASE_TIMEOUT_S,
             }
 
-    def renew(self, episode_id, token):
+    def renew(self, episode_id, token, proof=None):
         with self.lock:
             if episode_id != self.episode_id:
                 raise ContractError("episode mismatch")
             self._lease(token)
+            if self._pending and self._pending.is_step:
+                try:
+                    self._validate_proof(proof)
+                    previous = self._pending.proof
+                    if (
+                        proof.sequence < previous.sequence
+                        or (
+                            proof.sequence == previous.sequence
+                            and proof.deadline != previous.deadline
+                        )
+                        or proof.deadline < previous.deadline
+                    ):
+                        raise ContractError("observation proof replay or capture deadline rewrite")
+                except ContractError:
+                    self._finish("expired", "fresh observation proof missing or invalid on renewal")
+                    self._owner_id = self._token = None
+                    raise
+                self._pending.proof = proof
             self._renewed = self.clock()
             return {
                 "episode_id": self.episode_id,
@@ -98,6 +156,23 @@ class IntentOwner:
             }
 
     def submit(self, command, token):
+        return self._submit(command, token)
+
+    def _validate_proof(self, proof):
+        if not isinstance(proof, ObservationProof):
+            raise ContractError("step requires observation episode, sequence and deadline")
+        proof.validate(self.episode_id, self.clock())
+
+    def submit_step(self, command, token, proof):
+        with self.lock:
+            self._lease(token)
+            if self.step_profile is None:
+                raise ContractError("step-forward-v1 is not enabled")
+            self._validate_proof(proof)
+            self.step_profile.validate_request(command)
+            return self._submit(command, token, proof=proof, is_step=True)
+
+    def _submit(self, command, token, *, proof=None, is_step=False):
         if not isinstance(command, MotionCommand):
             raise ContractError("expected a validated MotionCommand")
         with self.lock:
@@ -112,12 +187,14 @@ class IntentOwner:
                 raise ContractError("repeated request ID; unknown delivery must not be retried")
             if self._pending is not None:
                 raise ContractError("a motion request is already active")
-            if self.command_profile is not None:
+            if not is_step and self.command_profile is not None:
                 self.command_profile.validate_request(command)
             if len(self._records) >= self.max_records:
                 raise ContractError("request history capacity reached; operator restart required")
             self.generation += 1
-            self._pending = Pending(command, self.generation, self.clock())
+            self._pending = Pending(
+                command, self.generation, self.clock(), proof=proof, is_step=is_step
+            )
             record = {
                 "known": True,
                 "episode_id": self.episode_id,
@@ -139,6 +216,7 @@ class IntentOwner:
     def consume(self, *, sim_time):
         with self.lock:
             self._expire()
+            self.control_context = {}
             self._simulation_heartbeat = self.clock()
             pending = self._pending
             if self.stop_latched or pending is None:
@@ -146,6 +224,28 @@ class IntentOwner:
             if pending.start_sim is None:
                 pending.start_sim = sim_time
                 self._records[pending.command.request_id]["status"] = "executing"
+            if pending.is_step:
+                elapsed = sim_time - pending.start_sim
+                phase = self.step_profile.phase(elapsed)
+                self.control_context = {
+                    "maneuver": self.step_profile.name,
+                    "maneuver_phase": phase,
+                    "request_id": pending.command.request_id,
+                    "requested_peak_command": [
+                        pending.command.vx,
+                        pending.command.vy,
+                        pending.command.wz,
+                    ],
+                    "maneuver_elapsed_s": elapsed,
+                    "observation_episode": pending.proof.episode_id,
+                    "observation_sequence": pending.proof.sequence,
+                    "observation_deadline": pending.proof.deadline,
+                }
+                if phase == "complete":
+                    self._finish(
+                        "completed", "planned step horizon ended; physical verdict pending"
+                    )
+                return (0.1, 0.0, 0.0) if phase == "drive" else (0.0, 0.0, 0.0)
             if sim_time - pending.start_sim >= pending.command.duration_s:
                 self._finish("completed", "intent duration ended; physical verdict pending")
                 return (0.0, 0.0, 0.0)

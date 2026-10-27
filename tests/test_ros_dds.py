@@ -29,6 +29,28 @@ def test_real_dds_services_refuse_when_simulator_absent():
         result = motion.call_async(request)
         rclpy.spin_until_future_complete(node, result, timeout_sec=5)
         assert not result.result().accepted
+        step = node.create_client(BoundedMotion, '/workshop/microduck/step_forward')
+        assert step.wait_for_service(timeout_sec=5)
+        # The additive service uses the exact existing generated IDL.
+        request = BoundedMotion.Request(episode_id='absent', request_id='dds_step_probe',
+                                        expected_generation=0, vx=.1, vy=0., wz=0., duration_s=2.)
+        result = step.call_async(request)
+        rclpy.spin_until_future_complete(node, result, timeout_sec=5)
+        assert result.result() is not None and not result.result().accepted
+        from microduck_workshop.agent.gateway import RclpyGateway
+        from microduck_workshop.contracts import MotionCommand
+        agent_gateway = RclpyGateway(timeout_s=1.)
+        try:
+            # Real adapter + generated C ABI + actual DDS, still a negative-only gate.
+            ack = agent_gateway.step_forward(
+                MotionCommand('absent', 'adapter_step', 0, .1, 0, 0, 2),
+                deadline_monotonic_s=time.monotonic() + .5,
+            )
+            assert ack['accepted'] is False
+            assert ack['request_id'] == 'adapter_step'
+            assert agent_gateway.command_endpoint.endswith('/step_forward')
+        finally:
+            agent_gateway.close()
         status = node.create_client(MotionStatus, '/workshop/microduck/motion_status')
         assert status.wait_for_service(timeout_sec=5)
         result = status.call_async(MotionStatus.Request(episode_id='absent', request_id='dds_probe'))

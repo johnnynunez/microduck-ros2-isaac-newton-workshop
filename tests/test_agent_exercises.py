@@ -27,7 +27,7 @@ def test_student_todos_fail_explicitly():
     with pytest.raises(NotImplementedError):
         student.translate_observation({}, episode_id="e", frame_id="camera")
     with pytest.raises(NotImplementedError):
-        student.walk_bounded(None, {})
+        student.step_forward(None, {})
 
 
 def test_reference_solution_is_wired_to_actual_domain():
@@ -38,10 +38,10 @@ def test_reference_solution_is_wired_to_actual_domain():
         episode_id="episode-1",
         frame_id="microduck_camera_optical",
         observation_handler=tools.translate_observation,
-        motion_handler=tools.walk_bounded,
+        motion_handler=tools.step_forward,
     )
     assert domain.execute("observe", {})["signal"] == "GO"
-    result = domain.execute("walk_bounded", dict(vx=0.05, vy=0, wz=0, duration_s=0.2))
+    result = domain.execute("step_forward", {})
     assert result["accepted"] is True
     assert result["verified"] is False
     assert len(gateway.sent) == 1

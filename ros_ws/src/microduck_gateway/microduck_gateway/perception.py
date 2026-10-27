@@ -49,6 +49,22 @@ class CaptureCache:
             self.latest = dict(record, tag_ids=sorted(set(int(x) for x in tag_ids)))
             return True
 
+    def step_headers(self, episode):
+        """Server-only proof, never a model observation or receipt-time restamp."""
+        with self.lock:
+            latest = self.latest
+            if (latest is None or latest['episode_id'] != episode
+                    or not 0 <= self.clock() - latest['capture'] < .5
+                    or 0 not in latest['tag_ids'] or 1 in latest['tag_ids']
+                    or type(latest['frame_sequence']) is not int
+                    or latest['frame_sequence'] < 0):
+                raise ValueError('step requires same-episode fresh GO without STOP')
+            return {
+                'X-Workshop-Observation-Episode': episode,
+                'X-Workshop-Observation-Sequence': str(latest['frame_sequence']),
+                'X-Workshop-Observation-Deadline': str(latest['capture'] + .5),
+            }
+
     def observe(self, episode, generation):
         with self.lock:
             result = dict(fresh=False, episode_id=episode, generation=generation,

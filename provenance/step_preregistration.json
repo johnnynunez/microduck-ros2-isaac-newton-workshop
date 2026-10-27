@@ -1,0 +1,70 @@
+{
+  "name": "step-forward-v1-round1",
+  "registered_at": "2026-10-27T04:42:56.573772+00:00",
+  "base_commit": "4596f3c",
+  "fixed_candidate": {
+    "peak_command": [
+      0.1,
+      0,
+      0
+    ],
+    "drive_neural_command": [
+      0.25,
+      0,
+      0
+    ],
+    "drive_s": 1.0,
+    "settle_neural_command": [
+      0,
+      0,
+      0
+    ],
+    "settle_s": 1.0,
+    "horizon_s": 2.0
+  },
+  "scope": "native operator diagnostics; not ROS/perception or autonomous acceptance",
+  "thresholds": "entire existing evaluate.py unchanged, including completion+.35s and last .2s planar<.04 m/s/yaw<.10 rad/s",
+  "policy_sha256": "2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492",
+  "source_revision": "b02fdea4902c2b93b7d34a83a6f05da4ececb7d3",
+  "code_sha256": {
+    "src/microduck_workshop/policy/step.py": "b670611a01415bd0198ae0e4a90887d95cabd930755108305b2ebbdd9b962a99",
+    "src/microduck_workshop/sim/intent.py": "9efe47b3b7635b64fea71967297a96136308da44125d099a7052d25ee485dc4e",
+    "src/microduck_workshop/sim/http.py": "d21f72aeb322c79b1caa939e02ffbe32a93a218b4515c30a7b270c7ddd064f2b",
+    "src/microduck_workshop/sim/play.py": "c9d1b3469c7d33479391b1439792182850dad9485eec02e10accb725812e5108",
+    "src/microduck_workshop/sim/evaluate.py": "04d83c178af0465ad57d7551e32e0ec292f42bdcbb0ef645d4cf0ed94c83c037",
+    "src/microduck_workshop/sim/native.py": "de9b6a8ee541b1d1d55bf722b37c2f499aa0c19c4ee671d09e5c08b72eda2682",
+    "src/microduck_workshop/contracts.py": "de0a1aa5281ef6fee43e04b45695cc53e30528802831236ca5fe242f967f84ef",
+    "src/microduck_workshop/policy/onnx.py": "9aab1e328312c750f66a2a3058bb687c26ee0186e985900c14c075a98102e428",
+    "scripts/sim_validate_step.py": "65288c71e6f89d5028a57c58f211110a0a250996226bdbe9b788bd7f64d7f754"
+  },
+  "cases": [
+    {
+      "id": "h1-w04",
+      "initial_zero_s": 0.4,
+      "zero_wait_s": 0.4,
+      "gating": true
+    },
+    {
+      "id": "h2-w08",
+      "initial_zero_s": 0.8,
+      "zero_wait_s": 0.8,
+      "gating": true
+    },
+    {
+      "id": "h3-w14",
+      "initial_zero_s": 1.4,
+      "zero_wait_s": 1.4,
+      "gating": true
+    },
+    {
+      "id": "confirmation-w11",
+      "initial_zero_s": 1.3,
+      "zero_wait_s": 1.1,
+      "gating": false
+    }
+  ],
+  "per_case": "step->fixed zero wait->step->fixed zero wait; live proof expiry, independent lease expiry, moving priority stop; no reset within episode",
+  "promotion": "all gating step/resume verdicts must pass unchanged; confirmation is fresh non-gating and run after readiness-only update if successful; no timing/gate retuning allowed",
+  "proofs": "diagnostic original native sample capture+.5; no synthesized ROS/GO claim; production always requires proof headers",
+  "preserve_prior_failures": true
+}

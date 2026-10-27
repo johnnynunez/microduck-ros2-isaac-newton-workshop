@@ -53,10 +53,10 @@ is assumed. The domain implements `tool_descriptors`, `begin_task`, `execute`, `
 | Tool | Meaning |
 |---|---|
 | `microduck.observe` | Actual gateway detection snapshot: episode, generation, frame sequence/time, effective capture age, optical frame and tag IDs. Tag 0 = GO; tag 1 = STOP; STOP wins. |
-| `microduck.walk_bounded(vx, vy, wz, duration_s)` | At most one send per task, body-frame SI units. Finite values only; booleans, strings, unknown fields and out-of-envelope values are rejected, not clipped. |
+| `microduck.step_forward` | At most one fixed `step-forward-v1` send per task. Accepts `{}` or `{"action":"step_forward"}` only; no model-selected velocities or duration. |
 | `microduck.verify` | Query the last exact request's actual gateway status. No command means `no_command`, not success. |
 | `emergency_stop` | CASCADE's composed priority route, backed by a separate ROS node/executor. An ACK is not proof of physical rest. |
-| `task_done(success, summary)` | Model conclusion. Runtime refuses physical success unless the requested motion has an independent confirmed verdict. |
+| `task_done(success, summary)` | Model conclusion. Runtime requires an accepted fixed-step request and its same-episode independent verdict. A verified zero/tiny/turn/legacy command cannot satisfy the forward-step objective. |
 
 Read tools accept `{}` or an explicitly declared constant selector:
 `{"action":"observe"}` / `{"action":"verify"}`. These optional model-facing fields
@@ -64,10 +64,19 @@ never authorize motion and **do not change the frozen empty ROS Observe request*
 Other fields/selector values are refused. They address an observed Qwen argumentless-tool
 failure; the client never silently repairs a model's arguments.
 
-The common envelope is `|vx| <= 0.10 m/s`, `vy = 0`, `|wz| <= 0.30 rad/s`,
-`0 < duration_s <= 2.0 s`. These are preregistered teaching limits, not a claim
-that every candidate gait has passed physical admission. The default task requests
-only one 0.5-second forward command at 0.05 m/s.
+The new fixed step is **not** a renamed constant-velocity command. It requests peak
+forward velocity `.10 m/s`, `vy=wz=0`, and a `2.0 s` horizon. The admitted
+`step-forward-v1` policy profile conditions the existing network at `.25` forward
+for the first `1.0 s`, then exactly zero for the second `1.0 s`. Gravity, contact,
+ONNX/BAM and the learned balance policy stay active. The original `.35 s` rest
+verification window and `.04 m/s` planar / `.10 rad/s` yaw rest limits are unchanged.
+
+The prior constant-velocity direct and calibrated-forward trials remain **failed /
+NOT READY**. The new step needs its own native validation and complete ROS/brain
+acceptance episode; implementing this tool is not proof it walks or stops safely.
+The common motion envelope is not expanded. The old `walk_bounded` Python helper
+and ROS `bounded_motion` service remain operator diagnostics only and are **not in
+the signal-game model catalog**. See [the step transport contract](step_transport.md).
 
 The domain requires a prior GO observation, then **re-reads perception after model
 inference**, rejects changed episode/generation or backwards frame/time, and includes
@@ -75,8 +84,16 @@ the complete service round trip in capture age. The ROS client checks the remain
 freshness deadline again after waiting for service availability and immediately before
 `call_async`. A new UUID binds every send to the expected episode and generation.
 Unknown delivery latches a stop and is never retried, including at a new task boundary.
-The gateway/simulator must independently enforce generation, perception, ownership and
-wall-lease checks; client-side checks cannot make delayed DDS delivery safe by themselves.
+The ROS step service independently rechecks its actual `CaptureCache` for same-episode
+fresh GO without STOP at server admission. It forwards the original capture deadline
+(`capture_monotonic + .5`, never receipt-now) to `/v1/step`. Every active-step lease
+renewal needs a fresh server proof; stale, absent, foreign or STOP perception disables
+renewal and requests priority stop. The simulator must enforce proof expiry at admission
+and every native consume, including a delayed first consume. Client pre-send checks are
+only an additional fence. These monotonic clocks must refer to the same host.
+Validated motion numbers are converted to Python `float` at the ROS float64 ABI;
+identifiers and generations keep their original types. Invalid numbers are rejected
+before conversion, not repaired.
 
 `accepted`, `executing`, `completed`, `verification_available` and `verified` remain
 separate. The motion tool waits for an actual terminal verdict within a bounded budget;
@@ -114,11 +131,12 @@ Edit only `exercises/capstone/tools.py`:
 1. **Observation translation:** validate the expected camera/episode, finite age and
    monotonic identifiers; construct the sensor-only result; handle STOP, missing and
    stale detections without any truth fallback.
-2. **Bounded-motion handler:** require the exact four numeric fields, use the shared
-   `MotionCommand` validator, then delegate to `domain.walk_bounded` and return its real
-   receipt unchanged. Do not dispatch directly to the gateway. The instructor-owned
-   final gate handles fresh-at-send checks, UUID/generation binding, uncertain delivery,
-   priority stop and verification.
+2. **Fixed-step handler:** accept only `{}` or `{"action":"step_forward"}` and reject
+   numeric choices/unknown keys. Delegate to `domain.step_forward` and return its real
+   receipt unchanged. Do not dispatch directly to the gateway. The instructor constructs
+   the fixed request and handles fresh-at-send checks, UUID/generation binding, uncertain
+   delivery, priority stop and verification. The server and native owner still enforce
+   their independent freshness checks.
 
 ```bash
 # Initially fails explicitly with NotImplementedError; no silent reference fallback.
@@ -151,12 +169,18 @@ not permission to bypass the detector.
 
 ```bash
 python -m microduck_workshop.agent.run \
-  --model qwen3.8-27b --base-url http://127.0.0.1:18510/v1 \
+  --model qwen3.8-27b --base-url http://127.0.0.1:8080/v1 \
   --namespace /workshop/microduck \
   --episode-id "$EPISODE_ID" --frame-id "$FRAME_ID" \
   --max-steps 6 --run-dir runs/capstone-001 \
   --tools-file exercises/capstone/tools.py
 ```
+
+The CLI default is local `qwen3.8-27b` at `http://127.0.0.1:8080/v1`, the intended
+portable class configuration; its live acceptance is **pending**, not asserted by
+this default. To use the existing explicitly selected NVFP4 Qwen server, pass
+`--model qwen3.8-27b --base-url http://127.0.0.1:18510/v1`. There is no automatic
+server, model or hosted fallback. Nemotron 3.5 Bolt remains an explicit allowed choice.
 
 Use `--tools-file solutions/capstone/tools.py` only when deliberately selecting the
 reference. Omitting the flag uses the complete production handlers. Output directories
@@ -183,7 +207,7 @@ Pre-stage downloads before the two-hour class. No command here provisions paid i
 Keep the server loopback-only and forward ports through the approved Brev SSH session.
 Check free RAM/VRAM before co-locating a model, Isaac ROS and the simulator.
 
-### Portable llama.cpp recipe (L40S / RTX PRO candidate, not executed here)
+### Historical explicit Bolt alternative (not the default; not executed here)
 
 The pinned public CASCADE source supplies a checksum-verified GGUF/projector/drafter
 recipe, model license attribution and pinned llama.cpp build. Given a clean checkout at

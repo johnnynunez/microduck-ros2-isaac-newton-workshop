@@ -1,0 +1,13 @@
+**
+!pyproject.toml
+!README.md
+!LICENSE
+!NOTICE
+!requirements-sim.txt
+!requirements-agent.txt
+!src
+!src/**
+!provenance
+!provenance/**
+**/__pycache__
+**/*.pyc

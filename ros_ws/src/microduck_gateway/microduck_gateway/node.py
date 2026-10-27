@@ -35,8 +35,8 @@ class GatewayNode(Node):
         super().__init__('gateway', namespace='/workshop/microduck')
         self.declare_parameter('sim_url', 'http://127.0.0.1:8766')
         self.transport = SimHTTP(self.get_parameter('sim_url').value)
-        self.gateway = Gateway(self.transport)
         self.captures = CaptureCache()
+        self.gateway = Gateway(self.transport, captures=self.captures)
         self.last_state = None
         self.last_camera = None
         self.calibration = None
@@ -47,6 +47,7 @@ class GatewayNode(Node):
         self.gateway.start_renewal()
         self.groups = [MutuallyExclusiveCallbackGroup() for _ in range(7)]
         self.create_service(BoundedMotion, 'bounded_motion', self.motion, callback_group=self.groups[0])
+        self.create_service(BoundedMotion, 'step_forward', self.step_forward, callback_group=self.groups[0])
         self.create_service(MotionStatus, 'motion_status', self.status, callback_group=self.groups[1])
         self.create_service(Observe, 'observe', self.observe, callback_group=self.groups[2])
         self.create_service(Trigger, 'emergency_stop', self.stop, callback_group=self.groups[3])
@@ -62,6 +63,10 @@ class GatewayNode(Node):
     def motion(self, request, response):
         body = {name: getattr(request, name) for name in request.get_fields_and_field_types()}
         return assign(response, self.gateway.command(body))
+
+    def step_forward(self, request, response):
+        body = {name: getattr(request, name) for name in request.get_fields_and_field_types()}
+        return assign(response, self.gateway.step_forward(body))
 
     def status(self, request, response):
         return assign(response, self.gateway.status(request.episode_id, request.request_id))

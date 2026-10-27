@@ -17,17 +17,18 @@ def translate_observation(raw, *, episode_id, frame_id, round_trip_s=0.0):
     raise NotImplementedError("TODO 1: implement sensor-only observation translation")
 
 
-def walk_bounded(domain, args):
-    """TODO 2: validate one bounded request, then use the instructor-owned dispatch.
+def step_forward(domain, args):
+    """TODO 2: validate the fixed-step selector, then use instructor-owned dispatch.
 
-    Require exactly vx/vy/wz/duration_s; instantiate the shared MotionCommand with
-    validation-only identity to reject booleans, strings, nonfinite numbers and bounds.
-    Do NOT clip. Forward the validated numeric values to domain.walk_bounded().
-    That instructor method re-reads perception AFTER inference, binds episode/generation,
-    generates a fresh UUID, checks freshness at ROS send, dispatches ONCE and queries the
-    actual independent verdict. Return its receipt unchanged; never fabricate success.
-    Never call gateway.bounded_motion directly, auto-reset, or retry an exception.
+    Accept only {} or {"action":"step_forward"}; reject ALL numeric choices/extra keys.
+    Call domain.step_forward(args), which constructs .10/0/0/2.0 for step-forward-v1:
+    1s active drive and 1s zero command inside the 2s horizon. It re-reads perception
+    AFTER inference, binds episode/generation, generates a UUID and dispatches ONCE
+    through the ROS step_forward service. Server capture checks and native deadline
+    enforcement remain mandatory; a pre-send check alone is insufficient.
+    Return the actual independent verdict unchanged; never fabricate success.
+    Never call gateway methods directly, auto-reset, or retry an exception.
 
     Your validation does not replace the instructor's final gate or server watchdog.
     """
-    raise NotImplementedError("TODO 2: implement the bounded-motion tool handler")
+    raise NotImplementedError("TODO 2: implement the fixed forward-step tool handler")

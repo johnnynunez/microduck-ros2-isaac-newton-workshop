@@ -1,6 +1,7 @@
 """Loopback-only transport v1. HTTP threads never touch simulator objects."""
 
 import json
+import re
 import threading
 from contextlib import contextmanager
 from copy import deepcopy
@@ -9,6 +10,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 
 from microduck_workshop.contracts import PROTOCOL_VERSION, ContractError, MotionCommand
+
+from .intent import ObservationProof
 
 
 @dataclass(frozen=True)
@@ -160,6 +163,16 @@ class _Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         owner = self.server.store.owner
+
+        def proof():
+            names = ("Episode", "Sequence", "Deadline")
+            values = [self.headers.get("X-Workshop-Observation-" + name) for name in names]
+            if all(value is None for value in values):
+                return None
+            if any(value is None for value in values) or not re.fullmatch(r"[0-9]+", values[1]):
+                raise ContractError("incomplete or malformed observation proof headers")
+            return ObservationProof(values[0], int(values[1]), float(values[2]))
+
         try:
             if self.headers.get("Transfer-Encoding"):
                 raise ContractError("chunked requests are not supported")
@@ -176,7 +189,13 @@ class _Handler(BaseHTTPRequestHandler):
                 )
             elif path == "/v1/renew":
                 result = owner.renew(
-                    _exact(body, ["episode_id"])["episode_id"], self.headers.get("X-Workshop-Lease")
+                    _exact(body, ["episode_id"])["episode_id"],
+                    self.headers.get("X-Workshop-Lease"),
+                    proof(),
+                )
+            elif path == "/v1/step":
+                result = owner.submit_step(
+                    MotionCommand.from_dict(body), self.headers.get("X-Workshop-Lease"), proof()
                 )
             elif path == "/v1/stop":
                 body = _exact(body, ["episode_id", "latch"])

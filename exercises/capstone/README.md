@@ -4,9 +4,11 @@ Work in `tools.py`; do not edit the ROS gateway, simulator watchdog or motion en
 
 1. Implement `translate_observation`: expected episode/frame; strict numeric and tag-ID
    validation; capture age plus RPC latency; STOP overrides GO; a newly constructed allowlist.
-2. Implement `walk_bounded`: exact four motion fields; use the shared
-   `microduck_workshop.contracts.MotionCommand` validator; no clipping; call the
-   instructor-owned `domain.walk_bounded` and return its actual receipt.
+2. Implement `step_forward`: accept only `{}` or `{"action":"step_forward"}`;
+   reject numeric choices and unknown keys. Call instructor-owned `domain.step_forward`
+   and return its actual receipt. It constructs the fixed `.10/0/0/2.0` request for
+   `step-forward-v1`, rechecks perception, and uses the distinct ROS step service.
+   A verified legacy standstill/turn is not completion of the forward-step objective.
 
 From the repository root, in the agent environment:
 

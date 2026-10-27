@@ -40,6 +40,9 @@ class FixtureGateway:
             reason="world_pose=SECRET",
         )
 
+    def step_forward(self, command, *, deadline_monotonic_s):
+        return self.bounded_motion(command, deadline_monotonic_s=deadline_monotonic_s)
+
     def motion_status(self, episode_id, request_id):
         return dict(
             known=True,
@@ -99,14 +102,14 @@ def test_actual_cascade_composition_preserves_failed_verdict():
         runtime.begin_task()
         assert {s["name"] for s in runtime.tool_specs} >= {
             "microduck.observe",
-            "microduck.walk_bounded",
+            "microduck.step_forward",
             "microduck.verify",
             "emergency_stop",
         }
         assert "reset_stop" not in {s["name"] for s in runtime.tool_specs}
         assert runtime.execute("microduck.observe")["signal"] == "GO"
         result = runtime.execute(
-            "microduck.walk_bounded", dict(vx=0.05, vy=0.0, wz=0.0, duration_s=0.2)
+            "microduck.step_forward", {}
         )
         assert len(gateway.sent) == 1
         assert gateway.sent[0].episode_id == "episode-1"
@@ -211,7 +214,7 @@ def test_priority_stop_does_not_wait_for_blocked_motion():
     runtime.execute("microduck.observe")
     worker = threading.Thread(
         target=lambda: runtime.execute(
-            "microduck.walk_bounded", dict(vx=0.05, vy=0, wz=0, duration_s=0.2)
+            "microduck.step_forward", {}
         )
     )
     worker.start()

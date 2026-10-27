@@ -1,15 +1,38 @@
-name: roscon-microduck
+name: roscon-brev
 services:
+  sim:
+    image: ${WORKSHOP_SIM_IMAGE:-roscon/microduck-sim:local}
+    container_name: roscon-brev-sim
+    network_mode: host
+    init: true
+    restart: "no"
+    mem_limit: 32g
+    cpus: 8
+    shm_size: 2g
+    environment:
+      OMNI_KIT_ACCEPT_EULA: ${OMNI_KIT_ACCEPT_EULA:-}
+      OMNI_KIT_ALLOW_ROOT: "1"
+      NVIDIA_DRIVER_CAPABILITIES: graphics,compute,utility
+      HOME: /sim-home
+    volumes:
+      - ./.cache/assets:/assets:ro
+      - ./.workshop/sim-output:/outputs
+      - ./.workshop/sim-home:/sim-home
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${WORKSHOP_GPU:-0}"]
+              capabilities: [gpu]
+    command: ["-m", "microduck_workshop.sim.play", "--asset-root", "/assets", "--mode", "serve", "--step-profile", "step-forward-v1", "--cameras", "--tag-id", "${WORKSHOP_TAG_ID:-0}", "--steps", "${WORKSHOP_SIM_STEPS:-180000}", "--output", "/outputs/episode"]
   ros:
     image: ${WORKSHOP_ROS_IMAGE:-roscon/microduck-ros5:local}
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-      args:
-        ROS_BASE: ${ROS_BASE:-roscon/ros5-base:5.0}
-    container_name: roscon-ros5-gateway
+    container_name: roscon-brev-ros
     network_mode: host
-    # No host IPC, Docker socket, privileged mode, public command ports or hardware devices.
+    # Fast DDS on host networking chooses SHM. Share only this private IPC
+    # namespace with the agent, never the host or simulator namespace.
+    ipc: shareable
     init: true
     restart: "no"
     mem_limit: 24g
@@ -27,4 +50,32 @@ services:
             - driver: nvidia
               device_ids: ["${WORKSHOP_GPU:-0}"]
               capabilities: [gpu]
-    command: ["ros2", "launch", "microduck_workshop_ros", "workshop.launch.py", "sim_url:=http://127.0.0.1:8766"]
+    command: ["ros2", "launch", "microduck_workshop_ros", "workshop.launch.py", "sim_url:=http://127.0.0.1:8766", "tag_size:=0.20"]
+  preview:
+    image: ${WORKSHOP_SIM_IMAGE:-roscon/microduck-sim:local}
+    container_name: roscon-brev-preview
+    network_mode: host
+    init: true
+    restart: "no"
+    mem_limit: 256m
+    cpus: 1
+    # SDK-independent read-only module from the merged workshop source.
+    command: ["-m", "microduck_workshop.preview", "--bind", "127.0.0.1", "--port", "8765"]
+  agent:
+    profiles: [agent]
+    image: ${WORKSHOP_AGENT_IMAGE:-roscon/microduck-agent:local}
+    container_name: roscon-brev-agent
+    network_mode: host
+    ipc: service:ros
+    init: true
+    restart: "no"
+    mem_limit: 4g
+    cpus: 2
+    environment:
+      ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-27}
+      ROS_AUTOMATIC_DISCOVERY_RANGE: LOCALHOST
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp
+    volumes:
+      - ./.workshop/agent-output:/outputs
+      - ./exercises:/opt/workshop/exercises:ro
+    command: ["python", "-m", "microduck_workshop.agent.run", "--help"]

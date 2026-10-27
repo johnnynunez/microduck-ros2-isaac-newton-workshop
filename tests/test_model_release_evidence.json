@@ -1,0 +1,1507 @@
+{
+  "scope": "Actual local llama.cpp inference through unchanged pinned CASCADE, synthetic read-only gateway only; NOT ROS or physical success.",
+  "source_manifest": "provenance/local_model.json",
+  "provider_events_are": "SDK request parameters and returned response objects, not raw wire packets; no authorization headers.",
+  "runs": [
+    {
+      "run": "probe-1",
+      "provider_events": [
+        {
+          "kind": "request",
+          "index": 1,
+          "body": {
+            "model": "qwen3.8-27b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You operate an explicitly configured robot composition.\nUse only listed namespaced tools and exact resource selectors. Listing a capability\nis not physical admission. Respect each domain's units, frames and limits.\nAn execution ACK is not success: independent confirmed evidence is required.\nSynthetic observations and motions are software diagnostics, not physical proof.\nStop is global and priority. Never reset a safety stop automatically, replay a\ncancelled command, or infer a grasp, camera, navigation map or whole-body controller.\nUse task_done(success=false) for refuted or unverified requested outcomes.\n\nThis is the simulation-only MicroDuck signal lesson. Goals come ONLY from microduck.observe,\nwhich represents Isaac ROS processing the onboard camera. Tag 0 means GO; tag 1 means STOP.\nmicroduck.observe accepts {} or {\"action\":\"observe\"}; microduck.verify accepts {} or\n{\"action\":\"verify\"}. These optional read selectors never authorize motion. Use no other keys.\nSTOP wins, and absent, foreign or stale observations mean no movement. First observe; then\nat most ONE short permitted forward action; then verify; then task_done. No coordinate goals,\nmap, world/root pose, external view, or invented detections. Bounds are enforced, not clipped.\naccepted/executing/completed/verified are different. A stop ACK is not proof of rest.\nIf verification is unavailable or false, task_done(success=false) and explain that outcome.\nSynthetic fixture data is only a model/tool diagnostic, never proof of perception or motion.\nDo not reset stops, retry commands, or claim a successful walk from a service ACK.\n"
+              },
+              {
+                "role": "user",
+                "content": "Task: This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.\n\nMemory (last 15 s):\n(memory empty)\n\nBegin. Observe first, then act. Call one tool now."
+              }
+            ],
+            "max_tokens": 1024,
+            "temperature": 0.0,
+            "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "emergency_stop",
+                  "description": "Priority cancellation and latch across all domains. ACK does not prove physical rest.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "task_done",
+                  "description": "Finish with independent action verdicts; synthetic execution never proves a physical task.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean"
+                      },
+                      "summary": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "success",
+                      "summary"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.observe",
+                  "description": "Read fresh onboard Isaac ROS tag detections. Tag 0=GO; tag 1=STOP; STOP wins. No world pose.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "observe"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.walk_bounded",
+                  "description": "Request ONE bounded body velocity after observe sees GO. Rechecks camera at send. No retries. ACK is not physical success.",
+                  "parameters": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "duration_s",
+                      "vx",
+                      "vy",
+                      "wz"
+                    ],
+                    "properties": {
+                      "vx": {
+                        "type": "number",
+                        "minimum": -0.1,
+                        "maximum": 0.1
+                      },
+                      "vy": {
+                        "type": "number",
+                        "minimum": -0.0,
+                        "maximum": 0.0
+                      },
+                      "wz": {
+                        "type": "number",
+                        "minimum": -0.3,
+                        "maximum": 0.3
+                      },
+                      "duration_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 2.0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.verify",
+                  "description": "Query the last command's independent verdict; no coordinates. Never infer verification from acceptance.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "verify"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            ],
+            "parallel_tool_calls": false,
+            "extra_body": {
+              "chat_template_kwargs": {
+                "enable_thinking": false
+              }
+            },
+            "tool_choice": "required"
+          }
+        },
+        {
+          "kind": "response",
+          "index": 1,
+          "body": {
+            "id": "chatcmpl-uQI4qHACR4Bo72n36H13F9DQQ1AlhiUS",
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "logprobs": null,
+                "message": {
+                  "content": "",
+                  "refusal": null,
+                  "role": "assistant",
+                  "annotations": null,
+                  "audio": null,
+                  "function_call": null,
+                  "tool_calls": [
+                    {
+                      "id": "T5waogkBEotxHVlC1Ei6CSz61MXrM2AW",
+                      "function": {
+                        "arguments": "{\"action\":\"observe\"}",
+                        "name": "microduck.observe"
+                      },
+                      "type": "function"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1793074978,
+            "model": "qwen3.8-27b",
+            "object": "chat.completion",
+            "moderation": null,
+            "service_tier": null,
+            "system_fingerprint": "b0-7aca0d2ea8d92b56911233b822db01f9fbb1ae50",
+            "usage": {
+              "completion_tokens": 28,
+              "prompt_tokens": 1123,
+              "total_tokens": 1151,
+              "completion_tokens_details": null,
+              "prompt_tokens_details": {
+                "audio_tokens": null,
+                "cache_write_tokens": null,
+                "cached_tokens": 0
+              }
+            },
+            "timings": {
+              "cache_n": 0,
+              "prompt_n": 1123,
+              "prompt_ms": 477.423,
+              "prompt_per_token_ms": 0.42513178984861977,
+              "prompt_per_second": 2352.211770274997,
+              "predicted_n": 28,
+              "predicted_ms": 339.044,
+              "predicted_per_token_ms": 12.557185185185185,
+              "predicted_per_second": 79.63568150446551
+            }
+          }
+        },
+        {
+          "kind": "request",
+          "index": 2,
+          "body": {
+            "model": "qwen3.8-27b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You operate an explicitly configured robot composition.\nUse only listed namespaced tools and exact resource selectors. Listing a capability\nis not physical admission. Respect each domain's units, frames and limits.\nAn execution ACK is not success: independent confirmed evidence is required.\nSynthetic observations and motions are software diagnostics, not physical proof.\nStop is global and priority. Never reset a safety stop automatically, replay a\ncancelled command, or infer a grasp, camera, navigation map or whole-body controller.\nUse task_done(success=false) for refuted or unverified requested outcomes.\n\nThis is the simulation-only MicroDuck signal lesson. Goals come ONLY from microduck.observe,\nwhich represents Isaac ROS processing the onboard camera. Tag 0 means GO; tag 1 means STOP.\nmicroduck.observe accepts {} or {\"action\":\"observe\"}; microduck.verify accepts {} or\n{\"action\":\"verify\"}. These optional read selectors never authorize motion. Use no other keys.\nSTOP wins, and absent, foreign or stale observations mean no movement. First observe; then\nat most ONE short permitted forward action; then verify; then task_done. No coordinate goals,\nmap, world/root pose, external view, or invented detections. Bounds are enforced, not clipped.\naccepted/executing/completed/verified are different. A stop ACK is not proof of rest.\nIf verification is unavailable or false, task_done(success=false) and explain that outcome.\nSynthetic fixture data is only a model/tool diagnostic, never proof of perception or motion.\nDo not reset stops, retry commands, or claim a successful walk from a service ACK.\n"
+              },
+              {
+                "role": "user",
+                "content": "Task: This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.\n\nMemory (last 15 s):\n(memory empty)\n\nBegin. Observe first, then act. Call one tool now."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "T5waogkBEotxHVlC1Ei6CSz61MXrM2AW",
+                    "type": "function",
+                    "function": {
+                      "name": "microduck.observe",
+                      "arguments": "{\"action\": \"observe\"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "T5waogkBEotxHVlC1Ei6CSz61MXrM2AW",
+                "content": "{\"ok\": true, \"fresh\": true, \"episode_id\": \"model-diagnostic\", \"generation\": 0, \"frame_sequence\": 1, \"sim_time\": 0.0, \"age_s\": 0.010002904998837039, \"frame_id\": \"diagnostic_camera\", \"signal\": \"STOP\", \"reason\": \"sensor_observation\", \"tag_ids\": [1]}"
+              }
+            ],
+            "max_tokens": 1024,
+            "temperature": 0.0,
+            "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "emergency_stop",
+                  "description": "Priority cancellation and latch across all domains. ACK does not prove physical rest.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "task_done",
+                  "description": "Finish with independent action verdicts; synthetic execution never proves a physical task.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean"
+                      },
+                      "summary": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "success",
+                      "summary"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.observe",
+                  "description": "Read fresh onboard Isaac ROS tag detections. Tag 0=GO; tag 1=STOP; STOP wins. No world pose.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "observe"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.walk_bounded",
+                  "description": "Request ONE bounded body velocity after observe sees GO. Rechecks camera at send. No retries. ACK is not physical success.",
+                  "parameters": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "duration_s",
+                      "vx",
+                      "vy",
+                      "wz"
+                    ],
+                    "properties": {
+                      "vx": {
+                        "type": "number",
+                        "minimum": -0.1,
+                        "maximum": 0.1
+                      },
+                      "vy": {
+                        "type": "number",
+                        "minimum": -0.0,
+                        "maximum": 0.0
+                      },
+                      "wz": {
+                        "type": "number",
+                        "minimum": -0.3,
+                        "maximum": 0.3
+                      },
+                      "duration_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 2.0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.verify",
+                  "description": "Query the last command's independent verdict; no coordinates. Never infer verification from acceptance.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "verify"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            ],
+            "parallel_tool_calls": false,
+            "extra_body": {
+              "chat_template_kwargs": {
+                "enable_thinking": false
+              }
+            },
+            "tool_choice": "required"
+          }
+        },
+        {
+          "kind": "response",
+          "index": 2,
+          "body": {
+            "id": "chatcmpl-REp5OXaUu5hqvg9GuTao51Ad9ijmwauV",
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "logprobs": null,
+                "message": {
+                  "content": "Observation: STOP (tag 1). No motion permitted. Now checking whether any real command exists.\n\n",
+                  "refusal": null,
+                  "role": "assistant",
+                  "annotations": null,
+                  "audio": null,
+                  "function_call": null,
+                  "tool_calls": [
+                    {
+                      "id": "v0TMGJOBpMmXF62lY2EjRPP97L6uasES",
+                      "function": {
+                        "arguments": "{\"action\":\"verify\"}",
+                        "name": "microduck.verify"
+                      },
+                      "type": "function"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1793074979,
+            "model": "qwen3.8-27b",
+            "object": "chat.completion",
+            "moderation": null,
+            "service_tier": null,
+            "system_fingerprint": "b0-7aca0d2ea8d92b56911233b822db01f9fbb1ae50",
+            "usage": {
+              "completion_tokens": 50,
+              "prompt_tokens": 1265,
+              "total_tokens": 1315,
+              "completion_tokens_details": null,
+              "prompt_tokens_details": {
+                "audio_tokens": null,
+                "cache_write_tokens": null,
+                "cached_tokens": 1150
+              }
+            },
+            "timings": {
+              "cache_n": 1150,
+              "prompt_n": 115,
+              "prompt_ms": 101.787,
+              "prompt_per_token_ms": 0.885104347826087,
+              "prompt_per_second": 1129.8102901156335,
+              "predicted_n": 50,
+              "predicted_ms": 611.416,
+              "predicted_per_token_ms": 12.47787755102041,
+              "predicted_per_second": 80.14183469192824
+            }
+          }
+        },
+        {
+          "kind": "request",
+          "index": 3,
+          "body": {
+            "model": "qwen3.8-27b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You operate an explicitly configured robot composition.\nUse only listed namespaced tools and exact resource selectors. Listing a capability\nis not physical admission. Respect each domain's units, frames and limits.\nAn execution ACK is not success: independent confirmed evidence is required.\nSynthetic observations and motions are software diagnostics, not physical proof.\nStop is global and priority. Never reset a safety stop automatically, replay a\ncancelled command, or infer a grasp, camera, navigation map or whole-body controller.\nUse task_done(success=false) for refuted or unverified requested outcomes.\n\nThis is the simulation-only MicroDuck signal lesson. Goals come ONLY from microduck.observe,\nwhich represents Isaac ROS processing the onboard camera. Tag 0 means GO; tag 1 means STOP.\nmicroduck.observe accepts {} or {\"action\":\"observe\"}; microduck.verify accepts {} or\n{\"action\":\"verify\"}. These optional read selectors never authorize motion. Use no other keys.\nSTOP wins, and absent, foreign or stale observations mean no movement. First observe; then\nat most ONE short permitted forward action; then verify; then task_done. No coordinate goals,\nmap, world/root pose, external view, or invented detections. Bounds are enforced, not clipped.\naccepted/executing/completed/verified are different. A stop ACK is not proof of rest.\nIf verification is unavailable or false, task_done(success=false) and explain that outcome.\nSynthetic fixture data is only a model/tool diagnostic, never proof of perception or motion.\nDo not reset stops, retry commands, or claim a successful walk from a service ACK.\n"
+              },
+              {
+                "role": "user",
+                "content": "Task: This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.\n\nMemory (last 15 s):\n(memory empty)\n\nBegin. Observe first, then act. Call one tool now."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "T5waogkBEotxHVlC1Ei6CSz61MXrM2AW",
+                    "type": "function",
+                    "function": {
+                      "name": "microduck.observe",
+                      "arguments": "{\"action\": \"observe\"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "T5waogkBEotxHVlC1Ei6CSz61MXrM2AW",
+                "content": "{\"ok\": true, \"fresh\": true, \"episode_id\": \"model-diagnostic\", \"generation\": 0, \"frame_sequence\": 1, \"sim_time\": 0.0, \"age_s\": 0.010002904998837039, \"frame_id\": \"diagnostic_camera\", \"signal\": \"STOP\", \"reason\": \"sensor_observation\", \"tag_ids\": [1]}"
+              },
+              {
+                "role": "assistant",
+                "content": "Observation: STOP (tag 1). No motion permitted. Now checking whether any real command exists.\n\n",
+                "tool_calls": [
+                  {
+                    "id": "v0TMGJOBpMmXF62lY2EjRPP97L6uasES",
+                    "type": "function",
+                    "function": {
+                      "name": "microduck.verify",
+                      "arguments": "{\"action\": \"verify\"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "v0TMGJOBpMmXF62lY2EjRPP97L6uasES",
+                "content": "{\"ok\": false, \"known\": false, \"verified\": false, \"reason\": \"no_command\"}"
+              }
+            ],
+            "max_tokens": 1024,
+            "temperature": 0.0,
+            "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "emergency_stop",
+                  "description": "Priority cancellation and latch across all domains. ACK does not prove physical rest.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "task_done",
+                  "description": "Finish with independent action verdicts; synthetic execution never proves a physical task.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean"
+                      },
+                      "summary": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "success",
+                      "summary"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.observe",
+                  "description": "Read fresh onboard Isaac ROS tag detections. Tag 0=GO; tag 1=STOP; STOP wins. No world pose.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "observe"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.walk_bounded",
+                  "description": "Request ONE bounded body velocity after observe sees GO. Rechecks camera at send. No retries. ACK is not physical success.",
+                  "parameters": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "duration_s",
+                      "vx",
+                      "vy",
+                      "wz"
+                    ],
+                    "properties": {
+                      "vx": {
+                        "type": "number",
+                        "minimum": -0.1,
+                        "maximum": 0.1
+                      },
+                      "vy": {
+                        "type": "number",
+                        "minimum": -0.0,
+                        "maximum": 0.0
+                      },
+                      "wz": {
+                        "type": "number",
+                        "minimum": -0.3,
+                        "maximum": 0.3
+                      },
+                      "duration_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 2.0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.verify",
+                  "description": "Query the last command's independent verdict; no coordinates. Never infer verification from acceptance.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "verify"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            ],
+            "parallel_tool_calls": false,
+            "extra_body": {
+              "chat_template_kwargs": {
+                "enable_thinking": false
+              }
+            },
+            "tool_choice": "required"
+          }
+        },
+        {
+          "kind": "response",
+          "index": 3,
+          "body": {
+            "id": "chatcmpl-0BpEEZeejMmQ5yJUgizKYq6uSXcqo3qY",
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "logprobs": null,
+                "message": {
+                  "content": "",
+                  "refusal": null,
+                  "role": "assistant",
+                  "annotations": null,
+                  "audio": null,
+                  "function_call": null,
+                  "tool_calls": [
+                    {
+                      "id": "759Dfx6eZRoTVUkaPm0N9BdLkd5oKIwj",
+                      "function": {
+                        "arguments": "{\"success\":false,\"summary\":\"Model-only diagnostic, no motion requested. Evidence: microduck.observe returned a fresh synthetic STOP signal (tag_ids [1], frame_id diagnostic_camera, sim_time 0.0) \u2014 STOP wins, so no forward action was permitted or issued. microduck.verify returned ok=false, known=false, verified=false, reason \\\"no_command\\\", confirming no real command exists in the system. No physical or synthetic motion was executed; outcome is correctly reported as unsuccessful per the task's evidence requirements.\"}",
+                        "name": "task_done"
+                      },
+                      "type": "function"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1793074981,
+            "model": "qwen3.8-27b",
+            "object": "chat.completion",
+            "moderation": null,
+            "service_tier": null,
+            "system_fingerprint": "b0-7aca0d2ea8d92b56911233b822db01f9fbb1ae50",
+            "usage": {
+              "completion_tokens": 136,
+              "prompt_tokens": 1354,
+              "total_tokens": 1490,
+              "completion_tokens_details": null,
+              "prompt_tokens_details": {
+                "audio_tokens": null,
+                "cache_write_tokens": null,
+                "cached_tokens": 1314
+              }
+            },
+            "timings": {
+              "cache_n": 1314,
+              "prompt_n": 40,
+              "prompt_ms": 92.659,
+              "prompt_per_token_ms": 2.316475,
+              "prompt_per_second": 431.6903916511078,
+              "predicted_n": 136,
+              "predicted_ms": 1679.371,
+              "predicted_per_token_ms": 12.439785185185185,
+              "predicted_per_second": 80.38724022267861
+            }
+          }
+        }
+      ],
+      "result": {
+        "evidence_scope": "real_local_model_with_read_only_fixture_only",
+        "physical_success": false,
+        "ros_integration": false,
+        "model": "qwen3.8-27b",
+        "provider_requests": 3,
+        "report": {
+          "task": "This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.",
+          "success": false,
+          "summary": "Model-only diagnostic, no motion requested. Evidence: microduck.observe returned a fresh synthetic STOP signal (tag_ids [1], frame_id diagnostic_camera, sim_time 0.0) \u2014 STOP wins, so no forward action was permitted or issued. microduck.verify returned ok=false, known=false, verified=false, reason \"no_command\", confirming no real command exists in the system. No physical or synthetic motion was executed; outcome is correctly reported as unsuccessful per the task's evidence requirements.\n[verification] could not confirm: signal_game_motion_not_independently_verified",
+          "steps": 3,
+          "milestones": [],
+          "tool_log": [
+            {
+              "step": 1,
+              "tier": "llm",
+              "tool": "microduck.observe",
+              "args": {
+                "action": "observe"
+              },
+              "result": {
+                "ok": true,
+                "fresh": true,
+                "episode_id": "model-diagnostic",
+                "generation": 0,
+                "frame_sequence": 1,
+                "sim_time": 0.0,
+                "age_s": 0.010002904998837039,
+                "frame_id": "diagnostic_camera",
+                "tag_ids": [
+                  1
+                ],
+                "signal": "STOP",
+                "reason": "sensor_observation"
+              }
+            },
+            {
+              "step": 2,
+              "tier": "llm",
+              "tool": "microduck.verify",
+              "args": {
+                "action": "verify"
+              },
+              "result": {
+                "ok": false,
+                "known": false,
+                "verified": false,
+                "reason": "no_command"
+              }
+            },
+            {
+              "step": 3,
+              "tier": "llm",
+              "tool": "task_done",
+              "args": {
+                "success": false,
+                "summary": "Model-only diagnostic, no motion requested. Evidence: microduck.observe returned a fresh synthetic STOP signal (tag_ids [1], frame_id diagnostic_camera, sim_time 0.0) \u2014 STOP wins, so no forward action was permitted or issued. microduck.verify returned ok=false, known=false, verified=false, reason \"no_command\", confirming no real command exists in the system. No physical or synthetic motion was executed; outcome is correctly reported as unsuccessful per the task's evidence requirements."
+              },
+              "result": {
+                "ok": true,
+                "task_complete": true,
+                "success": false,
+                "summary": "Model-only diagnostic, no motion requested. Evidence: microduck.observe returned a fresh synthetic STOP signal (tag_ids [1], frame_id diagnostic_camera, sim_time 0.0) \u2014 STOP wins, so no forward action was permitted or issued. microduck.verify returned ok=false, known=false, verified=false, reason \"no_command\", confirming no real command exists in the system. No physical or synthetic motion was executed; outcome is correctly reported as unsuccessful per the task's evidence requirements.",
+                "unverified": [
+                  "signal_game_motion_not_independently_verified"
+                ]
+              }
+            }
+          ],
+          "path": "llm",
+          "duration_s": 3.5,
+          "milestone_status": [],
+          "unverified": [
+            "signal_game_motion_not_independently_verified"
+          ],
+          "stuck": null,
+          "cancelled": false
+        }
+      }
+    },
+    {
+      "run": "pytest/test_real_cascade_three_turn_s0/probe",
+      "provider_events": [
+        {
+          "kind": "request",
+          "index": 1,
+          "body": {
+            "model": "qwen3.8-27b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You operate an explicitly configured robot composition.\nUse only listed namespaced tools and exact resource selectors. Listing a capability\nis not physical admission. Respect each domain's units, frames and limits.\nAn execution ACK is not success: independent confirmed evidence is required.\nSynthetic observations and motions are software diagnostics, not physical proof.\nStop is global and priority. Never reset a safety stop automatically, replay a\ncancelled command, or infer a grasp, camera, navigation map or whole-body controller.\nUse task_done(success=false) for refuted or unverified requested outcomes.\n\nThis is the simulation-only MicroDuck signal lesson. Goals come ONLY from microduck.observe,\nwhich represents Isaac ROS processing the onboard camera. Tag 0 means GO; tag 1 means STOP.\nmicroduck.observe accepts {} or {\"action\":\"observe\"}; microduck.verify accepts {} or\n{\"action\":\"verify\"}. These optional read selectors never authorize motion. Use no other keys.\nSTOP wins, and absent, foreign or stale observations mean no movement. First observe; then\nat most ONE short permitted forward action; then verify; then task_done. No coordinate goals,\nmap, world/root pose, external view, or invented detections. Bounds are enforced, not clipped.\naccepted/executing/completed/verified are different. A stop ACK is not proof of rest.\nIf verification is unavailable or false, task_done(success=false) and explain that outcome.\nSynthetic fixture data is only a model/tool diagnostic, never proof of perception or motion.\nDo not reset stops, retry commands, or claim a successful walk from a service ACK.\n"
+              },
+              {
+                "role": "user",
+                "content": "Task: This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.\n\nMemory (last 15 s):\n(memory empty)\n\nBegin. Observe first, then act. Call one tool now."
+              }
+            ],
+            "max_tokens": 1024,
+            "temperature": 0.0,
+            "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "emergency_stop",
+                  "description": "Priority cancellation and latch across all domains. ACK does not prove physical rest.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "task_done",
+                  "description": "Finish with independent action verdicts; synthetic execution never proves a physical task.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean"
+                      },
+                      "summary": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "success",
+                      "summary"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.observe",
+                  "description": "Read fresh onboard Isaac ROS tag detections. Tag 0=GO; tag 1=STOP; STOP wins. No world pose.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "observe"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.walk_bounded",
+                  "description": "Request ONE bounded body velocity after observe sees GO. Rechecks camera at send. No retries. ACK is not physical success.",
+                  "parameters": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "duration_s",
+                      "vx",
+                      "vy",
+                      "wz"
+                    ],
+                    "properties": {
+                      "vx": {
+                        "type": "number",
+                        "minimum": -0.1,
+                        "maximum": 0.1
+                      },
+                      "vy": {
+                        "type": "number",
+                        "minimum": -0.0,
+                        "maximum": 0.0
+                      },
+                      "wz": {
+                        "type": "number",
+                        "minimum": -0.3,
+                        "maximum": 0.3
+                      },
+                      "duration_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 2.0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.verify",
+                  "description": "Query the last command's independent verdict; no coordinates. Never infer verification from acceptance.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "verify"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            ],
+            "parallel_tool_calls": false,
+            "extra_body": {
+              "chat_template_kwargs": {
+                "enable_thinking": false
+              }
+            },
+            "tool_choice": "required"
+          }
+        },
+        {
+          "kind": "response",
+          "index": 1,
+          "body": {
+            "id": "chatcmpl-OLXjC4xzeXXSoVmguqdWeaR8nR0Lg54P",
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "logprobs": null,
+                "message": {
+                  "content": "",
+                  "refusal": null,
+                  "role": "assistant",
+                  "annotations": null,
+                  "audio": null,
+                  "function_call": null,
+                  "tool_calls": [
+                    {
+                      "id": "bX4xeZ8Wo2d5YAhniZP8fS85nRQI249A",
+                      "function": {
+                        "arguments": "{\"action\":\"observe\"}",
+                        "name": "microduck.observe"
+                      },
+                      "type": "function"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1793074982,
+            "model": "qwen3.8-27b",
+            "object": "chat.completion",
+            "moderation": null,
+            "service_tier": null,
+            "system_fingerprint": "b0-7aca0d2ea8d92b56911233b822db01f9fbb1ae50",
+            "usage": {
+              "completion_tokens": 28,
+              "prompt_tokens": 1123,
+              "total_tokens": 1151,
+              "completion_tokens_details": null,
+              "prompt_tokens_details": {
+                "audio_tokens": null,
+                "cache_write_tokens": null,
+                "cached_tokens": 1119
+              }
+            },
+            "timings": {
+              "cache_n": 1119,
+              "prompt_n": 4,
+              "prompt_ms": 84.816,
+              "prompt_per_token_ms": 21.204,
+              "prompt_per_second": 47.16091303527636,
+              "predicted_n": 28,
+              "predicted_ms": 335.635,
+              "predicted_per_token_ms": 12.430925925925926,
+              "predicted_per_second": 80.44453051678163
+            }
+          }
+        },
+        {
+          "kind": "request",
+          "index": 2,
+          "body": {
+            "model": "qwen3.8-27b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You operate an explicitly configured robot composition.\nUse only listed namespaced tools and exact resource selectors. Listing a capability\nis not physical admission. Respect each domain's units, frames and limits.\nAn execution ACK is not success: independent confirmed evidence is required.\nSynthetic observations and motions are software diagnostics, not physical proof.\nStop is global and priority. Never reset a safety stop automatically, replay a\ncancelled command, or infer a grasp, camera, navigation map or whole-body controller.\nUse task_done(success=false) for refuted or unverified requested outcomes.\n\nThis is the simulation-only MicroDuck signal lesson. Goals come ONLY from microduck.observe,\nwhich represents Isaac ROS processing the onboard camera. Tag 0 means GO; tag 1 means STOP.\nmicroduck.observe accepts {} or {\"action\":\"observe\"}; microduck.verify accepts {} or\n{\"action\":\"verify\"}. These optional read selectors never authorize motion. Use no other keys.\nSTOP wins, and absent, foreign or stale observations mean no movement. First observe; then\nat most ONE short permitted forward action; then verify; then task_done. No coordinate goals,\nmap, world/root pose, external view, or invented detections. Bounds are enforced, not clipped.\naccepted/executing/completed/verified are different. A stop ACK is not proof of rest.\nIf verification is unavailable or false, task_done(success=false) and explain that outcome.\nSynthetic fixture data is only a model/tool diagnostic, never proof of perception or motion.\nDo not reset stops, retry commands, or claim a successful walk from a service ACK.\n"
+              },
+              {
+                "role": "user",
+                "content": "Task: This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.\n\nMemory (last 15 s):\n(memory empty)\n\nBegin. Observe first, then act. Call one tool now."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "bX4xeZ8Wo2d5YAhniZP8fS85nRQI249A",
+                    "type": "function",
+                    "function": {
+                      "name": "microduck.observe",
+                      "arguments": "{\"action\": \"observe\"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "bX4xeZ8Wo2d5YAhniZP8fS85nRQI249A",
+                "content": "{\"ok\": true, \"fresh\": true, \"episode_id\": \"model-diagnostic\", \"generation\": 0, \"frame_sequence\": 1, \"sim_time\": 0.0, \"age_s\": 0.010003465000190772, \"frame_id\": \"diagnostic_camera\", \"signal\": \"STOP\", \"reason\": \"sensor_observation\", \"tag_ids\": [1]}"
+              }
+            ],
+            "max_tokens": 1024,
+            "temperature": 0.0,
+            "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "emergency_stop",
+                  "description": "Priority cancellation and latch across all domains. ACK does not prove physical rest.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "task_done",
+                  "description": "Finish with independent action verdicts; synthetic execution never proves a physical task.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean"
+                      },
+                      "summary": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "success",
+                      "summary"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.observe",
+                  "description": "Read fresh onboard Isaac ROS tag detections. Tag 0=GO; tag 1=STOP; STOP wins. No world pose.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "observe"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.walk_bounded",
+                  "description": "Request ONE bounded body velocity after observe sees GO. Rechecks camera at send. No retries. ACK is not physical success.",
+                  "parameters": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "duration_s",
+                      "vx",
+                      "vy",
+                      "wz"
+                    ],
+                    "properties": {
+                      "vx": {
+                        "type": "number",
+                        "minimum": -0.1,
+                        "maximum": 0.1
+                      },
+                      "vy": {
+                        "type": "number",
+                        "minimum": -0.0,
+                        "maximum": 0.0
+                      },
+                      "wz": {
+                        "type": "number",
+                        "minimum": -0.3,
+                        "maximum": 0.3
+                      },
+                      "duration_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 2.0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.verify",
+                  "description": "Query the last command's independent verdict; no coordinates. Never infer verification from acceptance.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "verify"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            ],
+            "parallel_tool_calls": false,
+            "extra_body": {
+              "chat_template_kwargs": {
+                "enable_thinking": false
+              }
+            },
+            "tool_choice": "required"
+          }
+        },
+        {
+          "kind": "response",
+          "index": 2,
+          "body": {
+            "id": "chatcmpl-uVfkPUmzgBbjmugCRhf6XUSsle0QIUol",
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "logprobs": null,
+                "message": {
+                  "content": "Observation: STOP (tag 1). No motion permitted. Now checking whether any real command exists.\n\n",
+                  "refusal": null,
+                  "role": "assistant",
+                  "annotations": null,
+                  "audio": null,
+                  "function_call": null,
+                  "tool_calls": [
+                    {
+                      "id": "wbPOd66buejOmebQyG5CuaCTuOS08lIB",
+                      "function": {
+                        "arguments": "{\"action\":\"verify\"}",
+                        "name": "microduck.verify"
+                      },
+                      "type": "function"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1793074983,
+            "model": "qwen3.8-27b",
+            "object": "chat.completion",
+            "moderation": null,
+            "service_tier": null,
+            "system_fingerprint": "b0-7aca0d2ea8d92b56911233b822db01f9fbb1ae50",
+            "usage": {
+              "completion_tokens": 50,
+              "prompt_tokens": 1265,
+              "total_tokens": 1315,
+              "completion_tokens_details": null,
+              "prompt_tokens_details": {
+                "audio_tokens": null,
+                "cache_write_tokens": null,
+                "cached_tokens": 1150
+              }
+            },
+            "timings": {
+              "cache_n": 1150,
+              "prompt_n": 115,
+              "prompt_ms": 102.301,
+              "prompt_per_token_ms": 0.8895739130434783,
+              "prompt_per_second": 1124.1336839327082,
+              "predicted_n": 50,
+              "predicted_ms": 611.219,
+              "predicted_per_token_ms": 12.473857142857144,
+              "predicted_per_second": 80.16766494497061
+            }
+          }
+        },
+        {
+          "kind": "request",
+          "index": 3,
+          "body": {
+            "model": "qwen3.8-27b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You operate an explicitly configured robot composition.\nUse only listed namespaced tools and exact resource selectors. Listing a capability\nis not physical admission. Respect each domain's units, frames and limits.\nAn execution ACK is not success: independent confirmed evidence is required.\nSynthetic observations and motions are software diagnostics, not physical proof.\nStop is global and priority. Never reset a safety stop automatically, replay a\ncancelled command, or infer a grasp, camera, navigation map or whole-body controller.\nUse task_done(success=false) for refuted or unverified requested outcomes.\n\nThis is the simulation-only MicroDuck signal lesson. Goals come ONLY from microduck.observe,\nwhich represents Isaac ROS processing the onboard camera. Tag 0 means GO; tag 1 means STOP.\nmicroduck.observe accepts {} or {\"action\":\"observe\"}; microduck.verify accepts {} or\n{\"action\":\"verify\"}. These optional read selectors never authorize motion. Use no other keys.\nSTOP wins, and absent, foreign or stale observations mean no movement. First observe; then\nat most ONE short permitted forward action; then verify; then task_done. No coordinate goals,\nmap, world/root pose, external view, or invented detections. Bounds are enforced, not clipped.\naccepted/executing/completed/verified are different. A stop ACK is not proof of rest.\nIf verification is unavailable or false, task_done(success=false) and explain that outcome.\nSynthetic fixture data is only a model/tool diagnostic, never proof of perception or motion.\nDo not reset stops, retry commands, or claim a successful walk from a service ACK.\n"
+              },
+              {
+                "role": "user",
+                "content": "Task: This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.\n\nMemory (last 15 s):\n(memory empty)\n\nBegin. Observe first, then act. Call one tool now."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "bX4xeZ8Wo2d5YAhniZP8fS85nRQI249A",
+                    "type": "function",
+                    "function": {
+                      "name": "microduck.observe",
+                      "arguments": "{\"action\": \"observe\"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "bX4xeZ8Wo2d5YAhniZP8fS85nRQI249A",
+                "content": "{\"ok\": true, \"fresh\": true, \"episode_id\": \"model-diagnostic\", \"generation\": 0, \"frame_sequence\": 1, \"sim_time\": 0.0, \"age_s\": 0.010003465000190772, \"frame_id\": \"diagnostic_camera\", \"signal\": \"STOP\", \"reason\": \"sensor_observation\", \"tag_ids\": [1]}"
+              },
+              {
+                "role": "assistant",
+                "content": "Observation: STOP (tag 1). No motion permitted. Now checking whether any real command exists.\n\n",
+                "tool_calls": [
+                  {
+                    "id": "wbPOd66buejOmebQyG5CuaCTuOS08lIB",
+                    "type": "function",
+                    "function": {
+                      "name": "microduck.verify",
+                      "arguments": "{\"action\": \"verify\"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "wbPOd66buejOmebQyG5CuaCTuOS08lIB",
+                "content": "{\"ok\": false, \"known\": false, \"verified\": false, \"reason\": \"no_command\"}"
+              }
+            ],
+            "max_tokens": 1024,
+            "temperature": 0.0,
+            "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "emergency_stop",
+                  "description": "Priority cancellation and latch across all domains. ACK does not prove physical rest.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "task_done",
+                  "description": "Finish with independent action verdicts; synthetic execution never proves a physical task.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean"
+                      },
+                      "summary": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "success",
+                      "summary"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.observe",
+                  "description": "Read fresh onboard Isaac ROS tag detections. Tag 0=GO; tag 1=STOP; STOP wins. No world pose.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "observe"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.walk_bounded",
+                  "description": "Request ONE bounded body velocity after observe sees GO. Rechecks camera at send. No retries. ACK is not physical success.",
+                  "parameters": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "duration_s",
+                      "vx",
+                      "vy",
+                      "wz"
+                    ],
+                    "properties": {
+                      "vx": {
+                        "type": "number",
+                        "minimum": -0.1,
+                        "maximum": 0.1
+                      },
+                      "vy": {
+                        "type": "number",
+                        "minimum": -0.0,
+                        "maximum": 0.0
+                      },
+                      "wz": {
+                        "type": "number",
+                        "minimum": -0.3,
+                        "maximum": 0.3
+                      },
+                      "duration_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 2.0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "function",
+                "function": {
+                  "name": "microduck.verify",
+                  "description": "Query the last command's independent verdict; no coordinates. Never infer verification from acceptance.",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "type": "string",
+                        "enum": [
+                          "verify"
+                        ]
+                      }
+                    },
+                    "required": [],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            ],
+            "parallel_tool_calls": false,
+            "extra_body": {
+              "chat_template_kwargs": {
+                "enable_thinking": false
+              }
+            },
+            "tool_choice": "required"
+          }
+        },
+        {
+          "kind": "response",
+          "index": 3,
+          "body": {
+            "id": "chatcmpl-MHZULlWAgmIZoTzyTdwE6LNwHCKug94g",
+            "choices": [
+              {
+                "finish_reason": "tool_calls",
+                "index": 0,
+                "logprobs": null,
+                "message": {
+                  "content": "",
+                  "refusal": null,
+                  "role": "assistant",
+                  "annotations": null,
+                  "audio": null,
+                  "function_call": null,
+                  "tool_calls": [
+                    {
+                      "id": "M0giBEzzW6S9q7GgVl0vcSOcm2FmtVFc",
+                      "function": {
+                        "arguments": "{\"success\":false,\"summary\":\"Model-only diagnostic, no motion requested. Evidence: microduck.observe returned a fresh synthetic STOP signal (tag_ids [1], frame_id diagnostic_camera, sim_time 0.0) \u2014 STOP wins, so no forward action was permitted or issued. microduck.verify returned ok=false, known=false, verified=false, reason=no_command, confirming no real command exists in the system. No physical or synthetic motion was executed; outcome is correctly reported as unsuccessful per the task's evidence requirements.\"}",
+                        "name": "task_done"
+                      },
+                      "type": "function"
+                    }
+                  ]
+                }
+              }
+            ],
+            "created": 1793074985,
+            "model": "qwen3.8-27b",
+            "object": "chat.completion",
+            "moderation": null,
+            "service_tier": null,
+            "system_fingerprint": "b0-7aca0d2ea8d92b56911233b822db01f9fbb1ae50",
+            "usage": {
+              "completion_tokens": 135,
+              "prompt_tokens": 1354,
+              "total_tokens": 1489,
+              "completion_tokens_details": null,
+              "prompt_tokens_details": {
+                "audio_tokens": null,
+                "cache_write_tokens": null,
+                "cached_tokens": 1314
+              }
+            },
+            "timings": {
+              "cache_n": 1314,
+              "prompt_n": 40,
+              "prompt_ms": 92.08,
+              "prompt_per_token_ms": 2.302,
+              "prompt_per_second": 434.4048653344918,
+              "predicted_n": 135,
+              "predicted_ms": 1663.416,
+              "predicted_per_token_ms": 12.41355223880597,
+              "predicted_per_second": 80.55711860412548
+            }
+          }
+        }
+      ],
+      "result": {
+        "evidence_scope": "real_local_model_with_read_only_fixture_only",
+        "physical_success": false,
+        "ros_integration": false,
+        "model": "qwen3.8-27b",
+        "provider_requests": 3,
+        "report": {
+          "task": "This is a model-only test with SYNTHETIC READ-ONLY DATA, no ROS or robot. Call microduck.observe, then microduck.verify to check whether any real command exists, then task_done with success=false explaining the actual evidence. Do not request motion.",
+          "success": false,
+          "summary": "Model-only diagnostic, no motion requested. Evidence: microduck.observe returned a fresh synthetic STOP signal (tag_ids [1], frame_id diagnostic_camera, sim_time 0.0) \u2014 STOP wins, so no forward action was permitted or issued. microduck.verify returned ok=false, known=false, verified=false, reason=no_command, confirming no real command exists in the system. No physical or synthetic motion was executed; outcome is correctly reported as unsuccessful per the task's evidence requirements.\n[verification] could not confirm: signal_game_motion_not_independently_verified",
+          "steps": 3,
+          "milestones": [],
+          "tool_log": [
+            {
+              "step": 1,
+              "tier": "llm",
+              "tool": "microduck.observe",
+              "args": {
+                "action": "observe"
+              },
+              "result": {
+                "ok": true,
+                "fresh": true,
+                "episode_id": "model-diagnostic",
+                "generation": 0,
+                "frame_sequence": 1,
+                "sim_time": 0.0,
+                "age_s": 0.010003465000190772,
+                "frame_id": "diagnostic_camera",
+                "tag_ids": [
+                  1
+                ],
+                "signal": "STOP",
+                "reason": "sensor_observation"
+              }
+            },
+            {
+              "step": 2,
+              "tier": "llm",
+              "tool": "microduck.verify",
+              "args": {
+                "action": "verify"
+              },
+              "result": {
+                "ok": false,
+                "known": false,
+                "verified": false,
+                "reason": "no_command"
+              }
+            },
+            {
+              "step": 3,
+              "tier": "llm",
+              "tool": "task_done",
+              "args": {
+                "success": false,
+                "summary": "Model-only diagnostic, no motion requested. Evidence: microduck.observe returned a fresh synthetic STOP signal (tag_ids [1], frame_id diagnostic_camera, sim_time 0.0) \u2014 STOP wins, so no forward action was permitted or issued. microduck.verify returned ok=false, known=false, verified=false, reason=no_command, confirming no real command exists in the system. No physical or synthetic motion was executed; outcome is correctly reported as unsuccessful per the task's evidence requirements."
+              },
+              "result": {
+                "ok": true,
+                "task_complete": true,
+                "success": false,
+                "summary": "Model-only diagnostic, no motion requested. Evidence: microduck.observe returned a fresh synthetic STOP signal (tag_ids [1], frame_id diagnostic_camera, sim_time 0.0) \u2014 STOP wins, so no forward action was permitted or issued. microduck.verify returned ok=false, known=false, verified=false, reason=no_command, confirming no real command exists in the system. No physical or synthetic motion was executed; outcome is correctly reported as unsuccessful per the task's evidence requirements.",
+                "unverified": [
+                  "signal_game_motion_not_independently_verified"
+                ]
+              }
+            }
+          ],
+          "path": "llm",
+          "duration_s": 3.08,
+          "milestone_status": [],
+          "unverified": [
+            "signal_game_motion_not_independently_verified"
+          ],
+          "stuck": null,
+          "cancelled": false
+        }
+      }
+    }
+  ]
+}

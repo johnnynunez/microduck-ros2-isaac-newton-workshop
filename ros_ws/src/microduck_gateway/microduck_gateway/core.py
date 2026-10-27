@@ -7,8 +7,10 @@ MOTION_FIELDS = ('accepted', 'episode_id', 'request_id', 'generation', 'status',
 
 
 class Gateway:
-    def __init__(self, transport):
+    def __init__(self, transport, *, captures=None):
         self.transport = transport
+        self.captures = captures
+        self.step_request = None
         self.lock = threading.RLock()
         self.episode_id = ''
         self.generation = 0
@@ -33,8 +35,22 @@ class Gateway:
                     generation=self.generation, status=status, reason=reason)
 
     def command(self, request):
+        """Legacy operator diagnostic; not autonomous signal-game acceptance."""
+        return self._command(request, step=False)
+
+    def step_forward(self, request):
+        return self._command(request, step=True)
+
+    def _step_headers(self):
+        if self.captures is None:
+            raise ContractError('no server-side capture source')
+        return self.captures.step_headers(self.episode_id)
+
+    def _command(self, request, *, step):
         try:
             cmd = MotionCommand.from_dict(request)
+            if step and (cmd.vx, cmd.vy, cmd.wz, cmd.duration_s) != (.1, 0., 0., 2.):
+                raise ContractError('step-forward-v1 requires fixed .10/0/0/2.0')
         except ContractError as exc:
             return self._reject(request if isinstance(request, dict) else {}, str(exc))
         with self.lock:
@@ -44,17 +60,30 @@ class Gateway:
                 return self._reject(request, 'stale episode or generation')
             if cmd.request_id in self.seen:
                 return self._reject(request, 'duplicate request ID')
+            try:
+                proof = self._step_headers() if step else None
+            except (ValueError, KeyError, TypeError):
+                return self._reject(request, 'fresh same-episode GO proof unavailable')
             self.seen.add(cmd.request_id)
             self.pending = True
+            if step:
+                # Require fresh renewal proof even while the command ACK is in flight.
+                self.step_request = cmd.request_id
             token = self.token
         try:
-            result = self.transport.post('/v1/command', cmd.as_dict(), token)
+            if step:
+                result = self.transport.post('/v1/step', cmd.as_dict(), token,
+                                             observation_headers=proof)
+            else:
+                result = self.transport.post('/v1/command', cmd.as_dict(), token)
             if result['episode_id'] != cmd.episode_id or result['request_id'] != cmd.request_id:
                 raise ContractError('mismatched command acknowledgment')
             with self.lock:
                 self.generation = max(self.generation, result['generation'])
                 if self.stopped:
                     return self._reject(request, 'priority stop superseded command', 'superseded_by_stop')
+                if step and result['accepted'] is not True:
+                    self.step_request = None
                 return {k: result[k] for k in MOTION_FIELDS}
         except Exception:
             with self.lock:
@@ -78,6 +107,10 @@ class Gateway:
                 return result
             result = {key: raw[key] for key in result}
             result['verified'] = bool(result['verification_available'] and result['verified'])
+            with self.lock:
+                if (self.step_request == request_id and not self.pending
+                        and raw.get('request_id') == request_id and raw.get('completed') is True):
+                    self.step_request = None
         except Exception:
             pass
         return result
@@ -97,20 +130,28 @@ class Gateway:
         except Exception:
             return {'success': False, 'message': 'stop delivery unknown; lease renewal disabled'}
 
+    def renew_once(self):
+        try:
+            with self.lock:
+                token, episode = self.token, self.episode_id
+                if not token or self.stopped:
+                    return
+                proof = self._step_headers() if self.step_request is not None else None
+            if proof is not None:
+                self.transport.post('/v1/renew', {'episode_id': episode}, token,
+                                    observation_headers=proof)
+            else:
+                self.transport.post('/v1/renew', {'episode_id': episode}, token)
+        except Exception:
+            # Disable authority BEFORE priority-stop IO. Missing/STOP/stale proof
+            # cannot be papered over by a healthy actuator lease or a new claim.
+            self.stop()
+
     def start_renewal(self, interval=.1):
         self.shutdown_event = threading.Event()
         def renew_loop():
             while not self.shutdown_event.wait(interval):
-                with self.lock:
-                    token, episode = self.token, self.episode_id
-                if not token:
-                    continue
-                try:
-                    self.transport.post('/v1/renew', {'episode_id': episode}, token)
-                except Exception:
-                    with self.lock:
-                        self.token = None
-                        self.stopped = True
+                self.renew_once()
         self.renew_thread = threading.Thread(target=renew_loop, daemon=True)
         self.renew_thread.start()
 

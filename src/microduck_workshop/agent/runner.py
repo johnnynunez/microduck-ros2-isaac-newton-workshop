@@ -23,8 +23,9 @@ CASCADE_PIN = "d7a456c22d46d53e9588db6a55a0c6c916aa4963"
 MODEL_IDS = {"nemotron-3.5-bolt", "qwen3.8-27b", "Qwen/Qwen3.8-27B"}
 TASK = (
     "Play the signal game using only onboard detections. Observe first. "
-    "Only if tag 0 GO is visible and tag 1 STOP is absent, request one forward walk "
-    "at vx=0.05, vy=0, wz=0 for 0.5 seconds. Query verification. "
+    "Only if tag 0 GO is visible and tag 1 STOP is absent, call microduck.step_forward "
+    "once for the fixed step-forward-v1 maneuver: peak .10 m/s, 1s drive then 1s zero "
+    "inside a 2s horizon. Choose no numeric parameters. Query verification. "
     "If the signal is absent, stale or STOP, do not move. Report failure unless "
     "the physical movement was independently verified. Never retry a motion."
 )
@@ -32,7 +33,10 @@ PROMPT = """
 This is the simulation-only MicroDuck signal lesson. Goals come ONLY from microduck.observe,
 which represents Isaac ROS processing the onboard camera. Tag 0 means GO; tag 1 means STOP.
 microduck.observe accepts {} or {"action":"observe"}; microduck.verify accepts {} or
-{"action":"verify"}. These optional read selectors never authorize motion. Use no other keys.
+{"action":"verify"}. These optional read selectors never authorize motion.
+microduck.step_forward accepts {} or {"action":"step_forward"}; no numeric choices.
+It invokes step-forward-v1, peak .10 m/s, 1s drive then 1s zero in a 2s horizon.
+Use no other keys. A verified standstill/turn/legacy command cannot fulfill this step objective.
 STOP wins, and absent, foreign or stale observations mean no movement. First observe; then
 at most ONE short permitted forward action; then verify; then task_done. No coordinate goals,
 map, world/root pose, external view, or invented detections. Bounds are enforced, not clipped.
@@ -195,8 +199,8 @@ class CapstoneRuntime(RobotRuntime):
 
     def unverified_actions(self):
         missing = super().unverified_actions()
-        if not self.domains["microduck"].physical_verdict_confirmed:
-            missing.append("signal_game_motion_not_independently_verified")
+        if not self.domains["microduck"].forward_step_confirmed:
+            missing.append("forward_step_objective_not_independently_verified")
         return missing
 
 
@@ -235,8 +239,8 @@ def build_agent(
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--base-url", default="http://127.0.0.1:18510/v1")
-    parser.add_argument("--model", choices=sorted(MODEL_IDS), default="nemotron-3.5-bolt")
+    parser.add_argument("--base-url", default="http://127.0.0.1:8080/v1")
+    parser.add_argument("--model", choices=sorted(MODEL_IDS), default="qwen3.8-27b")
     parser.add_argument(
         "--episode-id", required=True, help="exact instructor-observed simulator episode"
     )
@@ -262,7 +266,7 @@ def main(argv=None):
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         handlers = dict(
-            observation_handler=module.translate_observation, motion_handler=module.walk_bounded
+            observation_handler=module.translate_observation, motion_handler=module.step_forward
         )
         if not all(callable(value) for value in handlers.values()):
             raise ValueError("tools file must supply both callable handlers")

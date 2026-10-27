@@ -17,7 +17,7 @@ class RecordingFixtureLLM(LLMClient):
         self.requests.append(str(messages))
         calls = [
             ToolCall("microduck.observe", {}, "a"),
-            ToolCall("microduck.walk_bounded", dict(vx=0.05, vy=0, wz=0, duration_s=0.2), "b"),
+            ToolCall("microduck.step_forward", {}, "b"),
             ToolCall("microduck.verify", {}, "c"),
             ToolCall("task_done", dict(success=True, summary="fixture overclaims"), "d"),
         ]
@@ -39,7 +39,7 @@ def test_actual_orchestrator_does_not_promote_fixture_failure(tmp_path):
         assert report.success is False
         assert [row["tool"] for row in report.tool_log] == [
             "microduck.observe",
-            "microduck.walk_bounded",
+            "microduck.step_forward",
             "microduck.verify",
             "task_done",
         ]
@@ -180,6 +180,28 @@ def test_actual_openai_adapter_records_exact_safe_request_without_headers(tmp_pa
         assert records[0]["body"]["messages"] == captured[0]["messages"]
     finally:
         client.close()
+
+
+def test_cli_defaults_to_fixed_step_and_portable_local_qwen(tmp_path, monkeypatch):
+    from microduck_workshop.agent import runner
+    captured = {}
+
+    class EndBeforeNetwork(Exception):
+        pass
+
+    def client(**kwargs):
+        captured.update(kwargs)
+        raise EndBeforeNetwork()
+
+    monkeypatch.setattr(runner, 'RecordedLocalClient', client)
+    with pytest.raises(EndBeforeNetwork):
+        runner.main(['--episode-id', 'ep', '--frame-id', 'camera',
+                     '--run-dir', str(tmp_path / 'run')])
+    assert captured['model'] == 'qwen3.8-27b'
+    assert captured['base_url'] == 'http://127.0.0.1:8080/v1'
+    assert 'step_forward' in runner.TASK and 'step-forward-v1' in runner.TASK
+    assert '0.05' not in runner.TASK and '0.5 seconds' not in runner.TASK
+    assert runner.MODEL_IDS == {'nemotron-3.5-bolt', 'qwen3.8-27b', 'Qwen/Qwen3.8-27B'}
 
 
 def test_local_client_ignores_proxy_environment(tmp_path, monkeypatch):

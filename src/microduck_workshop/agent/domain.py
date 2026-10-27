@@ -9,11 +9,7 @@ import uuid
 from cascade.robotics.contracts import ResourceDescriptor, ToolDescriptor
 
 from microduck_workshop.contracts import (
-    MAX_DURATION_S,
     MAX_SENSOR_AGE_S,
-    MAX_VX,
-    MAX_VY,
-    MAX_WZ,
     ContractError,
     MotionCommand,
     identifier,
@@ -95,7 +91,7 @@ class MicroduckDomain:
     """One command per task; stop is independent and uncertainty cannot be retried."""
 
     domain_id = "microduck"
-    motion_skills = frozenset({"walk_bounded"})
+    motion_skills = frozenset({"step_forward"})
 
     def __init__(
         self,
@@ -127,12 +123,14 @@ class MicroduckDomain:
         self._observed = None
         self._last = None
         self._last_status = None
+        self._last_skill = None
+        self._accepted = False
         self.resources = (
             ResourceDescriptor(
                 "microduck.command",
                 "mobile_base",
                 "microduck",
-                capabilities=("bounded_velocity",),
+                capabilities=("step-forward-v1",),
                 controller_id=getattr(gateway, "command_endpoint", "ros2:fixture"),
                 writer_id="microduck",
                 synthetic=self.synthetic,
@@ -154,17 +152,6 @@ class MicroduckDomain:
                 "additionalProperties": False,
             }
 
-        motion_params = dict(
-            type="object",
-            additionalProperties=False,
-            required=sorted(MOTION_KEYS),
-            properties={
-                "vx": {"type": "number", "minimum": -MAX_VX, "maximum": MAX_VX},
-                "vy": {"type": "number", "minimum": -MAX_VY, "maximum": MAX_VY},
-                "wz": {"type": "number", "minimum": -MAX_WZ, "maximum": MAX_WZ},
-                "duration_s": {"type": "number", "exclusiveMinimum": 0, "maximum": MAX_DURATION_S},
-            },
-        )
         self.tool_descriptors = tuple(
             ToolDescriptor(
                 name=f"microduck.{name}",
@@ -184,9 +171,9 @@ class MicroduckDomain:
                     "read",
                 ),
                 (
-                    "walk_bounded",
-                    "Request ONE bounded body velocity after observe sees GO. Rechecks camera at send. No retries. ACK is not physical success.",
-                    motion_params,
+                    "step_forward",
+                    "Request ONE fixed step-forward-v1 on fresh GO: peak .10 m/s, 1s drive then 1s zero, total 2s. No numeric choices or retries. ACK is not success.",
+                    read_params("step_forward"),
                     "motion",
                 ),
                 (
@@ -222,9 +209,12 @@ class MicroduckDomain:
             if name == "observe":
                 self._observed = self._observation()
                 return self._observed.copy()
-            if name == "walk_bounded":
+            if name == "step_forward":
                 if self.motion_handler is not None:
                     return self.motion_handler(self, args)
+                return self.step_forward(args)
+            if name == "walk_bounded":
+                # Compatibility helper only; deliberately absent from the model catalog.
                 return self.walk_bounded(args)
             if name == "verify":
                 return self.verify()
@@ -235,7 +225,16 @@ class MicroduckDomain:
         finally:
             self._operation.release()
 
+    def step_forward(self, args):
+        if not isinstance(args, dict) or (args and args != {"action": "step_forward"}):
+            return {"ok": False, "reason": "invalid_arguments"}
+        return self._motion(dict(vx=.10, vy=0., wz=0., duration_s=2.), "step_forward")
+
     def walk_bounded(self, args):
+        """Legacy diagnostic, never a witness for the independent forward-step goal."""
+        return self._motion(args, "bounded_motion")
+
+    def _motion(self, args, skill):
         if self._stopped.is_set() or self._attempted:
             return {"ok": False, "reason": "stopped_or_command_already_attempted"}
         if not isinstance(args, dict) or set(args) != MOTION_KEYS:
@@ -259,8 +258,11 @@ class MicroduckDomain:
         command = MotionCommand(self.episode_id, uuid.uuid4().hex, current["generation"], **args)
         self._attempted = True  # Before IO: even uncertain sends consume this task's budget.
         self._last = command
+        self._last_skill = skill
+        self._accepted = False
+        self._last_status = None
         try:
-            ack = self.gateway.bounded_motion(
+            ack = getattr(self.gateway, skill)(
                 command, deadline_monotonic_s=time.monotonic() + MAX_SENSOR_AGE_S - current["age_s"]
             )
             if (
@@ -280,6 +282,7 @@ class MicroduckDomain:
                 }
             if ack["generation"] != command.expected_generation + 1:
                 raise ValueError("unexpected generation")
+            self._accepted = True
         except Exception:
             self.stop()
             return {
@@ -332,12 +335,26 @@ class MicroduckDomain:
             and (self._last_status or {}).get("verified") is True
         )
 
+    @property
+    def forward_step_confirmed(self):
+        command = self._last
+        return (
+            self.physical_verdict_confirmed
+            and self._accepted
+            and self._last_skill == "step_forward"
+            and command is not None
+            and command.episode_id == self.episode_id
+            and (command.vx, command.vy, command.wz, command.duration_s) == (.10, 0., 0., 2.)
+        )
+
     def begin_task(self):
         # Never clear the stop latch. Unresolved delivery cannot be forgotten by a new task.
         if self._last is None or (self._last_status or {}).get("completed") is True:
             self._attempted = False
             self._last = None
             self._last_status = None
+            self._last_skill = None
+            self._accepted = False
         self._observed = None
 
     def stop(self):

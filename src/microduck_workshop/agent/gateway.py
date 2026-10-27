@@ -20,6 +20,7 @@ FIELDS = {
         "reason",
     ),
     "bounded_motion": ("accepted", "episode_id", "request_id", "generation", "status", "reason"),
+    "step_forward": ("accepted", "episode_id", "request_id", "generation", "status", "reason"),
     "motion_status": (
         "known",
         "completed",
@@ -34,9 +35,16 @@ FIELDS = {
 
 
 def service_request(request_type, fields):
+    # Validate before ABI coercion: bool/string/nonfinite numbers remain invalid.
+    # Lyrical's generated C float64 conversion requires PyFloat_Check, not int.
+    motion_fields = {"vx", "vy", "wz", "duration_s"}
+    if motion_fields.intersection(fields):
+        from microduck_workshop.contracts import MotionCommand
+
+        fields = MotionCommand.from_dict(fields).as_dict()
     request = request_type()
     for name, value in fields.items():
-        setattr(request, name, value)
+        setattr(request, name, float(value) if name in motion_fields else value)
     return request
 
 
@@ -70,7 +78,7 @@ class RclpyGateway:
         domain_id = int(os.environ.get("ROS_DOMAIN_ID", "0"))
         if not 0 <= domain_id <= 232:
             raise ValueError("workshop ROS_DOMAIN_ID must be in 0..232")
-        self.command_endpoint = f"ros2:domain:{domain_id}:{namespace.lstrip('/')}/bounded_motion"
+        self.command_endpoint = f"ros2:domain:{domain_id}:{namespace.lstrip('/')}/step_forward"
         self._rclpy = rclpy
         self._context = Context()
         rclpy.init(context=self._context)
@@ -79,6 +87,7 @@ class RclpyGateway:
         self._types = dict(
             observe=Observe,
             bounded_motion=BoundedMotion,
+            step_forward=BoundedMotion,
             motion_status=MotionStatus,
             emergency_stop=Trigger,
         )
@@ -128,6 +137,11 @@ class RclpyGateway:
     def bounded_motion(self, command, *, deadline_monotonic_s):
         return self._call(
             "bounded_motion", command.as_dict(), deadline_monotonic_s=deadline_monotonic_s
+        )
+
+    def step_forward(self, command, *, deadline_monotonic_s):
+        return self._call(
+            "step_forward", command.as_dict(), deadline_monotonic_s=deadline_monotonic_s
         )
 
     def motion_status(self, episode_id, request_id):

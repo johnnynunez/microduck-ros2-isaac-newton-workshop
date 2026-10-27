@@ -1,0 +1,78 @@
+{
+  "scope": "Local RTX PRO composed runtime; NOT positive robot-task acceptance",
+  "stack": {
+    "isaac_sim": "6.2.0.0",
+    "isaac_lab_product": "3.0",
+    "isaac_lab_source": "e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4",
+    "newton": "1.6.1",
+    "isaac_ros": "5.0",
+    "model": "qwen3.8-27b, pinned public GGUF via CUDA llama.cpp"
+  },
+  "images": [
+    {
+      "tags": [
+        "roscon/microduck-sim:integrated"
+      ],
+      "id": "sha256:aff9055f3b64c08fb11641431a43e6d56a87c33fca92dd70eb1687414d3bbbdc"
+    },
+    {
+      "tags": [
+        "roscon/microduck-ros5:integrated"
+      ],
+      "id": "sha256:f9d7bc2bb90d924829094aadbba620d3cedaeae3e3554e1618720ffb46360adf"
+    },
+    {
+      "tags": [
+        "roscon/microduck-agent:integrated"
+      ],
+      "id": "sha256:09ef15076ecf502fbbff3bda38339f0fcc19c4b657db2e623fa69a5c2ab75167"
+    }
+  ],
+  "preflight_observation": {
+    "raw": {
+      "fresh": true,
+      "episode_id": "ep_7aa037b21c54480fb35183cab173416a",
+      "generation": 0,
+      "frame_sequence": 136,
+      "sim_time": 0.6800000000000005,
+      "age_s": 0.12100036100309808,
+      "frame_id": "microduck_head_optical",
+      "tag_ids": [
+        0
+      ],
+      "reason": "matched original camera capture"
+    },
+    "projected": {
+      "ok": true,
+      "fresh": true,
+      "episode_id": "ep_7aa037b21c54480fb35183cab173416a",
+      "generation": 0,
+      "frame_sequence": 136,
+      "sim_time": 0.6800000000000005,
+      "age_s": 0.1218572950019734,
+      "frame_id": "microduck_head_optical",
+      "tag_ids": [
+        0
+      ],
+      "signal": "GO",
+      "reason": "sensor_observation"
+    }
+  },
+  "agent_success": false,
+  "accepted_motion_requests": 0,
+  "agent_report_sha256": "e820041237cbbc0a5bf80216b6ef1050ec75d79caf40181da2fad9a54f2cb3e2",
+  "provider_sha256": "7e44ff309083b3342ed9b55143932ebccda5c03877af8290b3751743f5e3863a",
+  "runtime_evaluation_sha256": "68eadaa3d9d6558fa63087218648d666227231dec15eb3949eac18f679ef9ec2",
+  "physical_steps": 752,
+  "simulated_seconds": 3.7600000000000002,
+  "wall_seconds": 23.372956785999122,
+  "real_time_factor": 0.16086967662783327,
+  "result": "Fresh real camera/ROS GO before model invocation; model subsequently observed unavailable/stale perception and refused motion. Diagnose latency; do not promote to acceptance.",
+  "limitations": [
+    "No L40S hardware or Brev VM run",
+    "GPU services colocated on one physical RTX PRO; unrelated owned model service also resident",
+    "Private copied package cache used during base image build",
+    "Optional cache-copy attempt01 failed on root-owned cache locks before runtime launch; attempt02 retained readable partial warmup caches",
+    "Parent harness final cleanup overwrote live container logs after explicit shutdown; provider/native traces and snapshots preserved; future harness fixes collection order"
+  ]
+}

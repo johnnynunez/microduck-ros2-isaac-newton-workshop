@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "llama_cpp": {
+    "repository": "https://github.com/ggml-org/llama.cpp",
+    "revision": "7aca0d2ea8d92b56911233b822db01f9fbb1ae50",
+    "archive_url": "https://codeload.github.com/ggml-org/llama.cpp/tar.gz/7aca0d2ea8d92b56911233b822db01f9fbb1ae50",
+    "sha256": "8f735f7af2959302a1c209b7aa87652a2f725830ea6733c629881bfefde9dbe5",
+    "license": "MIT"
+  },
+  "model": {
+    "repository": "unsloth/Qwen3.8-27B-GGUF",
+    "revision": "4ca720788d1e01f1bff70c033e0d0028fd02e502",
+    "filename": "Qwen3.8-27B-UD-Q4_K_M.gguf",
+    "size_bytes": 16464440224,
+    "sha256": "322e194ff79741c7baa497c240f677f54b201b0efab44ca8e50f122b39123482",
+    "url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF/resolve/4ca720788d1e01f1bff70c033e0d0028fd02e502/Qwen3.8-27B-UD-Q4_K_M.gguf",
+    "license": "Apache-2.0",
+    "model_card_url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF/blob/4ca720788d1e01f1bff70c033e0d0028fd02e502/README.md",
+    "base_model": "Qwen/Qwen3.8-27B",
+    "base_model_license_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "license_url": "https://huggingface.co/Qwen/Qwen3.8-27B/blob/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0/LICENSE",
+    "served_name": "qwen3.8-27b"
+  },
+  "cuda_architectures": ["89", "120"],
+  "validation": {
+    "status": "executed_local_model_and_CASCADE_tools",
+    "date": "2026-10-27",
+    "hardware": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+    "cuda_toolkit": "13.4.92",
+    "compiler": "GNU 11.5.0",
+    "cmake": "4.2.3",
+    "compiled_cuda_targets_verified": ["sm_89", "sm_120a"],
+    "local_server_sha256": "c35340e44e1812eda9a05ceb9041241d53e5d0542cfbd356ef5f864b67f46fe1",
+    "local_binary_is_not_a_portable_release": true,
+    "ggml_commit_metadata": "unknown: tarball build isolated from enclosing Git repository",
+    "context_tokens": 4096,
+    "parallel_sequences": 1,
+    "kv_type_k": "f16",
+    "kv_type_v": "f16",
+    "measured_process_vram_mib": 15780,
+    "release_validation_host_peak_heavyrun_report": "2.2G",
+    "host_memory_cap": "32G",
+    "physical_gpu_index": 1,
+    "served_endpoint": "http://127.0.0.1:18511/v1",
+    "cascade_revision": "d7a456c22d46d53e9588db6a55a0c6c916aa4963",
+    "agent_source_changed": false,
+    "agent_and_model_cpu_tests_passed": 81,
+    "live_tests_passed": 2,
+    "release_probe_runs": 2,
+    "release_provider_requests": 6,
+    "release_provider_responses": 6,
+    "probe_command": "python scripts/agent_model_probe.py --base-url http://127.0.0.1:18511/v1 --model qwen3.8-27b --out runs/llamacpp-model-only-001",
+    "tool_sequence_each_run": [
+      {"name": "microduck.observe", "arguments": {"action": "observe"}, "result_signal": "STOP"},
+      {"name": "microduck.verify", "arguments": {"action": "verify"}, "result_reason": "no_command"},
+      {"name": "task_done", "arguments_success": false}
+    ],
+    "public_evidence": "tests/test_model_release_evidence.json",
+    "private_receipt_root": ".workshop/live-model-release",
+    "provider_receipts": [
+      {"file": "probe-1/provider.jsonl", "sha256": "d500497eaf9a774557d8ff403efde39bd4a1def1dbfff6e46b56434dae5a1ad2", "requests": 3, "responses": 3},
+      {"file": "pytest/test_real_cascade_three_turn_s0/probe/provider.jsonl", "sha256": "06b2bb63a2e623f94f8f2365f238eb45c40f0c5cc331374a3254bc67494d3c9e", "requests": 3, "responses": 3}
+    ],
+    "stop_verified_with_pidfd": true,
+    "owned_port_closed_after_stop": true,
+    "existing_vllm_18510_health_after_stop": true,
+    "evidence_scope": "real model and unchanged CASCADE orchestrator; synthetic read-only gateway",
+    "l40s_hardware_tested": false,
+    "brev_tested": false,
+    "ros_integration_tested": false,
+    "physical_robot_success": false
+  }
+}

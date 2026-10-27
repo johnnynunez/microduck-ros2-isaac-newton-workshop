@@ -15,11 +15,17 @@ class SimHTTP:
         self.port = parsed.port or 8766
         self.timeout = timeout
 
-    def request(self, method, path, body=None, token=None):
+    def request(self, method, path, body=None, token=None, *, observation_headers=None):
         connection = http.client.HTTPConnection('127.0.0.1', self.port, timeout=self.timeout)
         headers = {'Content-Type': 'application/json'}
         if token is not None:
             headers['X-Workshop-Lease'] = token
+        if observation_headers is not None:
+            allowed = {'X-Workshop-Observation-Episode', 'X-Workshop-Observation-Sequence',
+                       'X-Workshop-Observation-Deadline'}
+            if set(observation_headers) != allowed:
+                raise ValueError('exact observation proof headers required')
+            headers.update(observation_headers)
         try:
             connection.request(method, path, body=None if body is None else json.dumps(body, allow_nan=False), headers=headers)
             response = connection.getresponse()
@@ -33,8 +39,9 @@ class SimHTTP:
     def get(self, path):
         return json.loads(self.request('GET', path)[0])
 
-    def post(self, path, body, token=None):
-        return json.loads(self.request('POST', path, body, token)[0])
+    def post(self, path, body, token=None, *, observation_headers=None):
+        return json.loads(self.request('POST', path, body, token,
+                                       observation_headers=observation_headers)[0])
 
     def camera(self):
         payload, headers = self.request('GET', '/v1/camera')
