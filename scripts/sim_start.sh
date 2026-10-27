@@ -14,6 +14,9 @@ fi
 python3 - <<'PY'
 import socket
 with socket.socket() as s:
+    # Match the HTTP server: TIME_WAIT after shutdown is not a live listener.
+    # A socket actively listening on this address still makes bind fail.
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind(('127.0.0.1', 8766))
 PY
 mkdir -p .workshop/sim-home .workshop/sim-output .workshop/receipts
