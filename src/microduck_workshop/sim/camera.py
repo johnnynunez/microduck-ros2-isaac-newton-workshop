@@ -118,7 +118,7 @@ def spawn_boards(prim_path, cfg, translation=None, orientation=None):
     return root.GetPrim()
 
 
-def configure_cameras(scene_cfg, mjcf, output_dir, *, tag_id=0):
+def configure_cameras(scene_cfg, mjcf, output_dir, *, tag_id=0, head_resolution=(640, 480)):
     import isaaclab.sim as sim_utils
     from isaaclab.assets import AssetBaseCfg
     from isaaclab.sensors import CameraCfg
@@ -127,13 +127,14 @@ def configure_cameras(scene_cfg, mjcf, output_dir, *, tag_id=0):
     from scipy.spatial.transform import Rotation
 
     position, rotation = head_mount_from_source(mjcf)
+    width, height = head_resolution
     head_path = (
         "{ENV_REGEX_NS}/Robot/Geometry/trunk_base/neck/neck_pitch_1/yaw_roll_motion/jaw_soft"
     )
     scene_cfg.head_camera = CameraCfg(
         prim_path=head_path + "/TeachingCamera",
-        width=640,
-        height=480,
+        width=width,
+        height=height,
         data_types=["rgb"],
         update_period=0.02,
         offset=CameraCfg.OffsetCfg(pos=position, rot=rotation, convention="world"),
@@ -184,8 +185,8 @@ def configure_cameras(scene_cfg, mjcf, output_dir, *, tag_id=0):
     )
     return {
         "frame_id": "microduck_head_optical",
-        "width": 640,
-        "height": 480,
+        "width": width,
+        "height": height,
         "source": "authored teaching pinhole; not hardware calibration",
         "head_body": "jaw_soft",
         "local_translation_m": position,

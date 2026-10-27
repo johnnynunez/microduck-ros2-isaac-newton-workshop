@@ -20,7 +20,16 @@ from microduck_workshop.policy.contract import HOME, JOINT_NAMES, PHYSICS_DT
 
 
 class MicroDuckRuntime:
-    def __init__(self, mjcf, *, output_dir, cameras=False, device="cuda:0", tag_id=0):
+    def __init__(
+        self,
+        mjcf,
+        *,
+        output_dir,
+        cameras=False,
+        device="cuda:0",
+        tag_id=0,
+        head_camera_resolution=(640, 480),
+    ):
         self.mjcf = Path(mjcf).resolve()
         self.asset_sha256 = hashlib.sha256(self.mjcf.read_bytes()).hexdigest()
         if self.asset_sha256 != "ccee92e435e39eefc64ee99745823751492ae7f948d835c89701710717e71de8":
@@ -28,6 +37,7 @@ class MicroDuckRuntime:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.cameras = cameras
+        self.head_camera_resolution = head_camera_resolution
         if tag_id not in (0, 1):
             raise ValueError("tag_id must be 0 GO or 1 STOP")
         self.tag_id = tag_id
@@ -185,7 +195,11 @@ class MicroDuckRuntime:
             from .camera import configure_cameras
 
             self.camera_authorship = configure_cameras(
-                scene_cfg, self.mjcf, self.output_dir / "textures", tag_id=self.tag_id
+                scene_cfg,
+                self.mjcf,
+                self.output_dir / "textures",
+                tag_id=self.tag_id,
+                head_resolution=self.head_camera_resolution,
             )
             (self.output_dir / "camera_authorship.json").write_text(
                 json.dumps(self.camera_authorship, indent=2)

@@ -46,6 +46,12 @@ def parser():
     p.add_argument("--policy-mode", choices=("training", "deployment"), default="training")
     p.add_argument("--cameras", action="store_true")
     p.add_argument(
+        "--head-camera-resolution",
+        choices=("320x240", "640x480"),
+        default="320x240",
+        help="onboard RGB render size; smaller live payload avoids best-effort DDS image loss",
+    )
+    p.add_argument(
         "--tag-id",
         type=int,
         choices=(0, 1),
@@ -181,6 +187,7 @@ def main(argv=None):
         cameras=args.cameras,
         device=args.device,
         tag_id=args.tag_id,
+        head_camera_resolution=tuple(map(int, args.head_camera_resolution.split("x"))),
     ) as runtime:
         runtime.enable_bam()
         store = SnapshotStore(
