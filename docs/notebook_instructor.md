@@ -1,6 +1,6 @@
 # Notebook-first instructor speaking and facilitation guide
 
-**Status: NOT READY for unattended live motion.** Parent/instructor approval of the exact integrated release, policy and same-episode ROS/model route is required. Notebook schema tests or a native-only step receipt do not provide that approval. Brev/L40S execution is **cloud-unverified** unless separately rehearsed on that actual instance.
+**Status: a complete supervised local reference rehearsal passed.** All six notebooks and 39 code cells executed with a fresh trained actor through exact-policy admission, inference and a real CASCADE/ROS maneuver; the parent independently recomputed its physical verdict. [Full evidence and limits](../verification/notebook-course-final.json). This remains **NOT READY for unattended live motion**. Each classroom instance and newly trained policy requires instructor approval. Brev/L40S execution is **cloud-unverified** unless rehearsed on that actual instance; this local reference pass is not student authorship, convergence or repeated-run robustness.
 
 This guide accompanies six executable notebooks. It does **not** replace or rewrite your opening slides. The older `docs/labs/` remain technical references; their order and pretrained-policy handover are not the new primary teaching route.
 
@@ -36,7 +36,7 @@ Keep a visible timer. Use pairs: one driver runs the cell, one observer predicts
 
 ### Session-specific cold-start rehearsal
 
-The earlier immutable Notebook03 rehearsal failed the old 180-second native deadline, then a separate extended run hit camera HTTP503 after health became ready. The new helper uses **600 seconds by default**, shared across native and sensor readiness; `WORKSHOP_SIM_STARTUP_TIMEOUT` may explicitly select a finite value in `(0, 1800]`. This is a startup/read-only budget only. It does **not** alter either 0.5-second safety bound, training/admission 420-second teaching deadlines, motion/rest horizons or physical evaluator criteria. A timeout change and synthetic HTTP unit tests are **not a new live-runtime proof**; the fixed route still needs its own GPU rehearsal.
+The earlier immutable Notebook03 rehearsal failed the old 180-second native deadline, then a separate extended run hit camera HTTP503 after health became ready. The helper uses **600 seconds by default**, shared across native and sensor readiness; `WORKSHOP_SIM_STARTUP_TIMEOUT` may explicitly select a finite value in `(0, 1800]`. This is a startup/read-only budget only. It does **not** alter either 0.5-second safety bound, training/admission 420-second teaching deadlines, motion/rest horizons or physical evaluator criteria. The subsequent complete local rehearsal passed the real cold startup/camera gate in 220.126 seconds. Preserve the earlier failures; this timing does not certify another instance or GPU.
 
 1. Before Jupyter starts, select the approved immutable checkout/images, assigned GPU/domain/prefix and the exact intended `WORKSHOP_NOTEBOOK_WORK` (default `.workshop/notebooks`). `Session.sim_options()` uses **that directory's `sim-home`** for Kit/HOME caches. A Compose warmup, another worker's home, or a newly selected notebook work directory does not warm this session.
 2. With allocation and EULA reviewed, execute actual 01→02→03 cells, in order, using the notebook opt-ins. Retain the executed notebook, elapsed startup time, runtime/image identity, real JPEG and original capture headers plus real ROS IMU/image-header output. The startup gate is GET-only and requires same-episode state and camera captures each no older than 0.5 seconds. It does not manufacture an input, restamp one, prove image/calibration exact pairing, or acquire a lease. The subsequent normal Notebook03 Gateway **does acquire its usual lease**.
@@ -44,7 +44,7 @@ The earlier immutable Notebook03 rehearsal failed the old 180-second native dead
 4. Always finish Notebook03's ROS/Sim cleanup **before Notebook04 training**. Retain `sim-home` in the same session for classroom use, but do not retain a live lease/episode as a shortcut. Re-run actual classroom predecessor cells; do not seed completion from staff recordings. Notebooks05 and06 inherit the same bounded readiness gate;06 still needs the actual model diagnostic, a fresh exact-policy source episode and fresh sensors **before** gateway/attempt dispatch.
 5. For an automated **live** nbclient rehearsal, give the cell runner a timeout above the selected startup bound **plus preflight/container-command overhead** (e.g. 1200 seconds for the 600-second default). The safe CPU validator's 180-second cell timeout is intentionally not a GPU acceptance harness. Keep public notebooks output-cleared and opt-ins false. Record cold and warmed session timings separately; neither certifies another GPU/cloud SKU.
 
-Only mark this procedure rehearsed when the current exact checkout's real outputs have been independently reviewed. Until then, label live startup/camera and the full policy route **BLOCKED/unrehearsed**, even when the CPU regression suite passes.
+The linked local run has been independently audited. For a new classroom instance, only mark this procedure rehearsed after reviewing that instance's exact-source outputs; until then its live gate remains **BLOCKED/unrehearsed**, even when CPU tests pass.
 
 ## 15:00–15:15 — Your slides
 
@@ -58,7 +58,7 @@ Ask students to predict where safety authority belongs. Park detailed answers un
 
 **Say:** “A node is a participant; a topic is a typed communication channel. We can inspect this graph without pretending that our first string message is a robot measurement.”
 
-- **0–2:** Read the objective and predict whether a topic can exist with no subscriber. Confirm the lightweight host kernel. Explain domain 71 and the isolated tutorial container; domains 27/28 belong to other stacks and are not touched.
+- **0–2:** Read the objective and predict whether a topic can exist with no subscriber. Confirm the lightweight host kernel. Explain the isolated tutorial container and configured ROS domain (default 71); do not reuse another team's domain.
 - **2–6:** Opt into CPU ROS, launch the real publisher and read one message. Show the actual Docker invocation, caps and node name. Ask: “Which process produced these bytes?”
 - **6–10:** Let pairs run node/topic/type/QoS inspection. Ask one pair to explain why the CLI echo node disappears. Do not present a sample output table as their result.
 - **10–12:** Change the second message. Ask why `echo --once` is not a deterministic selector between simultaneous publishers. Discovery is asynchronous; explicit message type avoids the initial type-discovery race.
@@ -144,7 +144,7 @@ The public notebooks now contain the actual commands, not placeholders. `noteboo
 
 ### Prepared-image gate
 
-Set `WORKSHOP_SIM_IMAGE`, `WORKSHOP_ROS_IMAGE` and `WORKSHOP_AGENT_IMAGE` before starting Jupyter to the staff-approved release. For a private integration rehearsal, the explicitly built `roscon/microduck-{sim,ros5,agent}:student-candidate` tags may be selected; they are not public-download promises or live acceptance receipts. Do not assume older `:local` or `:integrated` tags contain the new API.
+Set `WORKSHOP_SIM_IMAGE`, `WORKSHOP_ROS_IMAGE` and `WORKSHOP_AGENT_IMAGE` before starting Jupyter to images built from the approved source. The recorded local rehearsal used `roscon/microduck-{sim,ros5,agent}:notebook-final-candidate`; these are local tags, not public registry downloads. Brev preparation builds its own `:local` images. Do not assume an older tag contains the current API or reviewed control source.
 
 Before any GPU job,04 probes the **shipped image**, without a source overlay, for `train --warm-start-onnx`, `admit_policy --policy-manifest`, and `play --policy-manifest --policy-admission`. It also checks **`onnx==1.22.0`**.06 checks `python -m microduck_workshop.agent.run --help` for the policy flags and `--native-health-url`. Missing capability means BLOCKED, not permission to install an ad hoc dependency stack or silently use the seed policy. The source overlay is read-only and explicit after that gate.
 
@@ -181,8 +181,8 @@ Notebook05 admits **before** serving. An explicit isolated `play --mode validate
 bash scripts/notebook_setup.sh
 .workshop/notebook-venv/bin/python -m pytest tests/test_notebooks*.py -q
 RUN_NOTEBOOK_POLICY_CPU=1 \
-WORKSHOP_SIM_IMAGE=roscon/microduck-sim:student-candidate \
-WORKSHOP_AGENT_IMAGE=roscon/microduck-agent:student-candidate \
+WORKSHOP_SIM_IMAGE=roscon/microduck-sim:notebook-final-candidate \
+WORKSHOP_AGENT_IMAGE=roscon/microduck-agent:notebook-final-candidate \
   .workshop/notebook-venv/bin/python -m pytest tests/test_notebooks*.py -q
 ```
 

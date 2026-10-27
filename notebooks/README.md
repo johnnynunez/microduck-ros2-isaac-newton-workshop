@@ -1,6 +1,6 @@
 # Six-notebook MicroDuck course
 
-**Readiness: NOT READY for unattended live motion until the instructor approves the final integrated rehearsal.** A clean notebook validator is not camera, training, physical admission, CASCADE or Brev acceptance.
+**Readiness: the complete local reference rehearsal passed—six notebooks, 39 code cells, and an independently verified same-policy CASCADE motion.** [Evidence and limits](../verification/notebook-course-final.json). This remains **NOT READY for unattended live motion**: the instructor must approve the selected instance and policy, all live switches start false, and Brev/L40S hardware remains unverified. A notebook validator alone is not physical acceptance.
 
 Use the instructor's own opening slides, then these notebooks in this exact order:
 
@@ -17,7 +17,7 @@ Together with 15 minutes of existing slides and five minutes of shutdown, this i
 
 ## Prepare before class
 
-The Docker images, licensed assets, drivers and local model are prepared through the existing [Brev instructions](../docs/brev.md). This setup does not provision paid cloud resources or accept licenses for you. The host Jupyter kernel is **not** the ROS or Kit interpreter.
+The Docker images, licensed assets, drivers and local model are prepared through the existing [Brev instructions](../docs/brev.md). The host must provide `uv`; preparation checks this before building images. This setup does not provision paid cloud resources or accept licenses for you. The host Jupyter kernel is **not** the ROS or Kit interpreter.
 
 ```bash
 bash scripts/notebook_setup.sh

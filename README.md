@@ -6,7 +6,7 @@ A two-hour, hands-on workshop using **ROS 2 Lyrical, NVIDIA Isaac ROS 5.0, Isaac
 
 Participants work in **NVIDIA Brev**, using instructor-provided one-day credits on **L40S or RTX PRO**. No laptop GPU is required. Prepare downloads and environments before the two-hour session.
 
-> **Release candidate — not full-course acceptance.** All six notebooks and the teaching guide are implemented. Notebooks 01–03 have real local execution evidence, and the ROS stall repair has independently audited GO/STOP results after 65 seconds idle. **The current full-course rehearsal is blocked at Notebook 04:** its offline training container cannot retrieve the SDK ground asset;05–06 were not executed. Follow the [current readiness record](verification/READINESS.md), preserve the failed attempt, and do not label this a complete classroom or Brev/L40S pass.
+> **Complete local reference rehearsal passed:** all six notebooks and all 39 code cells executed, including a fresh trained checkpoint, exact-policy admission/inference and one real CASCADE/ROS motion with independently recomputed physical verification. See the [full-course evidence](verification/notebook-course-final.json) and [readiness record](verification/READINESS.md). This is one supervised local RTX PRO rehearsal using the explicitly selected reference adapter—not student-authored work, convergence, repeated-run robustness or a Brev/L40S hardware pass. Each classroom instance and newly trained policy still requires its own checks.
 
 ## Official MicroDuck sources
 

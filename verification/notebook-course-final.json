@@ -1,0 +1,189 @@
+{
+  "scope": "one_real_local_explicit_reference_six_notebook_rehearsal_not_cloud_or_robustness",
+  "source_commit": "17f09611c2fe8ae1b4d6dc09de0ca0236de088a8",
+  "artifact_index_sha256": "c11de5fdc9452842969605ef1d78f06d0d809c1e09921c31e33480c9563cc388",
+  "artifact_count": 814,
+  "all_artifact_hashes_sizes_match": true,
+  "notebooks": [
+    {
+      "name": "01_ros2.ipynb",
+      "passed_code_cells": 6,
+      "elapsed_s": 10.328552484512329,
+      "executed_sha256": "5e79122641c5005b693696bd3e6005e5d8980a0188ea2a51c48c8a53f459bcd4",
+      "public_notebook_sha256": "c4736090d0089616c3cd99cb949880c83729945dadad63ea7710c7c7a4b711e1"
+    },
+    {
+      "name": "02_isaac_ros_5.ipynb",
+      "passed_code_cells": 6,
+      "elapsed_s": 11.57887578010559,
+      "executed_sha256": "5604e9b991ac78443ff0a4493ee50907d9e422abae3bd8defe741fe4002b4fd7",
+      "public_notebook_sha256": "adfd2fa18aabe6299e549a39c83f0c2394f70bcb2653c6802dff0b90ca4b13b5"
+    },
+    {
+      "name": "03_microduck_isaac_sim_6_2.ipynb",
+      "passed_code_cells": 6,
+      "elapsed_s": 230.2009997367859,
+      "executed_sha256": "c663c95d6b24ef3a7e5a79115b143fcd54b7d2d0f420cde239be0639a24ac0a8",
+      "public_notebook_sha256": "3e91eb65f7858b51d09d5898c808deaa4587f12d6dfb8c4a4e7ff64e55e8d0bf"
+    },
+    {
+      "name": "04_train_isaac_lab_3.ipynb",
+      "passed_code_cells": 6,
+      "elapsed_s": 27.738443613052368,
+      "executed_sha256": "396b309aa1bac38a7f563302abe41e18f2ce238072ca8946808c02dc3d4ba93d",
+      "public_notebook_sha256": "302489a9338793f74b714edb3791db0185efdf63d02316c3dc6e7b9691309529"
+    },
+    {
+      "name": "05_policy_inference.ipynb",
+      "passed_code_cells": 7,
+      "elapsed_s": 227.11245250701904,
+      "executed_sha256": "2f9293310f515870c74fc34fb8e7c8bd28db9fb12d37f6ca88779f059ab2f6b2",
+      "public_notebook_sha256": "e705224b13315f9aeee973620585bc76813521cdb8542e1ce442cdc58d654545"
+    },
+    {
+      "name": "06_cascade_policy_agent.ipynb",
+      "passed_code_cells": 8,
+      "elapsed_s": 161.87332820892334,
+      "executed_sha256": "aa95bf972de1b5ed6b05f7928ce44243cca375e67d0f82d265c5c01823b661e6",
+      "public_notebook_sha256": "0c5754fd13a9ccada8e29e7bfab89594d63a8a1c401554e812e057e1c8cb965f"
+    }
+  ],
+  "requested_notebooks": 6,
+  "executed_notebooks": 6,
+  "requested_code_cells": 39,
+  "passed_code_cells": 39,
+  "identity": {
+    "checkpoint_sha256": "c478ba0bbb6573c784659a6254bf5ca2d989d2922b5a37c28dca1df8cf6b5a0e",
+    "policy_sha256": "eebba44d224521fc6d90ae843b2bfc5b38a3411fa8fa20bedc30c6edc37f44b4",
+    "manifest_sha256": "701a9136eb199c0e6352bdbd60f94611a785e465043b2c93cf6e504ada12832f",
+    "training_receipt_sha256": "4cd1c466a3a4869c3e2af77c0563bbe203366d91cd6cca72f8c58162e085757d",
+    "admission_sha256": "5b40065b0da7177bb559b199045b9d8c4f2d02e731ba37bb6b0c3a4eae37d6ec"
+  },
+  "training": {
+    "physics_steps": 512,
+    "optimizer_steps": 16,
+    "changed_actor_elements": 186532
+  },
+  "episode_id": "ep_0ec3c7c82330449582664ec32681f39b",
+  "request_id": "2432fe2d144749df94ab63d363a94685",
+  "tool_sequence": [
+    "microduck.observe",
+    "microduck.step_forward",
+    "microduck.verify",
+    "task_done"
+  ],
+  "model": "qwen3.8-27b",
+  "motion_requests": 1,
+  "raw_derived_window": {
+    "start": 1.3199999999999938,
+    "begin": 1.3199999999999938,
+    "complete": 3.319999999999994,
+    "completion_tick": 3.339999999999951,
+    "end": 3.6999999999999433,
+    "settle_s": 0.3599999999999923,
+    "rows": 120
+  },
+  "native_recomputed": {
+    "verified": true,
+    "reason": "native motion and rest checks passed",
+    "metrics": {
+      "forward_displacement_m": 0.09041922664058254,
+      "yaw_delta_rad": -0.06637849978331578,
+      "tail_speed_m_s": 0.0006758875495204179,
+      "tail_yaw_rate_rad_s": 0.010853255993093957,
+      "elapsed_sim_s": 2.3799999999999493,
+      "safe": true
+    }
+  },
+  "independent_scalar_metrics": {
+    "forward_displacement_m": 0.09041922664058254,
+    "yaw_delta_rad": -0.06637849978331412,
+    "tail_speed_m_s": 0.0006758875495204179,
+    "tail_yaw_rate_rad_s": 0.010853255993093957
+  },
+  "source_proofs_not_restamped": true,
+  "agent_success": true,
+  "physical_success": true,
+  "goal_success": true,
+  "limits": [
+    "Explicit teacher reference, not student-authored code",
+    "One local RTX PRO rehearsal; not repeated-run robustness or convergence",
+    "Brev/L40S cloud execution unverified",
+    "Original failed asset attempt remains immutable"
+  ],
+  "admission": {
+    "passed": true,
+    "cases": 4,
+    "verified_verdicts": 12,
+    "scope": "native_only_not_ros_agent_acceptance"
+  },
+  "checkpoint_export_replay": {
+    "samples": 128,
+    "max_abs_error": 6.556510925292969e-07,
+    "changed_actor_elements": 186532,
+    "optimizer_steps": 16
+  },
+  "native_only_replay": {
+    "admission_rows": 1637,
+    "admission_max_abs_action_error": 0.0,
+    "live_rows_by_stage": {
+      "05": 39,
+      "06": 244
+    }
+  },
+  "adapter": {
+    "selection": "EXPLICIT_REFERENCE",
+    "file": "solutions/capstone/tools.py",
+    "sha256": "f5c922d615f57669d53333cba6d834c65ce10b7a2b8ee0a5b1fddfc209027837",
+    "student_authorship_claimed": false
+  },
+  "setup_fix": {
+    "native_training_network": "bridge",
+    "native_admission_network": "bridge",
+    "published_ports": false,
+    "host_network_added": false,
+    "physics_or_policy_changed": false,
+    "ground_sha256": "8d86d2473acd68f6e4f3763c52347eee283b521303c56d29b8bd733c72811636",
+    "description": "Explicit outbound access for the SDK public ground/dependencies; each container has its own temporary mirror. Bridge is not a domain firewall allowlist."
+  },
+  "configuration": {
+    "gpu": "local RTX PRO physical GPU1",
+    "gpu_selector": "public CDI option",
+    "ros_domain": 84,
+    "public_resource_defaults_unchanged": true,
+    "startup_timeout_s": 600,
+    "training_admission_timeout_s": 420,
+    "capture_lease_s": 0.5,
+    "source_changes_in_executed_copies": "Only documented live/EULA/approval booleans and explicit reference selection; no runtime helper replacement."
+  },
+  "images": {
+    "sim": "sha256:d8e8d046d59033f97a86fe7510eee8a769bc3eb56f12de61fe0fe719306c8152",
+    "ros": "sha256:577ceddd6b31a6924d6cf756ec207879bea3998c8739f943fd6efade96d1192f",
+    "agent": "sha256:35af25ab13250c45c5e12ef1d17b2857ce1c59435d96e92813cc1abda1a3b33c"
+  },
+  "prior_failed_attempt": "notebook-course-attempt01.json",
+  "independent_review": {
+    "verdict": "qualified approval; no blocking findings in asset fix or this controlled local reference rehearsal",
+    "artifact_count": 814,
+    "artifact_bytes": 53548059,
+    "tracked_source_files_checked": 299,
+    "native_window_derived_before_reading_saved_verdict": true,
+    "strict_exact_actor_replay_reexecuted": true,
+    "focused_tests": {
+      "passed": 64,
+      "skipped": 4
+    },
+    "cpu_selection": {
+      "passed": 589,
+      "skipped": 48,
+      "deselected": 5
+    },
+    "test_sets_overlap_do_not_sum": true,
+    "model_tool_inputs_checked_no_gt_or_authority_token_fields": true,
+    "scope_limits": [
+      "No student-authorship claim",
+      "No repeated-run robustness or convergence claim",
+      "No Brev/L40S or cold-network build acceptance"
+    ]
+  }
+}
