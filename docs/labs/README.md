@@ -1,6 +1,6 @@
 # Student route — two hours with MicroDuck
 
-**ROSCon España · Valencia · 27 October 2026 · 15:00–17:00 Europe/Madrid.**
+**ROSCon España · Valencia · 27 October 2026 · 15:00–17:00 Europe/Madrid · Aula 2-7.**
 Use your own NVIDIA Brev **L40S or RTX PRO** instance and the instructor's one-day credits. Your laptop is a terminal and browser; it does not need a GPU.
 
 [Complete pre-class setup](00-before-class.md) **before** this clock starts. This route teaches one small end-to-end system, not a full ROS course or a gait trained to convergence.
@@ -34,8 +34,8 @@ Isaac Sim **6.2** provides the rendering/application environment. Isaac Lab **3.
 
 ## How to use the commands
 
-- Every command below runs **inside your Brev instance**, not on a physical robot. Commands marked ROS use the prepared **Lyrical ROS terminal**, at this repository's root. Do not mix ROS libraries into the simulation interpreter.
-- Standard `ros2` inspection commands and this course's observer are shown directly. For stack start/stop, training and the agent, use the exact commands and readiness notes in the [repository README](../../README.md). Do not infer an executable or flags from a conceptual diagram.
+- **Host** means your Brev checkout; **ROS tools** means the sourced Lyrical container shell opened in [pre-class preparation](00-before-class.md#2-prepare-the-terminals). Each lab labels the boundary. Do not mix ROS libraries into the simulation interpreter.
+- Run the copy-paste commands in each lab. [Brev setup](../brev.md) is instructor preparation; the [README](../../README.md) records release readiness. The fixed-step game uses `microduck.step_forward`, not a model-selected numeric velocity.
 - **A readiness gate is real:** if that release has no verified runtime command/receipt for a stage, stop that stage and ask the instructor. A CPU test or a source file is not a live-runtime pass. Do not substitute a fake publisher, scripted gait, MJLab runtime or PhysX demo.
 - `timeout` bounds observation commands. Exit code 124 means the timeout expired; it is not a passing measurement. Ctrl+C stops a continuous CLI subscriber, not cloud billing.
 - Keep a short local notebook of your observations. Never paste credentials, lease tokens, private model URLs or a public motion endpoint into it.

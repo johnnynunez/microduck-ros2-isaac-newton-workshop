@@ -6,7 +6,7 @@ A **node** is a ROS participant. A **topic** is a named stream of typed messages
 
 ## 1. Discover before subscribing — 4 minutes
 
-In the prepared Lyrical ROS terminal at the repository root:
+In the **ROS tools** terminal opened in [pre-class preparation](00-before-class.md#2-prepare-the-terminals):
 
 ```bash
 ros2 node list
@@ -34,25 +34,36 @@ Open [the exercise](../../exercises/ros_basics/README.md) and edit [joint_watch.
 - **A (4 minutes):** select joint positions by name, not assumed array order; reject ambiguous or invalid values.
 - **B (4 minutes):** classify a sample's **simulation** timestamp as waiting, future, old or within the configured age.
 
-Run the CPU checks from the repository root:
+In a **host/editor** terminal, run the CPU checks from your checkout:
 
 ```bash
 WORKSHOP_ROS_BASICS_IMPL=exercise PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
-  python -m pytest --noconftest tests/test_curriculum_ros_basics.py -q
+  .workshop/student-venv/bin/python -m pytest --noconftest tests/test_curriculum_ros_basics.py -q
 ```
 
 TODO failures are expected before you edit. The tests use explicitly fabricated input arrays, not a live ROS feed. If time runs out, open [the complete solution and explanation](../../solutions/ros_basics/README.md); rejoin the live checkpoint rather than spending the whole workshop on Python validation.
 
 ## 3. Put your helpers on the real graph — 5 minutes
 
-In the prepared ROS terminal:
+In a **host** terminal, run your edited observer in the prepared agent image (the exercise directory is mounted read-only):
 
 ```bash
-python -m exercises.ros_basics.joint_watch --ros-args \
+docker compose run --rm --no-deps --workdir /opt/workshop agent \
+  python -m exercises.ros_basics.joint_watch --ros-args \
   -p use_sim_time:=true -p joint_name:=left_knee
 ```
 
-Leave it running. In a second prepared ROS terminal:
+If you deliberately choose the reference observer instead, stop your observer with Ctrl+C,
+then run this from the **host** (the solution is not otherwise mounted in the image):
+
+```bash
+docker compose run --rm --no-deps --workdir /opt/workshop \
+  -v "$PWD/solutions:/opt/workshop/solutions:ro" agent \
+  python -m solutions.ros_basics.joint_watch --ros-args \
+  -p use_sim_time:=true -p joint_name:=left_knee
+```
+
+Leave your selected observer running. In a second **ROS tools** terminal:
 
 ```bash
 ros2 node info /joint_watch

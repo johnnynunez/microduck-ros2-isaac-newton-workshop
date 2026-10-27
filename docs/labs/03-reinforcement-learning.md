@@ -7,7 +7,7 @@
 Open [policy_contract.json](../../provenance/policy_contract.json), especially `contract`, `actuator` and `risks`. From the repository root, this read-only command prints the pinned contract:
 
 ```bash
-python -c 'import json; from pathlib import Path; c=json.loads(Path("provenance/policy_contract.json").read_text())["contract"]; print("input:", c["input"]); print("output:", c["output"]); print("joints:", c["joint_order"]); print("slices:", c["observation_slices"])'
+python3 -c 'import json; from pathlib import Path; c=json.loads(Path("provenance/policy_contract.json").read_text())["contract"]; print("input:", c["input"]); print("output:", c["output"]); print("joints:", c["joint_order"]); print("slices:", c["observation_slices"])'
 ```
 
 For the public VelStand v8 candidate:
@@ -31,29 +31,66 @@ The candidate maps **61 observations to 14 actions**. These are not 14 body velo
 
 A **policy** selects actions from observations. A **reward** scores behavior during learning. An **episode** ends or resets after a task-defined condition. PPO updates model parameters from rollouts; the optimizer is not running during ordinary pretrained inference.
 
-Open the actual task/reward implementation through the training entry point in the [README](../../README.md). Identify one tracking term, one stability/smoothness term and a termination condition **that really exist in this revision**; do not assume an upstream MJLab reward is already ported.
+Open [sim/train.py](../../src/microduck_workshop/sim/train.py). Find its velocity-tracking term, upright reward, action-magnitude penalty and height/upright/episode-length termination. The penalty is not an implemented action-smoothness term; do not assume the full upstream MJLab reward is already ported.
 
 Write a prediction: “If tracking reward is increased without adequate stability constraints, the robot might …”. Compare walking at the requested speed, falling forward, and shaking joints. A reward curve can improve while the behavior remains unacceptable. This discussion is a hypothesis exercise, not a measured training result.
 
 ## 3. Run the short Newton training experiment — 7 minutes
 
-Use only the verified short-training command and bounded configuration in the [README](../../README.md), after its reset/step gate has passed. Do not guess task names, flags, a GPU memory budget or checkpoint paths.
+In a **host** terminal, stop playback, ROS, observers/agent and model before the short job.
+On a 48 GB L40S, do not co-load training and the LLM. Confirm your owned GPU allocations
+have cleared; do not kill unrelated processes.
 
-1. The instructor stops/disables the interactive command owner as directed by that runtime procedure; do not run a second owner against the playback robot. Stop competing local-model/render work if the tested training profile requires it.
-2. Record the run's actual task, Newton backend, seed, environment count and observation/action shapes. Those are run facts, not just target constants.
-3. Run the prewarmed short job. Give it **four minutes of this segment**; if startup compilation consumes that budget, stop the lesson attempt through the documented path and label it incomplete. Never replace it with random numbers or a toy loop presented as robot RL.
-4. Inspect real rollout steps, finite optimization statistics and proof that model parameters changed; retain the output/checkpoint receipt. An import, ONNX inference or a loss-shaped printout alone does not prove a PPO update.
-5. State what the experiment did **not** prove: stable gait, generalization, transfer to hardware, or reproducible reward improvement across seeds.
+```bash
+bash scripts/brev_stop.sh
+nvidia-smi
+# Only after you have reviewed and accepted the NVIDIA EULA:
+OMNI_KIT_ACCEPT_EULA=YES WORKSHOP_GPU=0 \
+  docker compose run --rm --no-deps --name roscon-brev-train sim \
+  -m microduck_workshop.sim.train --asset-root /assets \
+  --updates 4 --horizon 32 --seed 7 --output /outputs/train-class-01
+```
+
+Use a new output suffix if you already ran this exercise; do not overwrite failures.
+Give the prewarmed job **four minutes**. If it exceeds the timebox, use another host terminal:
+`docker stop --time 10 roscon-brev-train`. Label an interrupted job incomplete.
+
+After normal completion, inspect the **actual** receipt on the host:
+
+```bash
+python3 -m json.tool .workshop/sim-output/train-class-01/training_receipt.json
+```
+
+The recorded local RTX PRO example made 512 Newton physics steps, four updates and
+16 optimizer steps. Your receipt must establish its own runtime, finite metrics,
+nonzero `weight_delta_l2` and checkpoint roundtrip; do not copy those numbers as your
+result. It explicitly reports `converged_gait=false` and `resumed_onnx=false`.
+The optimizer is CPU-side; its transitions come from the real GPU Newton robot.
+An import or pretrained ONNX inference is not a PPO update.
 
 The completed experiment is short actual Isaac Lab/Newton training, **not convergence**. If the runtime gate is blocked, inspect clearly labeled recorded evidence with the instructor and record **not executed here**.
 
 ## 4. Return to separately validated inference — 4 minutes
 
-Stop training cleanly and restore the release's tested interactive playback configuration before perception. Use a **separately validated** learned policy for the game, not a just-initialized short-run actor.
+After training exits, restart the model in its dedicated **host** terminal:
+
+```bash
+MODEL_GPU=0 MODEL_PORT=8080 bash scripts/model_start.sh
+```
+
+Wait for its `READY` line, then in another **host** terminal start a fresh episode:
+
+```bash
+WORKSHOP_GPU=0 WORKSHOP_TAG_ID=0 bash scripts/brev_start.sh --accept-nvidia-eula
+```
+
+Reopen your [ROS tools shell](00-before-class.md#2-prepare-the-terminals). This restores
+the pinned public ONNX and the native-validated fixed-step profile, **not** your short-run
+actor. If startup exceeds the timebox, ask staff; do not reuse a stale episode or old ROS lease.
 
 The public ONNX is an inference candidate. It does not contain the PPO critic, optimizer state and training counters needed for full training resume. Do not claim a private teacher checkpoint or a full PPO resume from this file. Pollen's MJLab code informs the port; the class still runs Isaac Lab/Newton only.
 
-Before allowing agent motion, staff must have real Newton evidence for walk → zero-command balance → resume, bounds and stop/watchdog behavior. A scripted gait is not an equivalent shortcut.
+Before agent motion, staff also require the [same-episode full acceptance](../capstone.md#final-acceptance-checklist). Native step → zero → step evidence does not itself establish ROS/model acceptance. A scripted gait is not an equivalent shortcut.
 
 ## Checkpoint
 

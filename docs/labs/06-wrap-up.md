@@ -15,7 +15,17 @@ Do not commit credentials, lease tokens, raw private prompts or bundled third-pa
 ## 3. Stop processes, then the instance — 3 minutes
 
 1. With the gateway still running, request the rehearsed emergency stop and inspect its status. Zero intent is not torque-off or a physical safety verdict. On an unknown result, notify staff and follow the supervisory shutdown procedure.
-2. Stop the agent, training and workshop runtime using the exact teardown command in the [README](../../README.md). Confirm the processes/containers exited; closing a browser tab or SSH session is not enough.
+2. In a **host** terminal, stop the owned stack and model, then inspect the remaining processes:
+
+   ```bash
+   bash scripts/brev_stop.sh
+   docker compose --profile agent ps -a
+   nvidia-smi
+   ```
+
+   Confirm workshop containers and the owned model have exited; do not kill unrelated
+   services. A model started outside the supported launcher needs its own documented
+   stop. Closing a browser tab or SSH session is not enough.
 3. Open **Brev's instance management** and deliberately **stop or delete the cloud instance**. Save needed work before deletion; deletion may destroy it. Verify the resulting cloud state, not just a closed terminal.
 4. Check for retained disks/storage and any remaining charges in the account/provider view. Stopped compute can still leave billable storage. Resolve that with staff rather than assuming zero cost.
 5. Keep your personal reminder for **before the one-day / 24-hour credit expiry** until the cloud state and retained resources are confirmed. Do not assume credits automatically shut instances down.

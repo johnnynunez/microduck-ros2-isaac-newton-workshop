@@ -4,13 +4,27 @@
 
 ## 1. Inspect the running stack — 5 minutes
 
-Use the startup/runtime evidence procedure in the [repository README](../../README.md). The pre-class instance is already warm; do not launch another simulation or gateway. Check the **actual imported** Sim/Lab/Newton versions, device, asset identity and policy identity in the runtime receipt. A configured target or container tag alone does not establish what ran.
+The pre-class instance is already warm; do not launch another simulation or gateway.
+In a **host** terminal, inspect the actual imported runtime and current health:
+
+```bash
+python3 -m json.tool .workshop/sim-output/episode/runtime_identity.json
+curl --fail --max-time 3 --noproxy '*' http://127.0.0.1:8766/v1/health
+```
+
+Check Sim `6.2.0.0`, Newton `1.6.1`, the actual device and asset/policy identity.
+Lab's installed distribution may report `28.0.0`; the pinned product is Lab **3.0**.
+Health reports separate `command_profile` and `step_profile` capabilities. The Compose
+route selects `step-forward-v1`; `NATIVE_VALIDATED` is not an end-to-end capstone pass.
+A configured target or container tag alone does not establish what ran.
 
 Locate **Isaac Lab's Newton model** in that evidence. Isaac Lab owns state and stepping; Isaac Sim 6.2 supplies rendering/application services. A second Sim-native articulation/physics owner is not a fix for a bridge problem. PhysX and MJLab are not alternative runtimes for this workshop.
 
 Write down the current episode ID. Resets create a boundary: old observations, pending commands and generation assumptions must not survive it.
 
 ## 2. Inspect encoders and the real IMU — 4 minutes
+
+In the **ROS tools** terminal:
 
 ```bash
 ros2 topic type /workshop/microduck/joint_states
@@ -41,17 +55,29 @@ The image and its paired CameraInfo must share a stamp and optical frame; width,
 
 This is an authored, distortion-free **teaching pinhole camera**, not a hardware-calibration result. Its mount and intrinsics must be identified. Ordinary CPU image publication into ROS is not GPU zero-copy just because the next node uses CUDA.
 
-## 4. Predict a pause, then observe it — 4 minutes
+## 4. Stop the source before the training handover — 4 minutes
 
-Before the instructor pauses the simulation, predict what happens to `/clock` and your joint observer. The instructor uses only the verified runtime control path, with motion disabled; do not improvise a reset or HTTP command.
-
-Watch a bounded clock measurement:
+Predict what happens to `/clock`, the observer and capture age when the source stops.
+At the instructor's cue, with **no agent or motion running**, use a **host** terminal:
 
 ```bash
-timeout 5s ros2 topic hz /clock
+bash scripts/sim_stop.sh
+sleep 1
+docker compose exec -T ros bash /opt/workshop/entrypoint.sh \
+  timeout 8s ros2 service call /workshop/microduck/observe \
+  microduck_workshop_interfaces/srv/Observe '{}'
 ```
 
-When simulation time stops advancing, a sim-time age can remain small while wall time passes. The separate monotonic watchdog and image-capture freshness checks must still expire. An instructor demonstration of the expiry receipt is stronger evidence than the absence of new log lines. After reset or time rewind, observations must belong to the new episode before use.
+This is a deliberate simulator shutdown, **not a pause/reset API**. The ROS gateway stays
+up for the observation check. Record the actual refusal; it must not authorize motion
+from the last GO image. A timeout is missing evidence, not a stale-observation pass.
+The preview can retain an explicitly marked last image. Silence in the joint observer
+is not proof of a watchdog verdict.
+
+A frozen simulation clock cannot measure wall age. The gateway uses original monotonic
+capture time; it does not restamp an old image on receipt. Keep this stale-source result
+for Lab 4. Leave the simulator stopped: Lab 3 next tears down the remaining services
+before training, then starts a **new** operator-authorized episode.
 
 ## Checkpoint
 

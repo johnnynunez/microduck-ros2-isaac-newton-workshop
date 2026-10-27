@@ -2,14 +2,24 @@
 
 **Student rule:** after two minutes on an environment problem, ask staff and rejoin at the next checkpoint. Do not install another ROS distro, change physics backend, expose public ports or weaken safety checks to keep up.
 
-Start with [the prepared environment](labs/00-before-class.md) and the release's actual commands/readiness notes in the [README](../README.md). All ROS checks below run in the prepared **Lyrical** terminal on your own Brev instance, from the repository root.
+Start with [pre-class preparation](labs/00-before-class.md) and [release readiness](../README.md).
+All `ros2` checks below use the **ROS tools** shell. Open it from your Brev **host checkout**:
+
+```bash
+docker compose exec --workdir /opt/workshop ros \
+  bash /opt/workshop/entrypoint.sh bash --noprofile --norc
+```
+
+Use `exit` to return to the host. Reopen this shell after each stack restart. Python CPU
+checks run on the host with `.workshop/student-venv/bin/python`, not Sim's interpreter.
 
 ## ROS and the observer
 
 | Symptom | First check | Correct response |
 |---|---|---|
 | `ros2` or `rclpy` is missing | Are you in the ROS tools environment rather than the simulator/test environment? | Use the tested Lyrical shell/sourcing procedure. Do not pip-install a lookalike or mix Jazzy libraries into the process. |
-| Custom service type is unknown | `ros2 pkg prefix microduck_workshop_interfaces` | Source the prepared built overlay after its Lyrical underlay. Building missing interfaces is a pre-class task; ask staff now. |
+| Custom service type is unknown | `ros2 pkg prefix microduck_workshop_interfaces` | Reopen the sourced ROS tools shell above. Building missing interfaces is pre-class work; ask staff. |
+| Service is discovered but calls time out | Host: `docker compose ps`; inspect `docker compose logs ros` | Use the agent Compose profile and its private `ipc: service:ros` namespace. Host networking alone does not fix Fast DDS shared-memory separation. Do not use host IPC/privileged mode. |
 | Topic list is empty | `printenv ROS_DISTRO ROS_DOMAIN_ID` and `ros2 node list` | Confirm the actual gateway/simulator is running, the same local domain and the expected process/container network. Do not enable public discovery as a fix. |
 | Topic exists but no data arrives | `ros2 topic info /workshop/microduck/joint_states --verbose` | Check actual publishers and offered/requested QoS; use sensor-data best-effort/volatile for this observer. Check stepping and `/clock`. A name in the graph alone is not data. |
 | `NotImplementedError` in the exercise | Which helper TODO remains? | Complete it or read the full solution. This is intentional, not a ROS install problem. |
@@ -45,7 +55,8 @@ ros2 service list -t
 
 | Symptom | Check / response |
 |---|---|
-| Preview works but detector sees nothing | Make sure it is the **onboard** camera, not the human overview. Inspect real detector remaps, tag36h11 family, physical size, visibility and actual CUDA graph. A preview is not detection evidence. |
+| Preview works but detector sees nothing | Check the **onboard** camera, `/workshop/microduck/tag_detections`, family `tag36h11`, backend `CUDA` and `ros2 param get /workshop/microduck/apriltag size` = 0.20. The sample-bag 0.22 m size is not this scene. Do not start a duplicate detector. |
+| Preview says STALE/OFFLINE but retains an image | The retained image is explicitly labeled, not live. Check source capture age and `docker compose logs sim` from the host. Do not refresh authority by rereading old pixels. |
 | Image and CameraInfo appear to have different stamps | Separate `--once` calls can capture different frames. Check a genuinely timestamp-paired receipt and matching frame/intrinsics before diagnosing a bug. |
 | An old Isaac ROS tutorial names missing NITROS packages | Use the pinned **5.0** route with native **`rosidl::Buffer`** support. Do not install removed 4.x packages or replace Lyrical with Jazzy. |
 | `observe` says stale despite a recent detection arrival | Source image capture age matters, not subscriber receipt time. Check stopped source, unknown episode/frame/sequence mapping and time rewind. Never restamp old pixels as fresh. |
@@ -54,11 +65,15 @@ ros2 service list -t
 
 ## CASCADE and motion
 
-- **Local model unavailable or tool calls unsupported:** check the release's pinned local-model profile and actual server/tool-call receipt. Do not silently switch to a hosted model, mock brain or scripted decision loop.
+- **Model unavailable:** in the host model terminal use `MODEL_GPU=0 MODEL_PORT=8080 bash scripts/model_start.sh`, wait for `READY`, then start Brev. Inspect `.workshop/model-cache/run/server.log`; a port collision is a refusal, not permission to kill another service. Stop training before loading the model. No hosted/mock fallback.
+- **Exercise edits seem ignored:** run with `--tools-file /opt/workshop/exercises/capstone/tools.py` and `--workdir /opt/workshop`, as in [Lab 5](labs/05-cascade.md). Omitting the file selects production handlers. CPU tests must select your exercise rather than the reference.
+- **Fixed step rejects numeric parameters:** expected. Use `{}` or `{"action":"step_forward"}`. `walk_bounded` is not the signal-game action; the old calibration remains [NOT_READY](calibration.md).
+- **Step capability disabled:** staff check `runtime.step_profile` in health and the final image/Compose revision. The course Compose uses `--step-profile step-forward-v1`, not a command-profile override. Native readiness does not supply full ROS/model acceptance.
 - **Request rejected:** keep its reason. Episode/generation mismatch, a conflicting owner, nonfinite/out-of-range values and a stop latch require diagnosis, not automatic retries, clipping or re-arm.
 - **Request timed out after sending:** delivery is uncertain. Do **not** resend motion. Use the known request's status/verification path and involve staff; an absent ACK is not proof the robot did nothing.
 - **Accepted/completed but not verified:** keep `verification_available` and `verified` distinct. Tool ACK, task completion and zero intent are not physical safety verdicts. An unavailable evaluator result must stay unavailable.
-- **Agent keeps trying while stopped:** stop the agent, preserve the trace and ask staff. The model must not reset a latch or acquire direct actuator access.
+- **Stopped after a completed/no-motion run:** runner teardown latches stop by design. A second agent is not a reset. Staff use `brev_stop.sh`, restart the foreground model, wait for readiness, then explicitly launch a fresh episode with `brev_start.sh --accept-nvidia-eula`. Obtain new Observe identities.
+- **Agent keeps trying while stopped:** stop it, preserve the trace and ask staff. It must never reset a latch or acquire direct actuator access.
 
 The rehearsed priority stop is:
 

@@ -4,11 +4,20 @@
 
 ## 1. Start from the right architecture — 3 minutes
 
-Use the verified Isaac ROS detector launch/remap procedure in the [README](../../README.md), with interactive playback restored and the agent still disabled. Confirm **Isaac ROS 5.0 / ROS 2 Lyrical on Noble**.
+Lab 3 restored playback using `brev_start.sh`; Compose already starts the gateway and detector. Do **not** launch a second detector. Open a new **ROS tools** terminal and confirm **Isaac ROS 5.0 / ROS 2 Lyrical on Noble**.
 
 Isaac ROS 5.0 uses native **`rosidl::Buffer`** support for accelerated data paths. Removed Isaac ROS 4.x NITROS packages are **not** installation or coding instructions for this lesson. Nor does a CPU/JPEG-to-ROS boundary become GPU zero-copy just because a CUDA detector follows it.
 
-The actual onboard camera feeds `/workshop/microduck/camera/image_rect` and matching `/workshop/microduck/camera/camera_info`. The detector uses **tag36h11** with the scene's explicitly authored physical tag size. Use the release's actual size and remaps, not guessed dimensions.
+The actual onboard camera feeds `/workshop/microduck/camera/image_rect` and matching
+`/workshop/microduck/camera/camera_info`. The detector uses **tag36h11**, **CUDA**, and
+an authored **0.20 m black-border edge**. Compose passes `tag_size:=0.20` to the launch
+file, which sets the detector's **`size`** parameter (not a parameter named `tag_size`):
+
+```bash
+ros2 param get /workshop/microduck/apriltag size
+ros2 param get /workshop/microduck/apriltag tag_family
+ros2 param get /workshop/microduck/apriltag backends
+```
 
 ## 2. Find the real detector output — 4 minutes
 
@@ -19,13 +28,12 @@ ros2 topic info /workshop/microduck/camera/image_rect --verbose
 ros2 interface show microduck_workshop_interfaces/srv/Observe
 ```
 
-Find the detector node and its output in the real graph/launch instructions. The frozen gateway contract names the camera topics, but does not require you to guess a detector-specific output name. Copy the actual detection topic when prompted:
+Find the detector node and confirm this topic in the real graph:
 
 ```bash
-read -r -p "Actual AprilTag detection topic from your graph: " DETECTIONS_TOPIC
-ros2 topic info "${DETECTIONS_TOPIC:?A real topic name is required}" --verbose
-ros2 topic type "$DETECTIONS_TOPIC"
-timeout 8s ros2 topic echo "$DETECTIONS_TOPIC" \
+ros2 topic info /workshop/microduck/tag_detections --verbose
+ros2 topic type /workshop/microduck/tag_detections
+timeout 8s ros2 topic echo /workshop/microduck/tag_detections \
   --once --qos-reliability best_effort --qos-durability volatile
 ```
 
@@ -44,11 +52,18 @@ For the lesson game, **tag 0 means GO** and **tag 1 means STOP**. This is our ga
 
 Compare what you can see in the actual onboard view with the detected ID and its source image. A fresh image with no allowed signal still does **not** authorize movement.
 
-## 4. Break freshness deliberately, without motion — 4 minutes
+## 4. Compare fresh and stopped-source evidence — 4 minutes
 
-With the agent disabled, the instructor pauses/stops the actual camera source using the rehearsed runtime procedure. After more than the **0.5-second wall-age limit**, call `observe` again. It must refuse freshness and explain why; receiving an old detection *now* does not give its pixels a new capture time. A negative age, wrong frame, unknown episode or source time rewind is not a successful observation.
+Compare this episode's fresh result with the stopped-source observation you saved at the
+end of [Lab 2](02-simulation.md#4-stop-the-source-before-the-training-handover--4-minutes).
+The old episode must not authorize motion now. The **0.5-second wall-age limit** uses
+original capture time, not message receipt time; a late detection cannot refresh old pixels.
 
-Restore the source; require a new source frame and valid episode mapping before rejoining. Do not relax the age limit to hide a slow GPU/model. For a pause/reset exercise, use staff controls rather than guessing administrative endpoints.
+Explain which fields changed: episode, frame sequence, age and refusal reason. The
+instructor can show separately labeled native proof-expiry/priority-stop receipts from
+[fixed-step validation](../step.md). Those are not your own live ROS acceptance.
+If you missed the source-stop experiment, mark it **observed**, rather than stopping and
+restarting the class stack a second time. Keep the new fresh GO episode ready for Lab 5.
 
 ## Checkpoint
 

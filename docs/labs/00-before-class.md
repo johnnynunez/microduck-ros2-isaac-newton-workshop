@@ -1,72 +1,97 @@
 # Before class — arrive ready to observe, not to install
 
-**Before 15:00. Setup/download/build time is outside the 120-minute lesson.**
+**Before 15:00 · Aula 2-7. Setup/download/build time is outside the 120-minute lesson.**
 
 ## What you need
 
-- A browser, SSH-capable terminal or VS Code remote connection, and the instructor's Brev access/credit instructions. One student uses one **L40S or RTX PRO** GPU instance. No laptop GPU is required.
-- The public workshop repository at the instructor's tested revision; record that revision rather than updating during class.
-- Ubuntu **24.04 Noble**, Python **3.12**, Isaac Sim **6.2.0.0** distribution / **6.2** product, Isaac Lab **3.0**, **Newton**, Isaac ROS **5.0**, and ROS 2 **Lyrical** packages from **NVIDIA's buildfarm**. Ordinary Ubuntu ROS installation instructions may lead to a different stack; do not substitute Jazzy.
-- The prepared ROS workspace, custom workshop interfaces, sensor/perception packages, Python test tools and a warmed local CASCADE model. Large container, robot, model and shader downloads must finish before class.
+- A laptop with a browser and SSH terminal or VS Code remote connection. Your laptop does not need a GPU.
+- Your instructor's Brev access and **one-day credit** instructions; a prepared **L40S or RTX PRO** instance.
+- The public workshop checkout at the instructor's tested commit. Do not update it during class.
+- The instructor must finish [Brev preparation and rehearsal](../brev.md) first: images, public assets,
+  shaders, ROS interfaces, the CPU exercise environment and the local Qwen3.8 model.
 
-The [repository README](../../README.md) is the launch/setup authority. Follow its tested Brev procedure and inspect its readiness/evidence limits. If a complete procedure is not published for your revision, ask the instructor; do not start an improvised installation while the lesson runs.
+The target is Ubuntu 24.04, Python 3.12, Isaac Sim **6.2.0.0**, Isaac Lab **3.0**
+(source `e3f7d9ff1f5d7f8280de3ece9000b7117f66bcf4`), Newton **1.6.1**, Isaac ROS **5.0**
+and ROS 2 **Lyrical from NVIDIA's buildfarm**. Sim and ROS use separate containers.
+The [README's release evidence](../../README.md) determines which live stages are admitted;
+local RTX PRO evidence does not establish Brev or L40S execution.
 
 ## 1. Know what you are downloading
 
-Read [NOTICE](../../NOTICE), [the public source manifest](../../provenance/sources.json) and [the policy contract](../../provenance/policy_contract.json).
+Read [NOTICE](../../NOTICE), [the source manifest](../../provenance/sources.json) and
+[the policy contract](../../provenance/policy_contract.json).
 
-- Pollen software and MJCF: **Apache-2.0**.
-- Pollen STL meshes and converted derivatives: **CC BY-NC-SA 4.0**. Fetch separately through the approved downloader, review the NonCommercial/ShareAlike terms, and explicitly acknowledge them. A public repository is not permission for every commercial use. Preserve attribution.
-- Public VelStand v8 ONNX: an inference **candidate**, not a verified Newton gait or a full PPO resume checkpoint. Keep its pinned revision/hash.
-- MJLab is Pollen's upstream training reference, **not** our Isaac Lab/Newton runtime. Private Creative/NVIDIA assets and private teacher checkpoints are not prerequisites.
-
-Do not waive a checksum/license failure just to reach the preview. Ask staff.
+- Pollen software/MJCF: **Apache-2.0**. Meshes and converted derivatives: **CC BY-NC-SA 4.0**.
+  Fetch separately, acknowledge the mesh terms explicitly, and retain attribution.
+- Public VelStand v8 ONNX: an inference policy, **not a full PPO resume checkpoint**.
+  The native fixed-step validation does not make arbitrary velocity commands valid.
+- Portable Qwen3.8 GGUF: separately downloaded Apache-2.0 model; pinned llama.cpp: MIT.
+- MJLab is the upstream training reference, **not** our runtime. No private teacher checkpoints
+  or Creative/NVIDIA assets are needed. Do not bypass a license or hash failure.
 
 ## 2. Prepare the terminals
 
-Keep these roles separate:
+All **host** commands run in your checkout on the Brev instance, not on your laptop.
+Keep the following terminal roles separate:
 
-| Terminal | Purpose | Rule |
-|---|---|---|
-| Simulation/runtime | Warm, already running Newton telemetry before Lab 1 | Use the prepared simulator environment, not a random ROS shell |
-| ROS tools | `ros2`, the gateway workspace and observer | Lyrical underlay plus built workshop overlay, same instance/domain |
-| Tests/editor | Edit the two helper TODOs and run CPU pytest | Python 3.12; GPU and ROS are not needed for helper tests |
+| Terminal | Purpose |
+|---|---|
+| Host/editor | Edit files, run `.workshop/student-venv/bin/python` CPU checks, start/stop Compose |
+| Model | Keep the foreground `model_start.sh` process running; do not close it accidentally |
+| ROS tools | Inspect the existing gateway through its Lyrical container |
 
-Keep the launch terminal alive, and open a second ROS tools terminal for inspection. Copy the exact environment/sourcing procedure from the tested setup instructions. Do not source Jazzy and then Lyrical in the same shell. Use local-host discovery with the configured `ROS_DOMAIN_ID`; domain IDs separate graphs but are **not authentication**.
-
-Read-only checks in the prepared terminals:
+Staff start the model and a new zero-intent episode using [the exact start sequence](../brev.md#start-the-live-session).
+Do not launch a second simulator. In a host terminal:
 
 ```bash
-# Any repository terminal
 git rev-parse HEAD
-python --version
+.workshop/student-venv/bin/python --version
+docker compose ps
+```
 
-# Prepared ROS terminal
-printenv ROS_DISTRO
+Open a **ROS tools terminal** with this command from a host terminal:
+
+```bash
+docker compose exec --workdir /opt/workshop ros   bash /opt/workshop/entrypoint.sh bash --noprofile --norc
+```
+
+This sources the correct Lyrical underlay and built workshop overlay. Inside it:
+
+```bash
+printenv ROS_DISTRO ROS_DOMAIN_ID
 ros2 pkg prefix microduck_workshop_interfaces
 ros2 interface show microduck_workshop_interfaces/srv/Observe
 ros2 topic list -t
 ```
 
-Expect the configured distro to be `lyrical` and the custom interface to resolve. Seeing a package name does not prove its node is running. An empty graph is a setup issue to fix before class, not a reason to publish fabricated telemetry.
+Expect `lyrical`, domain `27` unless staff configured another domain, and a resolving
+Observe type. A package name is not proof of a running node. Use `exit` to return to the
+host. After staff stop/recreate the stack, open a **new** ROS tools terminal this way.
+Never source Sim's bundled ROS/Jazzy libraries into this shell.
 
-## 3. Warm and check the real path
+## 3. Check the real path
 
-Ask the instructor to confirm the release's recorded startup path on your instance:
+Before the lesson, show staff:
 
-- Real Newton playback, actual encoder/IMU data and `/clock` are already running at zero motion intent for the ROS lesson; the simulation lab will inspect ownership rather than launch a duplicate owner.
-- Actual onboard RGB and matching calibration are available. The authenticated/secure Brev preview is reachable. Human overview and onboard camera are distinguishable.
-- Isaac ROS perception and local-model weights are installed/warmed even if the agent remains disabled until the capstone.
-- Emergency stop, wall watchdog and operator-only re-arm have been rehearsed. No physical MicroDuck is connected.
+- Actual `/clock`, encoder and IMU samples from the single Lab/Newton owner.
+- Actual onboard RGB and matching calibration, plus the separate human overview.
+- A live Isaac ROS observation with the current episode and optical frame.
+- The locally served Qwen3.8 model ready; no agent is launched automatically.
 
-**Network boundary:** keep the command transport on loopback. Use Brev secure preview or an authenticated tunnel for viewing. Do not expose unauthenticated motion services, the local model API or DDS to the public Internet; a classroom `ROS_DOMAIN_ID` is not a security control.
+Use the instructor's authenticated preview link, or the approved SSH forward of
+**8765 to 127.0.0.1:8765**, then open `http://127.0.0.1:8765` on your laptop.
+The [preview](../preview.md) is read-only: LIVE means fresh source imagery, not task success.
+Keep simulator control **8766**, model **8080**, and DDS private. `ROS_DOMAIN_ID` is not authentication.
 
 ## 4. Put shutdown on your calendar now
 
-Record when your one-day credits expire and set your own reminder **before the 24-hour expiry**. Do not assume credits or stopping a container stop charges. At the end you must stop/delete the **Brev cloud instance**, verify its cloud state, and check any retained storage charges. Follow the [shutdown checklist](06-wrap-up.md).
+Record the credit expiry and set a reminder **before the one-day / 24-hour expiry**.
+Locate Brev's stop/delete control now. Stopping a container or exhausting credits does not
+prove that VM/storage billing stopped. Follow [the shutdown checklist](06-wrap-up.md).
 
 ## Checkpoint
 
-Before 15:00, show staff: your pinned revision, a real topic list including joint states and `/clock`, a reachable private preview, and the place in Brev where you will stop/delete the instance. Mark any missing runtime gate explicitly; do not write “ready” based only on CPU tests.
+Before 15:00, show your revision, real joint-state and `/clock` samples, private preview,
+and the cloud stop/delete control. Mark missing runtime evidence **blocked**, not ready.
 
 Next: [student route](README.md) and [ROS basics](01-ros-basics.md).
