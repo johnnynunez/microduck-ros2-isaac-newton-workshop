@@ -1,6 +1,6 @@
 # Release readiness
 
-**Implementation and teaching materials are available; reliable uninstrumented capstone acceptance remains blocked.** Do not label this a classroom-approved motion release from CPU tests or one successful diagnostic.
+**Two short uninstrumented full-pipeline GO episodes and a real STOP refusal now pass. Sustained classroom availability remains blocked.** The notebook-first student-policy route is being implemented separately; these runs use the existing pretrained policy, not a newly trained student checkpoint.
 
 ## Verified
 
@@ -12,9 +12,15 @@
 - The pinned public Qwen3.8 GGUF executes genuine CASCADE tool calls locally. One complete **observation-instrumented** camera → ROS → model → fixed step → native verdict → agent-success episode passed.
 - Safety repairs cover transient STOP retention, proof-renewer wakeup, native verifier-tail admission, authenticated malformed-renewal cancellation and exact task/request-bound late-verdict reconciliation. Final parent CPU run: **486 passed, 19 optional/live checks skipped**. Those skips are not runtime evidence.
 
+## New ordinary GPU0 campaign
+
+The [parent-audited receipt](production-gpu0.json) records two real camera → CUDA Isaac ROS → local Qwen/CASCADE → ROS → Newton episodes with both agent success and exact request-bound physical verification. The parent recomputed both native verdicts and metrics from the real traces, checked the request/episode/generation bindings, and independently matched 120 installed-source entries per episode against current source. A separate fresh STOP episode refused motion and kept all 119 recorded command vectors exactly zero. The earlier two launcher bind-preflight failures are retained; they did not create robot episodes.
+
+This is a successful small repetition, not proof of sustained availability. The isolated campaign omitted the browser preview because its current upstream port restriction would cross the test boundary. It changes no physics, control thresholds or policy, and adds no timing instrumentation in the runtime loop.
+
 ## Remaining blocker
 
-Two subsequent **uninstrumented** production GO attempts expired and correctly reported failure. A further native-observed/full-agent attempt refused a stale observation before motion; a real ROS-service diagnostic passed, but it had no model decision. The difference is not yet causally resolved. Imported production source/bytecode, images, ROS settings and resource limits were audited; no hidden alternative implementation was found.
+Earlier ordinary attempts expired or refused stale input. A later instrumented idle-exposure run identified a 0.807-second gap in progress across the ROS gateway Python threads: native physics and camera production continued, but lease renewal missed the unchanged 0.5-second deadline. Native correctly expired the lease; the later renewal received HTTP 409 and the gateway latched STOP. The precise blocking operation in the ROS process is still being isolated. The successful short GPU0 runs do not erase this counterexample.
 
 The successful diagnostic is real, but does not erase failed repetitions or establish reliable classroom availability. The fixed 0.5-second original-capture and actuator-lease budgets, two-simulation-second maneuver, unchanged physical evaluator and no-retry/stop rules remain enforced. See [scene/read-only wait decisions](../docs/integration_decisions.md), [camera measurements](../docs/camera_latency.md), [native fences](../docs/native_fences.md) and [case evidence](integrated-cases.json).
 

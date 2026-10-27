@@ -6,7 +6,7 @@ A two-hour, hands-on workshop using **ROS 2 Lyrical, NVIDIA Isaac ROS 5.0, Isaac
 
 Participants work in **NVIDIA Brev**, using instructor-provided one-day credits on **L40S or RTX PRO**. No laptop GPU is required. Prepare downloads and environments before the two-hour session.
 
-> **Readiness:** implementation, exercises and measured evidence are available. **Reliable uninstrumented camera → ROS → agent → Newton acceptance is still blocked.** A complete instrumented episode passed, but ordinary repetitions expired safely. Use the [current readiness record](verification/READINESS.md); CPU CI and native-only passes do not approve the motion lab.
+> **Readiness:** two short ordinary camera → ROS → agent → Newton episodes and a real STOP refusal now pass with parent-audited evidence. **Sustained classroom availability remains blocked by intermittent ROS gateway progress stalls.** The new notebook-first student-policy route is also pending validation. Use the [current readiness record](verification/READINESS.md); a small passing repetition does not erase failed cases.
 
 ## Official MicroDuck sources
 

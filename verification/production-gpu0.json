@@ -1,0 +1,115 @@
+{
+  "scope": "Three actual local GPU0 episodes; not cloud or general reliability acceptance",
+  "source_code_commit": "91051f2b5751ff5df85ab470e52dd081da17e1d9",
+  "run_worktree_commit": "561b8b28827c49e4c932e9b3643a2f9fd6aec8b4",
+  "instrumentation": "None in hot paths; existing serve(port=18766) startup binding only",
+  "cases": [
+    {
+      "case": "GO01",
+      "episode_id": "ep_d2a6b19c7c784188b109c94ecbe264b2",
+      "agent_success": true,
+      "provider_tool_calls": [
+        "microduck.observe",
+        "microduck.step_forward",
+        "microduck.verify",
+        "task_done"
+      ],
+      "observed_signal": "GO",
+      "native_verdicts": [
+        {
+          "request_id": "8e34ff3e2abf44c98e783deecba33334",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.08919003372263001,
+            "yaw_delta_rad": -0.08502945828238964,
+            "tail_speed_m_s": 0.0005104641673851982,
+            "tail_yaw_rate_rad_s": 0.008611088745634665,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts_sha256": {
+        "agent-output/agent/report.json": "feb4cc5366b39a0bca2bfdd17e764af937051d6e71d1cd6e4252a49fc10a3328",
+        "agent-output/agent/provider.jsonl": "19723f35fd7479f1a73509e5133089b034c8297320bef0106faf30a5cd1bbaa6",
+        "health-ready.json": "ac7987c580f3f366edaaae1b2d4182766507b10325d038c5edc457ab669abe5d",
+        "native/evaluator_truth.jsonl": "9528245588061e6539d64ccaf73f0098fe570a5568927f6089551f97b313a3a1",
+        "native/evaluator_verdicts.jsonl": "dd7f570caf0029f0c38c0f78a5bace74947f830303fd68aa6b508312db5a3f21",
+        "native/policy_trace.jsonl": "85be85da60d7d879eb2d3791b2d65ef03b09f227eaff5daee49e86112b5229f3"
+      },
+      "acceptance": "PASS",
+      "native_metrics_recomputed_exactly": true,
+      "installed_source_comparisons_passed": 120
+    },
+    {
+      "case": "GO02-relaunch",
+      "episode_id": "ep_650f3110dac6470fa9f24669a3647475",
+      "agent_success": true,
+      "provider_tool_calls": [
+        "microduck.observe",
+        "microduck.step_forward",
+        "microduck.verify",
+        "task_done"
+      ],
+      "observed_signal": "GO",
+      "native_verdicts": [
+        {
+          "request_id": "c82fb73b07874b4cabdbd36fae1fbef7",
+          "verified": true,
+          "reason": "native motion and rest checks passed",
+          "metrics": {
+            "forward_displacement_m": 0.09303469866007179,
+            "yaw_delta_rad": -0.041335196860495776,
+            "tail_speed_m_s": 0.0007802355914063559,
+            "tail_yaw_rate_rad_s": 0.017503034027123995,
+            "elapsed_sim_s": 2.3599999999999497,
+            "safe": true
+          }
+        }
+      ],
+      "artifacts_sha256": {
+        "agent-output/agent/report.json": "ae808a0ea471e56c6608caafc5521abe62e99f553bb156c94cf1c2be833cd3be",
+        "agent-output/agent/provider.jsonl": "9b0c2a2ccad5c06f2c8e988858d5de6969c163f197d36e2f90ef5933a557d1c6",
+        "health-ready.json": "d4ddaffdb298cbec641bb35219bebe9c84984fdaf9b419b0a4f00d3a42a33cd5",
+        "native/evaluator_truth.jsonl": "04c6ef8df615a0c094458b04f6fd3f6957c3b0263ce55bba03890df723799326",
+        "native/evaluator_verdicts.jsonl": "48d7c02f14e564122e906b17a7c1d0f349963fc2f0865602f3accf22790a64db",
+        "native/policy_trace.jsonl": "fafb44f7b5c6a5d3f8b0a565756b57ba32dd9afbe95387b27f6c13fed5c8fe98"
+      },
+      "acceptance": "PASS",
+      "native_metrics_recomputed_exactly": true,
+      "installed_source_comparisons_passed": 120
+    },
+    {
+      "case": "STOP01-relaunch",
+      "episode_id": "ep_469bab1d589440a58139cf568f90f00e",
+      "agent_success": false,
+      "provider_tool_calls": [
+        "microduck.observe",
+        "task_done"
+      ],
+      "observed_signal": "STOP",
+      "native_verdicts": [],
+      "artifacts_sha256": {
+        "agent-output/agent/report.json": "07206dde52d75477be93c0a64d06307fcada6b0b6f799c7a5b84341f3db1a94e",
+        "agent-output/agent/provider.jsonl": "0bb5a39ee69dfeac58b48c4e5832cf509839d11e94fa6e2428511420170f47fd",
+        "health-ready.json": "727279860da630d3ae2b471b0c345301f876bdfeb4641d98f14d9ecb814f8fcb",
+        "native/evaluator_truth.jsonl": "26882fa20cf014fe5bfca36989ac294584738813666731ac9f47b3b3f68e7be6",
+        "native/evaluator_verdicts.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "native/policy_trace.jsonl": "02a6a67479a9d6a0144498791cb7264a9ae23e7a0e297859cb12fb9e5ce4fc00"
+      },
+      "acceptance": "CORRECT_REFUSAL",
+      "exact_zero_command_rows": 119,
+      "installed_source_comparisons_passed": 120
+    }
+  ],
+  "retained_setup_failures": [
+    "GO02",
+    "STOP01"
+  ],
+  "limitations": [
+    "Preview not exercised at the isolated port",
+    "Other campaigns retain ROS progress-stall failures",
+    "Brev/L40S untested"
+  ]
+}
