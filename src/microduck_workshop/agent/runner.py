@@ -197,11 +197,100 @@ class RecordedLocalClient(OpenAICompatClient):
 class CapstoneRuntime(RobotRuntime):
     """An empty action ledger cannot prove the requested physical signal-game action."""
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._step_attempts = {}
+        self._verdicts_in_flight = 0
+        self._refuted_steps = set()
+
+    def _execute(self, name, args=None, **kwargs):
+        # Use the pinned dispatch hook so refutations are retained even if trace
+        # recording fails. Never call upstream while holding its non-reentrant gate.
+        tracks_verdict = name in ("microduck.step_forward", "microduck.verify")
+        with self._gate:
+            task_id = self._task_id
+            if name == "microduck.step_forward":
+                # Pre-dispatch refusals create upstream debt but no history row.
+                self._step_attempts[task_id] = self._step_attempts.get(task_id, 0) + 1
+            if tracks_verdict:
+                self._verdicts_in_flight += 1
+        result = None
+        try:
+            result = super()._execute(name, args, **kwargs)
+            return result
+        finally:
+            if tracks_verdict:
+                with self._gate:
+                    if result and result.get("postcondition", {}).get("status") == "refuted":
+                        # Bind to the actual receipt, not the task at wrapper
+                        # entry: begin_task may race before upstream admission.
+                        self._refuted_steps.add(
+                            tuple(result.get(k) for k in ("episode_id", "request_id", "generation"))
+                        )
+                    self._verdicts_in_flight -= 1
+
     def unverified_actions(self):
-        missing = super().unverified_actions()
-        if not self.domains["microduck"].forward_step_confirmed:
-            missing.append("forward_step_objective_not_independently_verified")
-        return missing
+        # The pinned CASCADE ledger conservatively retains the motion's initial
+        # outcome. A later read can resolve ONLY that exact pending step; preserve
+        # the original history and every unrelated/failed/stopped action debt.
+        with self._gate:
+            # Snapshot the pinned runtime's debt under its non-reentrant gate;
+            # super().unverified_actions() would acquire that same gate again.
+            missing = sorted(self._unverified | ({"robot stopped"} if self._latched else set()))
+            domain = self.domains["microduck"]
+            proof = domain._last_status or {}
+            proof_key = tuple(proof.get(k) for k in ("episode_id", "request_id", "generation"))
+            confirmed = (
+                domain.forward_step_confirmed
+                and proof_key not in self._refuted_steps
+                and not self._verdicts_in_flight
+            )
+            records = [
+                record
+                for record in self._history
+                if record["task_id"] == self._task_id and record["tool"] == "microduck.step_forward"
+            ]
+            witnessed = False
+            if (
+                confirmed
+                and not self._latched
+                and not self._closed
+                and self._step_attempts.get(self._task_id, 0) == 1
+                and len(records) == 1
+            ):
+                record = records[0]
+                initial = record["result"]
+                bound = all(
+                    initial.get(key) == proof.get(key)
+                    for key in ("episode_id", "request_id", "generation")
+                )
+                pending = (
+                    initial.get("verification_available") is False
+                    and initial.get("verified") is False
+                    and initial.get("postcondition", {}).get("status") == "unverified"
+                    and initial.get("status") in {"accepted", "executing", "completed"}
+                )
+                initially_confirmed = (
+                    initial.get("verification_available") is True
+                    and initial.get("verified") is True
+                    and initial.get("postcondition", {}).get("status") == "confirmed"
+                    and initial.get("status") in {"completed", "verified"}
+                )
+                witnessed = (
+                    record["synthetic"] is False
+                    and initial.get("accepted") is True
+                    and initial.get("known") is True
+                    and initial.get("delivery_uncertain") is not True
+                    and bound
+                    and (pending or initially_confirmed)
+                )
+                if witnessed and pending:
+                    missing = [name for name in missing if name != "microduck.step_forward"]
+            # A domain can retain an incomplete previous-task command. Even an
+            # empty upstream ledger therefore requires a current-task witness.
+            if not witnessed:
+                missing.append("forward_step_objective_not_independently_verified")
+            return missing
 
 
 def build_agent(
