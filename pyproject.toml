@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "microduck-ros2-isaac-newton-workshop"
+version = "0.1.0"
+description = "ROSCon ES 2026: ROS 2 Lyrical, Isaac ROS 5.0, Isaac Lab 3.0/Newton and CASCADE with MicroDuck"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+authors = [{name = "Johnny Nunez"}]
+dependencies = []
+
+[project.optional-dependencies]
+policy = ["numpy>=1.26,<3", "onnxruntime>=1.20"]
+preview = ["Pillow>=13.0"]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.12"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/microduck_workshop"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+  "ros: requires the real ROS 2 Lyrical workspace",
+  "gpu: requires the actual Isaac Lab/Newton GPU runtime",
+  "agent: requires a real local model and ROS/physics stack",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

@@ -1,0 +1,13 @@
+# Third-party notices
+
+Original workshop code: Copyright 2026 Johnny Nunez, licensed under Apache-2.0.
+
+This project references and adapts public interfaces from:
+
+- Pollen Robotics `microduck` and `microduck_rl`: Apache-2.0 for software and MJCF.
+- Pollen Robotics MicroDuck STL meshes: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Converted derivatives retain the applicable terms. See the pinned `LICENSE-MODELS.md` upstream. Assets are not bundled in this repository.
+- Pollen Robotics official MicroDuck policy weights on Hugging Face: Apache-2.0 as declared in the pinned model card. Training checkpoints are not assumed available.
+- NVIDIA Isaac Lab: BSD-3-Clause. NVIDIA Isaac Sim and Isaac ROS components retain their own licenses and license acceptance requirements.
+- CASCADE: MIT, from its pinned public source.
+
+A public repository does not by itself establish permission for commercial use of NonCommercial assets. Review the applicable upstream terms for the workshop and any subsequent deployment. No license here supersedes the license of a fetched third-party artifact.
