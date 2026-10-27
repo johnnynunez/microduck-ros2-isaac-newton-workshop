@@ -39,6 +39,27 @@ def confirm(gateway, runtime):
     return runtime.execute("task_done", {"success": True, "summary": "fixture only"})
 
 
+def test_explicit_verify_waits_for_available_verdict_without_resending_motion(tmp_path):
+    gateway, runtime = pending_step(tmp_path)
+    try:
+        original = gateway.motion_status
+        calls = [0]
+
+        def delayed(*args):
+            calls[0] += 1
+            gateway.ready = calls[0] >= 2
+            return original(*args)
+
+        gateway.motion_status = delayed
+        runtime.domains["microduck"].verification_timeout_s = 0.1
+        runtime.domains["microduck"].poll_interval_s = 0.001
+        assert runtime.execute("microduck.verify", {})["verified"] is True
+        assert len(gateway.sent) == 1
+        assert runtime.execute("task_done", {"success": True, "summary": "fixture"})["success"]
+    finally:
+        runtime.close()
+
+
 def test_late_bound_verdict_resolves_exact_current_step_without_rewriting_history(tmp_path):
     gateway, runtime = pending_step(tmp_path)
     try:

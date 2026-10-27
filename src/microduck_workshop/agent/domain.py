@@ -217,7 +217,20 @@ class MicroduckDomain:
                 # Compatibility helper only; deliberately absent from the model catalog.
                 return self.walk_bounded(args)
             if name == "verify":
-                return self.verify()
+                # Explicit read-only verification waits for the asynchronous
+                # evaluator, using the same existing bounded observer budget.
+                # It never resends motion or extends native leases/deadlines.
+                deadline = time.monotonic() + self.verification_timeout_s
+                while True:
+                    result = self.verify()
+                    if (
+                        not result.get("known")
+                        or result.get("verification_available")
+                        or self._stopped.is_set()
+                        or time.monotonic() >= deadline
+                    ):
+                        return result
+                    self._stopped.wait(min(self.poll_interval_s, max(0, deadline - time.monotonic())))
             return {"ok": False, "reason": "unsupported_tool"}
         except Exception:
             # Transport exceptions can include raw payloads/URLs. Never echo them to the model.
