@@ -2,6 +2,8 @@
 
 **20 minutes · 15:55–16:15.** Goal: explain what the learned controller consumes and produces, then identify evidence of a real short training run. **An optimizer update is not convergence.**
 
+For the wider workflow, see [NVIDIA's MicroDuck example and our scope](../nvidia_workflow_context.md). Keep the article's larger parallel ramp-training experiment separate from this short, auditable update and from the later runtime-agent exercise.
+
 ## 1. Read the public policy contract — 5 minutes
 
 Open [policy_contract.json](../../provenance/policy_contract.json), especially `contract`, `actuator` and `risks`. From the repository root, this read-only command prints the pinned contract:

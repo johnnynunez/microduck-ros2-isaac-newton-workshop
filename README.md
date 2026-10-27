@@ -15,6 +15,7 @@ Participants work in **NVIDIA Brev**, using instructor-provided one-day credits 
 - [Official public policy set](https://huggingface.co/pollen-robotics/microduck-policies) — hosted on **Hugging Face**, not a GitHub policy repository.
 - [CASCADE](https://github.com/johnnynunez/cascade) — physical-AI agent orchestration.
 - [Official workshop program](https://roscon.org.es/roscon2026/ROSConES2026.html)
+- [NVIDIA MicroDuck AI-agent workflow](https://developer.nvidia.com/blog/using-ai-agents-to-teach-robots-like-microduck-to-walk-in-simulation/) — [how it maps to this workshop](docs/nvidia_workflow_context.md), separating engineering agents, RL training, and runtime CASCADE orchestration.
 
 ## Workshop materials
 

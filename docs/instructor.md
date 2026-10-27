@@ -58,6 +58,8 @@ Use a visible timer. Each checkpoint is an observable result, not “everyone fo
 
 Use your opening material to answer: what runs on the Brev GPU; what Isaac Sim, Isaac Lab, Newton and Isaac ROS each own; where ROS fits; and why the local agent is not a high-rate controller. Close with the actual data-path diagram in the [student index](labs/README.md), then show the priority stop and billing reminder.
 
+Use the [NVIDIA MicroDuck workflow context](nvidia_workflow_context.md) to distinguish engineering agents that prepare/train an experiment from CASCADE choosing bounded runtime tools. Its larger ramp-training experiment is context, not our classroom result; retain the existing timebox and your own slides.
+
 Do not imply the public MJLab policy is automatically valid in Newton, or that a two-hour class trains a gait from scratch. Ask: **“Which process is allowed to write joint intent?”** Answer: the single simulation-thread owner through the learned-policy/control contract, not every ROS subscriber or the LLM.
 
 ### 15:15–15:35 — [ROS basics](labs/01-ros-basics.md)
