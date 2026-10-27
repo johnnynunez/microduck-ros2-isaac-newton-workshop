@@ -80,7 +80,7 @@ class GatewayNode(Node):
 
     def detection(self, message):
         stamp = message.header.stamp.sec + message.header.stamp.nanosec * 1e-9
-        self.captures.detect(stamp, message.header.frame_id, [tag.id for tag in message.detections])
+        self.gateway.detect(stamp, message.header.frame_id, [tag.id for tag in message.detections])
 
     def poll_state(self):
         if not self.gateway.episode_id:

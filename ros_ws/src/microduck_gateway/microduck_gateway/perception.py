@@ -13,6 +13,8 @@ class CaptureCache:
     def __init__(self, clock=time.monotonic):
         self.clock = clock
         self.lock = threading.RLock()
+        # Optional local-state listener; runs under lock, never performs I/O.
+        self.on_detection = None
         self.records = OrderedDict()
         self.latest = None
         self.episode = ''
@@ -47,6 +49,8 @@ class CaptureCache:
             if self.latest and record['frame_sequence'] < self.latest['frame_sequence']:
                 return False
             self.latest = dict(record, tag_ids=sorted(set(int(x) for x in tag_ids)))
+            if self.on_detection is not None:
+                self.on_detection(self.latest)
             return True
 
     def step_headers(self, episode):

@@ -11,13 +11,43 @@ class Gateway:
         self.transport = transport
         self.captures = captures
         self.step_request = None
-        self.lock = threading.RLock()
+        # Admission and accepted detections share a lock: a STOP cannot slip
+        # between acquiring GO proof and marking the step active. No I/O here.
+        self.lock = captures.lock if captures is not None else threading.RLock()
         self.episode_id = ''
         self.generation = 0
         self.token = None
         self.stopped = False
         self.pending = False
         self.seen = set()
+        self.perception_stop_pending = False
+        if captures is not None:
+            captures.on_detection = self._accepted_detection
+
+    def _accepted_detection(self, detection):
+        # Called under the shared capture/admission lock. Retain revocation
+        # separately from latest perception, which must remain truthful.
+        if (self.step_request is not None and not self.stopped
+                and detection['episode_id'] == self.episode_id
+                and (1 in detection['tag_ids'] or 0 not in detection['tag_ids'])):
+            self.stopped = True
+            self.token = None
+            self.perception_stop_pending = True
+
+    def detect(self, sim_time, frame, tag_ids):
+        if self.captures is None:
+            return False
+        accepted = self.captures.detect(sim_time, frame, tag_ids)
+        self._stop_for_perception()
+        return accepted
+
+    def _stop_for_perception(self):
+        with self.lock:
+            stop_pending = self.perception_stop_pending
+            self.perception_stop_pending = False
+        if stop_pending:
+            self.stop()
+        return stop_pending
 
     def claim(self):
         health = self.transport.get('/v1/health')
@@ -131,6 +161,8 @@ class Gateway:
             return {'success': False, 'message': 'stop delivery unknown; lease renewal disabled'}
 
     def renew_once(self):
+        if self._stop_for_perception():
+            return
         try:
             with self.lock:
                 token, episode = self.token, self.episode_id
