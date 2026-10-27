@@ -21,6 +21,7 @@ class Gateway:
         self.pending = False
         self.seen = set()
         self.perception_stop_pending = False
+        self._renewal_wakeup = threading.Event()
         if captures is not None:
             captures.on_detection = self._accepted_detection
 
@@ -28,11 +29,16 @@ class Gateway:
         # Called under the shared capture/admission lock. Retain revocation
         # separately from latest perception, which must remain truthful.
         if (self.step_request is not None and not self.stopped
-                and detection['episode_id'] == self.episode_id
-                and (1 in detection['tag_ids'] or 0 not in detection['tag_ids'])):
-            self.stopped = True
-            self.token = None
-            self.perception_stop_pending = True
+                and detection['episode_id'] == self.episode_id):
+            if 1 in detection['tag_ids'] or 0 not in detection['tag_ids']:
+                self.stopped = True
+                self.token = None
+                self.perception_stop_pending = True
+            # A healthy lease does not extend the installed capture deadline.
+            # Wake the sole renewer now; its periodic sleep can outlast that
+            # deadline even while newer matched GO evidence is already here.
+            # Only signal under this lock: never perform network I/O here.
+            self._renewal_wakeup.set()
 
     def detect(self, sim_time, frame, tag_ids):
         if self.captures is None:
@@ -182,7 +188,11 @@ class Gateway:
     def start_renewal(self, interval=.1):
         self.shutdown_event = threading.Event()
         def renew_loop():
-            while not self.shutdown_event.wait(interval):
+            while not self.shutdown_event.is_set():
+                self._renewal_wakeup.wait(interval)
+                self._renewal_wakeup.clear()
+                if self.shutdown_event.is_set():
+                    break
                 self.renew_once()
         self.renew_thread = threading.Thread(target=renew_loop, daemon=True)
         self.renew_thread.start()
@@ -190,5 +200,6 @@ class Gateway:
     def close(self):
         if hasattr(self, 'shutdown_event'):
             self.shutdown_event.set()
+            self._renewal_wakeup.set()
             self.renew_thread.join(timeout=1)
         self.stop()
