@@ -86,10 +86,8 @@ the real verdict callback. The original review files remain untouched.
 
 Historical `step_preregistration.json` and `step_validation.json` remain untouched:
 the six gating and two confirmation passes, and the twelve failed velocity
-receipts, are not rewritten as evidence of these new sources. The parent must
-reconcile the historical/current-source binding in `test_sim_step_provenance.py`
-with this separate receipt, not replace historical hashes. This worker deliberately
-does not change that test. The owner-only history-budget test in
-`test_sim_calibration.py` also needs the parent to close each fixture's private
-verdict interval before submitting another request; that file is outside this
-worker's allowed edit scope.
+receipts, are not rewritten as evidence of these new sources. Current protocol
+source checks use the separate native-fence receipt while retaining the original
+historical hashes. Owner-only CPU lifecycle fixtures explicitly close their
+private verdict interval with a **false fixture verdict** before another request;
+production admission never bypasses the real evaluator to accommodate a test.

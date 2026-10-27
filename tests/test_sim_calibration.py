@@ -127,6 +127,9 @@ def test_interactive_record_budget_fails_closed_without_replay_eviction():
         owner.submit(MotionCommand("ep", "r" + str(i), i, 0, 0, 0, 1), token)
         owner.consume(sim_time=i)
         owner.consume(sim_time=i + 1)
+        # Owner-only budget fixture: close the private verifier interval without
+        # fabricating a successful physical verdict or evicting the request ID.
+        owner.verdict("r" + str(i), verified=False, reason="CPU lifecycle fixture")
     with pytest.raises(ContractError, match="history capacity"):
         owner.submit(MotionCommand("ep", "r2", 2, 0, 0, 0, 1), token)
     assert len(owner._records) == 2

@@ -32,6 +32,7 @@ The course files and all runtime components are available. **Combined classroom 
 - [Calibration results — currently NOT READY](docs/calibration.md)
 - [Brev setup and cloud lifecycle](docs/brev.md)
 - [Fixed step: native results and exact semantics](docs/step.md)
+- [Native verifier/renewal safety fixes and fresh confirmation](docs/native_fences.md)
 - [Portable local Qwen3.8 model](docs/local_model.md)
 - [Read-only browser preview](docs/preview.md)
 

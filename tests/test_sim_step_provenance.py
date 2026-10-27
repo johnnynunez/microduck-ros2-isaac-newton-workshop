@@ -36,9 +36,23 @@ def test_native_step_receipts_match_fixed_preregistration_and_current_sources():
     confirmation = next(r for r in cases if not r["case"]["gating"])
     assert not confirmation["runtime"]["step_profile"]["candidate_validation"]
     assert confirmation["runtime"]["step_profile"]["validation_status"] == "NATIVE_VALIDATED"
+    # Historical measurements remain bound to their original source hashes.
+    # Only these protocol files changed, then passed a separate fresh native
+    # fence/restart campaign. Never rewrite the original eight-pass receipt.
+    fence = json.loads((ROOT / "provenance/native_fence_validation.json").read_text())
+    for path, digest in fence["prior_receipts_preserved"].items():
+        assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest
+    revalidated_protocol = {
+        "src/microduck_workshop/sim/http.py",
+        "src/microduck_workshop/sim/intent.py",
+    }
+    assert all(r["physical_status"]["verified"] for r in fence["requests"])
+    assert fence["runtime"]["camera_enabled"] is False
     for path, digest in plan["code_sha256"].items():
         if path.endswith("policy/step.py"):
             digest = receipt["production_adapter_sha256"]
+        elif path in revalidated_protocol:
+            digest = fence["source_sha256"][path]
         assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest
     for path, digest in receipt["additional_unchanged_source_sha256"].items():
         assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest
